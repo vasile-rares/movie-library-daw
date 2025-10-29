@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.Domain", "MovieLibrary.Domain\MovieLibrary.Domain.csproj", "{6DD669E1-842E-4340-AE11-5877CF82FABE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.Application", "MovieLibrary.Application\MovieLibrary.Application.csproj", "{09ED7220-B0BF-44B2-8EAB-6B425BB6B5EB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.Infrastructure", "MovieLibrary.Infrastructure\MovieLibrary.Infrastructure.csproj", "{ADDE4E60-7978-407B-9476-A57CB52BD1A2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.API", "MovieLibrary.API\MovieLibrary.API.csproj", "{DA6C67CE-104C-442A-B654-997D182C2ED0}"
 EndProject
 Global

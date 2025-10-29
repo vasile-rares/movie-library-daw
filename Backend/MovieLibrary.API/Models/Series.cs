@@ -1,12 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MovieLibrary.Domain.Entities
+namespace MovieLibrary.API.Models
 {
-    public class Movie
+    [Table("Series")]
+    public class Series
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         [Required, MaxLength(100)]
         public string Title { get; set; } = null!;
@@ -16,14 +18,14 @@ namespace MovieLibrary.Domain.Entities
 
         public int? ReleaseYear { get; set; }
 
+        public int? SeasonsCount { get; set; }
+        public int? EpisodesCount { get; set; }
+
         [MaxLength(255)]
         public string? ImageUrl { get; set; }
 
-        public Guid? GenreId { get; set; }
-        [ForeignKey("GenreId")]
-        public Genre? Genre { get; set; }
-
-        // Navigation
+        // Navigation properties
+        public ICollection<SeriesGenre> SeriesGenres { get; set; } = new List<SeriesGenre>();
         public ICollection<ToWatchList> ToWatchList { get; set; } = new List<ToWatchList>();
         public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
     }
