@@ -29,22 +29,22 @@ namespace MovieLibrary.API.Data
       context.Genres.AddRange(genres);
       context.SaveChanges();
 
-      // Seed Users
+      // Seed Users (password for all is: "password123")
       var users = new List<User>
             {
                 new User
                 {
                     Username = "admin",
                     Email = "admin@movielibrary.com",
-                    PasswordHash = "hashed_password_here", // In production, use proper password hashing
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"), // password123
                     Role = "Admin",
                     CreatedAt = DateTime.Now
                 },
                 new User
                 {
                     Username = "john_doe",
-                    Email = "john@example.com",
-                    PasswordHash = "hashed_password_here",
+                    Email = "john.doe@example.com",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"), // password123
                     Role = "User",
                     CreatedAt = DateTime.Now
                 },
@@ -52,7 +52,7 @@ namespace MovieLibrary.API.Data
                 {
                     Username = "jane_smith",
                     Email = "jane@example.com",
-                    PasswordHash = "hashed_password_here",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"), // password123
                     Role = "User",
                     CreatedAt = DateTime.Now
                 }
