@@ -19,34 +19,34 @@ namespace MovieLibrary.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ToWatchResponseDto>>> GetAll()
+    public async Task<ActionResult> GetAll()
     {
       var toWatchList = await _toWatchService.GetAllToWatchAsync();
-      return Ok(toWatchList);
+      return Ok(new { message = "To-watch list retrieved successfully.", data = toWatchList });
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ToWatchResponseDto>> GetById(int id)
+    public async Task<ActionResult> GetById(int id)
     {
       var toWatch = await _toWatchService.GetToWatchByIdAsync(id);
       if (toWatch == null)
-        return NotFound();
+        return NotFound(new { message = $"To-watch item with ID {id} not found." });
 
-      return Ok(toWatch);
+      return Ok(new { message = "To-watch item retrieved successfully.", data = toWatch });
     }
 
     [HttpGet("user/{userId}")]
-    public async Task<ActionResult<IEnumerable<ToWatchResponseDto>>> GetByUserId(int userId)
+    public async Task<ActionResult> GetByUserId(int userId)
     {
       var toWatchList = await _toWatchService.GetToWatchByUserIdAsync(userId);
-      return Ok(toWatchList);
+      return Ok(new { message = "To-watch list retrieved successfully.", data = toWatchList });
     }
 
     [HttpPost]
-    public async Task<ActionResult<ToWatchResponseDto>> Create([FromBody] CreateToWatchDto dto)
+    public async Task<ActionResult> Create([FromBody] CreateToWatchDto dto)
     {
       var toWatch = await _toWatchService.CreateToWatchAsync(dto);
-      return CreatedAtAction(nameof(GetById), new { id = toWatch.Id }, toWatch);
+      return CreatedAtAction(nameof(GetById), new { id = toWatch.Id }, new { message = "Added to watch list successfully.", data = toWatch });
     }
 
     [HttpDelete("{id}")]
@@ -54,9 +54,9 @@ namespace MovieLibrary.API.Controllers
     {
       var result = await _toWatchService.DeleteToWatchAsync(id);
       if (!result)
-        return NotFound();
+        return NotFound(new { message = $"To-watch item with ID {id} not found." });
 
-      return NoContent();
+      return Ok(new { message = "Removed from watch list successfully." });
     }
   }
 }

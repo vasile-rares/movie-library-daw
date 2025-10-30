@@ -19,55 +19,55 @@ namespace MovieLibrary.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<RatingResponseDto>>> GetAll()
+    public async Task<ActionResult> GetAll()
     {
       var ratings = await _ratingService.GetAllRatingsAsync();
-      return Ok(ratings);
+      return Ok(new { message = "Ratings retrieved successfully.", data = ratings });
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<RatingResponseDto>> GetById(int id)
+    public async Task<ActionResult> GetById(int id)
     {
       var rating = await _ratingService.GetRatingByIdAsync(id);
       if (rating == null)
-        return NotFound();
+        return NotFound(new { message = $"Rating with ID {id} not found." });
 
-      return Ok(rating);
+      return Ok(new { message = "Rating retrieved successfully.", data = rating });
     }
 
     [HttpGet("user/{userId}")]
-    public async Task<ActionResult<IEnumerable<RatingResponseDto>>> GetByUserId(int userId)
+    public async Task<ActionResult> GetByUserId(int userId)
     {
       var ratings = await _ratingService.GetRatingsByUserIdAsync(userId);
-      return Ok(ratings);
+      return Ok(new { message = "Ratings retrieved successfully.", data = ratings });
     }
 
     [HttpGet("movie/{movieId}")]
-    public async Task<ActionResult<IEnumerable<RatingResponseDto>>> GetByMovieId(int movieId)
+    public async Task<ActionResult> GetByMovieId(int movieId)
     {
       var ratings = await _ratingService.GetRatingsByMovieIdAsync(movieId);
-      return Ok(ratings);
+      return Ok(new { message = "Ratings retrieved successfully.", data = ratings });
     }
 
     [HttpGet("series/{seriesId}")]
-    public async Task<ActionResult<IEnumerable<RatingResponseDto>>> GetBySeriesId(int seriesId)
+    public async Task<ActionResult> GetBySeriesId(int seriesId)
     {
       var ratings = await _ratingService.GetRatingsBySeriesIdAsync(seriesId);
-      return Ok(ratings);
+      return Ok(new { message = "Ratings retrieved successfully.", data = ratings });
     }
 
     [HttpPost]
-    public async Task<ActionResult<RatingResponseDto>> Create([FromBody] CreateRatingDto dto)
+    public async Task<ActionResult> Create([FromBody] CreateRatingDto dto)
     {
       var rating = await _ratingService.CreateRatingAsync(dto);
-      return CreatedAtAction(nameof(GetById), new { id = rating.Id }, rating);
+      return CreatedAtAction(nameof(GetById), new { id = rating.Id }, new { message = "Rating created successfully.", data = rating });
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<RatingResponseDto>> Update(int id, [FromBody] UpdateRatingDto dto)
+    public async Task<ActionResult> Update(int id, [FromBody] UpdateRatingDto dto)
     {
       var rating = await _ratingService.UpdateRatingAsync(id, dto);
-      return Ok(rating);
+      return Ok(new { message = "Rating updated successfully.", data = rating });
     }
 
     [HttpDelete("{id}")]
@@ -75,9 +75,9 @@ namespace MovieLibrary.API.Controllers
     {
       var result = await _ratingService.DeleteRatingAsync(id);
       if (!result)
-        return NotFound();
+        return NotFound(new { message = $"Rating with ID {id} not found." });
 
-      return NoContent();
+      return Ok(new { message = "Rating deleted successfully." });
     }
   }
 }

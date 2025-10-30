@@ -19,41 +19,41 @@ namespace MovieLibrary.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MovieResponseDto>>> GetAll()
+    public async Task<ActionResult> GetAll()
     {
       var movies = await _movieService.GetAllMoviesAsync();
-      return Ok(movies);
+      return Ok(new { message = "Movies retrieved successfully.", data = movies });
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<MovieResponseDto>> GetById(int id)
+    public async Task<ActionResult> GetById(int id)
     {
       var movie = await _movieService.GetMovieByIdAsync(id);
       if (movie == null)
-        return NotFound();
+        return NotFound(new { message = $"Movie with ID {id} not found." });
 
-      return Ok(movie);
+      return Ok(new { message = "Movie retrieved successfully.", data = movie });
     }
 
     [HttpGet("genre/{genreId}")]
-    public async Task<ActionResult<IEnumerable<MovieResponseDto>>> GetByGenre(int genreId)
+    public async Task<ActionResult> GetByGenre(int genreId)
     {
       var movies = await _movieService.GetMoviesByGenreAsync(genreId);
-      return Ok(movies);
+      return Ok(new { message = "Movies retrieved successfully.", data = movies });
     }
 
     [HttpPost]
-    public async Task<ActionResult<MovieResponseDto>> Create([FromBody] CreateMovieDto dto)
+    public async Task<ActionResult> Create([FromBody] CreateMovieDto dto)
     {
       var movie = await _movieService.CreateMovieAsync(dto);
-      return CreatedAtAction(nameof(GetById), new { id = movie.Id }, movie);
+      return CreatedAtAction(nameof(GetById), new { id = movie.Id }, new { message = "Movie created successfully.", data = movie });
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<MovieResponseDto>> Update(int id, [FromBody] UpdateMovieDto dto)
+    public async Task<ActionResult> Update(int id, [FromBody] UpdateMovieDto dto)
     {
       var movie = await _movieService.UpdateMovieAsync(id, dto);
-      return Ok(movie);
+      return Ok(new { message = "Movie updated successfully.", data = movie });
     }
 
     [HttpDelete("{id}")]
@@ -61,9 +61,9 @@ namespace MovieLibrary.API.Controllers
     {
       var result = await _movieService.DeleteMovieAsync(id);
       if (!result)
-        return NotFound();
+        return NotFound(new { message = $"Movie with ID {id} not found." });
 
-      return NoContent();
+      return Ok(new { message = "Movie deleted successfully." });
     }
   }
 }

@@ -19,34 +19,34 @@ namespace MovieLibrary.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserResponseDto>>> GetAll()
+    public async Task<ActionResult> GetAll()
     {
       var users = await _userService.GetAllUsersAsync();
-      return Ok(users);
+      return Ok(new { message = "Users retrieved successfully.", data = users });
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<UserResponseDto>> GetById(int id)
+    public async Task<ActionResult> GetById(int id)
     {
       var user = await _userService.GetUserByIdAsync(id);
       if (user == null)
-        return NotFound();
+        return NotFound(new { message = $"User with ID {id} not found." });
 
-      return Ok(user);
+      return Ok(new { message = "User retrieved successfully.", data = user });
     }
 
     [HttpPost]
-    public async Task<ActionResult<UserResponseDto>> Create([FromBody] CreateUserDto dto)
+    public async Task<ActionResult> Create([FromBody] CreateUserDto dto)
     {
       var user = await _userService.CreateUserAsync(dto);
-      return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+      return CreatedAtAction(nameof(GetById), new { id = user.Id }, new { message = "User created successfully.", data = user });
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<UserResponseDto>> Update(int id, [FromBody] UpdateUserDto dto)
+    public async Task<ActionResult> Update(int id, [FromBody] UpdateUserDto dto)
     {
       var user = await _userService.UpdateUserAsync(id, dto);
-      return Ok(user);
+      return Ok(new { message = "User updated successfully.", data = user });
     }
 
     [HttpDelete("{id}")]
@@ -55,9 +55,9 @@ namespace MovieLibrary.API.Controllers
     {
       var result = await _userService.DeleteUserAsync(id);
       if (!result)
-        return NotFound();
+        return NotFound(new { message = $"User with ID {id} not found." });
 
-      return NoContent();
+      return Ok(new { message = "User deleted successfully." });
     }
   }
 }

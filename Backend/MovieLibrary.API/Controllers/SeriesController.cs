@@ -19,41 +19,41 @@ namespace MovieLibrary.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<SeriesResponseDto>>> GetAll()
+    public async Task<ActionResult> GetAll()
     {
       var series = await _seriesService.GetAllSeriesAsync();
-      return Ok(series);
+      return Ok(new { message = "Series retrieved successfully.", data = series });
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<SeriesResponseDto>> GetById(int id)
+    public async Task<ActionResult> GetById(int id)
     {
       var series = await _seriesService.GetSeriesByIdAsync(id);
       if (series == null)
-        return NotFound();
+        return NotFound(new { message = $"Series with ID {id} not found." });
 
-      return Ok(series);
+      return Ok(new { message = "Series retrieved successfully.", data = series });
     }
 
     [HttpGet("genre/{genreId}")]
-    public async Task<ActionResult<IEnumerable<SeriesResponseDto>>> GetByGenre(int genreId)
+    public async Task<ActionResult> GetByGenre(int genreId)
     {
       var series = await _seriesService.GetSeriesByGenreAsync(genreId);
-      return Ok(series);
+      return Ok(new { message = "Series retrieved successfully.", data = series });
     }
 
     [HttpPost]
-    public async Task<ActionResult<SeriesResponseDto>> Create([FromBody] CreateSeriesDto dto)
+    public async Task<ActionResult> Create([FromBody] CreateSeriesDto dto)
     {
       var series = await _seriesService.CreateSeriesAsync(dto);
-      return CreatedAtAction(nameof(GetById), new { id = series.Id }, series);
+      return CreatedAtAction(nameof(GetById), new { id = series.Id }, new { message = "Series created successfully.", data = series });
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<SeriesResponseDto>> Update(int id, [FromBody] UpdateSeriesDto dto)
+    public async Task<ActionResult> Update(int id, [FromBody] UpdateSeriesDto dto)
     {
       var series = await _seriesService.UpdateSeriesAsync(id, dto);
-      return Ok(series);
+      return Ok(new { message = "Series updated successfully.", data = series });
     }
 
     [HttpDelete("{id}")]
@@ -61,9 +61,9 @@ namespace MovieLibrary.API.Controllers
     {
       var result = await _seriesService.DeleteSeriesAsync(id);
       if (!result)
-        return NotFound();
+        return NotFound(new { message = $"Series with ID {id} not found." });
 
-      return NoContent();
+      return Ok(new { message = "Series deleted successfully." });
     }
   }
 }
