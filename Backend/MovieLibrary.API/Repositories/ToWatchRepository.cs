@@ -35,6 +35,7 @@ namespace MovieLibrary.API.Repositories
     public async Task<IEnumerable<ToWatchList>> GetByUserIdAsync(int userId)
     {
       return await _context.ToWatchList
+          .Include(t => t.User)
           .Include(t => t.Movie)
           .Include(t => t.Series)
           .Where(t => t.UserId == userId)

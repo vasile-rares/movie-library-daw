@@ -1,7 +1,7 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieLibrary.API.DTOs.Requests.ToWatch;
-using MovieLibrary.API.DTOs.Responses.ToWatch;
 using MovieLibrary.API.Interfaces.Services;
 
 namespace MovieLibrary.API.Controllers
@@ -18,26 +18,10 @@ namespace MovieLibrary.API.Controllers
       _toWatchService = toWatchService;
     }
 
-    [HttpGet]
-    public async Task<ActionResult> GetAll()
+    [HttpGet("my-list")]
+    public async Task<ActionResult> GetMyWatchList()
     {
-      var toWatchList = await _toWatchService.GetAllToWatchAsync();
-      return Ok(new { message = "To-watch list retrieved successfully.", data = toWatchList });
-    }
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult> GetById(int id)
-    {
-      var toWatch = await _toWatchService.GetToWatchByIdAsync(id);
-      if (toWatch == null)
-        return NotFound(new { message = $"To-watch item with ID {id} not found." });
-
-      return Ok(new { message = "To-watch item retrieved successfully.", data = toWatch });
-    }
-
-    [HttpGet("user/{userId}")]
-    public async Task<ActionResult> GetByUserId(int userId)
-    {
+      var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
       var toWatchList = await _toWatchService.GetToWatchByUserIdAsync(userId);
       return Ok(new { message = "To-watch list retrieved successfully.", data = toWatchList });
     }
@@ -45,17 +29,24 @@ namespace MovieLibrary.API.Controllers
     [HttpPost]
     public async Task<ActionResult> Create([FromBody] CreateToWatchDto dto)
     {
+      dto.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
       var toWatch = await _toWatchService.CreateToWatchAsync(dto);
-      return CreatedAtAction(nameof(GetById), new { id = toWatch.Id }, new { message = "Added to watch list successfully.", data = toWatch });
+      return Ok(new { message = "Added to watch list successfully.", data = toWatch });
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-      var result = await _toWatchService.DeleteToWatchAsync(id);
-      if (!result)
+      var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+      var toWatch = await _toWatchService.GetToWatchByIdAsync(id);
+
+      if (toWatch == null)
         return NotFound(new { message = $"To-watch item with ID {id} not found." });
 
+      if (toWatch.UserId != userId)
+        return Forbid();
+
+      await _toWatchService.DeleteToWatchAsync(id);
       return Ok(new { message = "Removed from watch list successfully." });
     }
   }

@@ -65,7 +65,7 @@ namespace MovieLibrary.API.Services
       {
         Id = toWatch.Id,
         UserId = toWatch.UserId,
-        Username = toWatch.User.Username,
+        Username = toWatch.User?.Username ?? "Unknown",
         MovieId = toWatch.MovieId,
         MovieTitle = toWatch.Movie?.Title,
         SeriesId = toWatch.SeriesId,
