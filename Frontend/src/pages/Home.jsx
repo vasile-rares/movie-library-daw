@@ -1,0 +1,90 @@
+import { useState, useEffect } from 'react';
+import { movieService } from '../services/movieService';
+import { seriesService } from '../services/seriesService';
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import MovieCard from '../components/MovieCard';
+import './Home.css';
+
+const Home = () => {
+  const [movies, setMovies] = useState([]);
+  const [series, setSeries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    fetchContent();
+  }, []);
+
+  const fetchContent = async () => {
+    try {
+      setLoading(true);
+      const [moviesRes, seriesRes] = await Promise.all([
+        movieService.getAll(),
+        seriesService.getAll(),
+      ]);
+      setMovies(moviesRes.data || []);
+      setSeries(seriesRes.data || []);
+    } catch (err) {
+      setError('Failed to load content');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const featuredContent = [...movies, ...series][0];
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="loading-container">
+          <div className="spinner"></div>
+        </div>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Header />
+        <div className="error-container">{error}</div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Header />
+      <main className="home">
+        {featuredContent && <Hero item={featuredContent} type={featuredContent.seasonsCount ? 'series' : 'movie'} />}
+
+        {movies.length > 0 && (
+          <section className="content-section">
+            <h2 className="section-title">Popular Movies</h2>
+            <div className="content-grid">
+              {movies.slice(0, 12).map((movie) => (
+                <MovieCard key={movie.id} item={movie} type="movie" />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {series.length > 0 && (
+          <section className="content-section">
+            <h2 className="section-title">Popular Series</h2>
+            <div className="content-grid">
+              {series.slice(0, 12).map((s) => (
+                <MovieCard key={s.id} item={s} type="series" />
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
+    </>
+  );
+};
+
+export default Home;

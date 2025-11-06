@@ -92,8 +92,7 @@ namespace MovieLibrary.API.Services
 
     private static string HashPassword(string password)
     {
-      // TODO: Implement proper password hashing (BCrypt, Argon2, etc.)
-      return $"hashed_{password}";
+      return BCrypt.Net.BCrypt.HashPassword(password);
     }
   }
 }

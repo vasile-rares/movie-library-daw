@@ -68,8 +68,10 @@ namespace MovieLibrary.API.Services
         Username = toWatch.User?.Username ?? "Unknown",
         MovieId = toWatch.MovieId,
         MovieTitle = toWatch.Movie?.Title,
+        MovieImageUrl = toWatch.Movie?.ImageUrl,
         SeriesId = toWatch.SeriesId,
         SeriesTitle = toWatch.Series?.Title,
+        SeriesImageUrl = toWatch.Series?.ImageUrl,
         AddedAt = toWatch.AddedAt
       };
     }

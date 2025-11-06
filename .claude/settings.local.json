@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /s \"d:\\GitHub\\movie-library-daw\\Frontend\\src\")",
+      "Bash(findstr:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(cat:*)",
+      "Bash(npm install:*)",
+      "Bash(dotnet ef database:*)",
+      "Bash(dotnet run)",
+      "Bash(timeout /t 5)",
+      "Bash(netstat:*)",
+      "Bash(curl:*)",
+      "Bash(taskkill:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

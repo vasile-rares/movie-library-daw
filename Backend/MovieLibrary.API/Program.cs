@@ -156,7 +156,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Disable HTTPS redirection in development to avoid CORS issues with frontend
+// app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
 

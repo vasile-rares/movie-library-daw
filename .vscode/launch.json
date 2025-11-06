@@ -29,8 +29,8 @@
             "name": "Launch Frontend",
             "type": "node",
             "request": "launch",
-            "runtimeExecutable": "ng",
-            "args": ["serve"],
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run", "dev"],
             "cwd": "${workspaceFolder}/Frontend",
             "console": "integratedTerminal",
             "serverReadyAction": {

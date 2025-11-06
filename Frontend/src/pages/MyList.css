@@ -1,0 +1,170 @@
+.my-list-page {
+  min-height: 100vh;
+  padding-top: 100px;
+  padding-bottom: 3rem;
+  background-color: #141414;
+}
+
+.my-list-header {
+  padding: 2rem 3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.my-list-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #e5e5e5;
+  margin-bottom: 0.5rem;
+}
+
+.my-list-subtitle {
+  font-size: 1.1rem;
+  color: #8c8c8c;
+}
+
+.my-list-content {
+  padding: 2rem 3rem;
+}
+
+.my-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.my-list-item {
+  position: relative;
+}
+
+.my-list-item-image {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  border-radius: 6px;
+  overflow: hidden;
+  aspect-ratio: 2/3;
+}
+
+.my-list-item-image:hover {
+  transform: scale(1.05);
+}
+
+.my-list-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.my-list-item-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.my-list-item-image:hover .my-list-item-overlay {
+  opacity: 1;
+}
+
+.my-list-item-overlay h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.item-type {
+  color: #b3b3b3;
+  font-size: 0.85rem;
+}
+
+.remove-btn {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background-color: rgba(229, 9, 20, 0.2);
+  color: #e50914;
+  border: 1px solid rgba(229, 9, 20, 0.5);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  background-color: rgba(229, 9, 20, 0.3);
+  border-color: #e50914;
+}
+
+.empty-list {
+  text-align: center;
+  padding: 5rem 2rem;
+  color: #8c8c8c;
+}
+
+.empty-list h2 {
+  font-size: 2rem;
+  color: #e5e5e5;
+  margin-bottom: 1rem;
+}
+
+.empty-list p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.browse-btn {
+  background-color: #e50914;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.browse-btn:hover {
+  background-color: #f40612;
+}
+
+@media (max-width: 768px) {
+  .my-list-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .my-list-title {
+    font-size: 1.8rem;
+  }
+
+  .my-list-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .my-list-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .empty-list {
+    padding: 3rem 1rem;
+  }
+
+  .empty-list h2 {
+    font-size: 1.5rem;
+  }
+}
