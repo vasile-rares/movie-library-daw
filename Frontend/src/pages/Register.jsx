@@ -41,13 +41,11 @@ const Register = () => {
 
   return (
     <div className="auth-container">
-      <div className="auth-background">
-        <div className="auth-overlay"></div>
-      </div>
       <div className="auth-content">
         <div className="auth-box">
           <h1 className="auth-logo">MovieLibrary</h1>
-          <h2 className="auth-title">Sign Up</h2>
+          <h2 className="auth-title">Create account</h2>
+          <p className="auth-subtitle">Start your journey with us today</p>
           {error && <div className="auth-error">{error}</div>}
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
@@ -63,7 +61,7 @@ const Register = () => {
             <div className="form-group">
               <input
                 type="email"
-                placeholder="Email"
+                placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -73,7 +71,7 @@ const Register = () => {
             <div className="form-group">
               <input
                 type="password"
-                placeholder="Password"
+                placeholder="Password (min. 6 characters)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -84,7 +82,7 @@ const Register = () => {
             <div className="form-group">
               <input
                 type="password"
-                placeholder="Confirm Password"
+                placeholder="Confirm password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -92,7 +90,7 @@ const Register = () => {
               />
             </div>
             <button type="submit" disabled={loading} className="auth-button">
-              {loading ? 'Creating Account...' : 'Sign Up'}
+              <span>{loading ? 'Creating Account...' : 'Sign Up'}</span>
             </button>
           </form>
           <div className="auth-footer">

@@ -9,6 +9,7 @@ import Series from './pages/Series';
 import MovieDetail from './pages/MovieDetail';
 import SeriesDetail from './pages/SeriesDetail';
 import MyList from './pages/MyList';
+import Settings from './pages/Settings';
 import './App.css';
 
 function App() {
@@ -63,6 +64,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <MyList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
               </ProtectedRoute>
             }
           />

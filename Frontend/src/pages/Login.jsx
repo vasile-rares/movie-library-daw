@@ -28,19 +28,17 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <div className="auth-background">
-        <div className="auth-overlay"></div>
-      </div>
       <div className="auth-content">
         <div className="auth-box">
           <h1 className="auth-logo">MovieLibrary</h1>
-          <h2 className="auth-title">Sign In</h2>
+          <h2 className="auth-title">Welcome back</h2>
+          <p className="auth-subtitle">Sign in to continue to your account</p>
           {error && <div className="auth-error">{error}</div>}
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
               <input
                 type="email"
-                placeholder="Email"
+                placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -58,7 +56,7 @@ const Login = () => {
               />
             </div>
             <button type="submit" disabled={loading} className="auth-button">
-              {loading ? 'Signing In...' : 'Sign In'}
+              <span>{loading ? 'Signing In...' : 'Sign In'}</span>
             </button>
           </form>
           <div className="auth-footer">

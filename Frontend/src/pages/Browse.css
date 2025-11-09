@@ -2,46 +2,84 @@
   min-height: 100vh;
   padding-top: 100px;
   padding-bottom: 3rem;
-  background-color: #141414;
+  background: var(--bg-primary);
 }
 
 .browse-header {
   padding: 2rem 3rem;
+  margin-bottom: 1rem;
 }
 
 .browse-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #e5e5e5;
-  margin-bottom: 1.5rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
 }
 
 .genre-filters {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.875rem;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .genre-btn {
-  padding: 0.5rem 1.25rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #e5e5e5;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
+  padding: 0.625rem 1.5rem;
+  background: rgba(26, 26, 46, 0.6);
+  backdrop-filter: blur(10px);
+  color: var(--text-secondary);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
   cursor: pointer;
   font-size: 0.9rem;
+  font-weight: 500;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.genre-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.genre-btn:hover::before {
+  opacity: 1;
 }
 
 .genre-btn:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
 
 .genre-btn.active {
-  background-color: #e50914;
-  border-color: #e50914;
-  color: #fff;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+}
+
+.genre-btn.active::before {
+  display: none;
+}
+
+.genre-btn span {
+  position: relative;
+  z-index: 1;
 }
 
 .browse-content {
@@ -50,45 +88,99 @@
 
 .content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .error-message {
-  background-color: rgba(229, 9, 20, 0.2);
-  border: 1px solid #e50914;
-  color: #e50914;
-  padding: 1rem;
-  border-radius: 4px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: #fca5a5;
+  padding: 1.25rem 1.5rem;
   margin: 0 3rem 2rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  backdrop-filter: blur(10px);
+}
+
+.error-message::before {
+  content: '⚠';
+  font-size: 1.5rem;
+  flex-shrink: 0;
 }
 
 .no-content {
   text-align: center;
-  color: #8c8c8c;
-  font-size: 1.2rem;
-  padding: 3rem;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  padding: 4rem 2rem;
+  background: rgba(26, 26, 46, 0.4);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  border-radius: 16px;
+  margin: 0 3rem;
+  backdrop-filter: blur(10px);
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+@media (max-width: 1200px) {
+  .content-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
   .browse-header {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 1.5rem;
   }
 
   .browse-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
+  }
+
+  .genre-filters {
+    gap: 0.625rem;
+  }
+
+  .genre-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
   }
 
   .browse-content {
-    padding: 0 1rem;
+    padding: 0 1.5rem;
   }
 
   .content-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 1rem;
   }
 
-  .error-message {
-    margin: 0 1rem 1.5rem;
+  .error-message,
+  .no-content {
+    margin: 0 1.5rem 1.5rem;
   }
 }
