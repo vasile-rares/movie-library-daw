@@ -30,7 +30,7 @@
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "npm",
-            "runtimeArgs": ["run", "dev"],
+            "runtimeArgs": ["run", "dev:delay"],
             "cwd": "${workspaceFolder}/Frontend",
             "console": "integratedTerminal",
             "serverReadyAction": {
@@ -38,11 +38,26 @@
                 "pattern": "Local:\\s+(http://\\S+)",
                 "uriFormat": "%s"
             }
+        },
+        {
+            "name": "Run UnitTests",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "dotnet",
+            "args": [
+                "test",
+                "${workspaceFolder}/Backend/MovieLibrary.Tests/MovieLibrary.Tests.csproj",
+                "--logger:console;verbosity=detailed",
+                "--nologo"
+            ],
+            "cwd": "${workspaceFolder}/Backend/MovieLibrary.Tests",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
         }
     ],
     "compounds": [
         {
-            "name": "Launch Fullstack (Backend & Frontend)",
+            "name": "Launch Fullstack",
             "configurations": ["Launch Backend", "Launch Frontend"],
             "stopAll": true
         }
