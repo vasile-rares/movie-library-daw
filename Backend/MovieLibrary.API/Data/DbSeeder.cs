@@ -38,7 +38,7 @@ namespace MovieLibrary.API.Data
                     Email = "admin@movielibrary.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"), // password123
                     Role = "Admin",
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.UtcNow
                 },
                 new User
                 {
@@ -46,7 +46,7 @@ namespace MovieLibrary.API.Data
                     Email = "john.doe@example.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"), // password123
                     Role = "User",
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.UtcNow
                 },
                 new User
                 {
@@ -54,7 +54,7 @@ namespace MovieLibrary.API.Data
                     Email = "jane@example.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"), // password123
                     Role = "User",
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.UtcNow
                 }
             };
             context.Users.AddRange(users);
@@ -202,7 +202,7 @@ namespace MovieLibrary.API.Data
                     MovieId = movies[0].Id,
                     Score = 9,
                     Comment = "Mind-blowing movie!",
-                    CreatedAt = DateTime.Now.AddDays(-10)
+                    CreatedAt = DateTime.UtcNow.AddDays(-10)
                 },
                 new Rating
                 {
@@ -210,7 +210,7 @@ namespace MovieLibrary.API.Data
                     MovieId = movies[1].Id,
                     Score = 10,
                     Comment = "Masterpiece!",
-                    CreatedAt = DateTime.Now.AddDays(-8)
+                    CreatedAt = DateTime.UtcNow.AddDays(-8)
                 },
                 new Rating
                 {
@@ -218,7 +218,7 @@ namespace MovieLibrary.API.Data
                     SeriesId = series[0].Id,
                     Score = 10,
                     Comment = "Best series ever!",
-                    CreatedAt = DateTime.Now.AddDays(-5)
+                    CreatedAt = DateTime.UtcNow.AddDays(-5)
                 },
                 new Rating
                 {
@@ -226,7 +226,7 @@ namespace MovieLibrary.API.Data
                     SeriesId = series[2].Id,
                     Score = 8,
                     Comment = "Great nostalgic vibes!",
-                    CreatedAt = DateTime.Now.AddDays(-3)
+                    CreatedAt = DateTime.UtcNow.AddDays(-3)
                 }
             };
             context.Ratings.AddRange(ratings);
@@ -239,25 +239,25 @@ namespace MovieLibrary.API.Data
                 {
                     UserId = users[1].Id,
                     MovieId = movies[2].Id,
-                    AddedAt = DateTime.Now.AddDays(-7)
+                    AddedAt = DateTime.UtcNow.AddDays(-7)
                 },
                 new ToWatchList
                 {
                     UserId = users[1].Id,
                     SeriesId = series[1].Id,
-                    AddedAt = DateTime.Now.AddDays(-6)
+                    AddedAt = DateTime.UtcNow.AddDays(-6)
                 },
                 new ToWatchList
                 {
                     UserId = users[2].Id,
                     MovieId = movies[4].Id,
-                    AddedAt = DateTime.Now.AddDays(-4)
+                    AddedAt = DateTime.UtcNow.AddDays(-4)
                 },
                 new ToWatchList
                 {
                     UserId = users[2].Id,
                     SeriesId = series[3].Id,
-                    AddedAt = DateTime.Now.AddDays(-2)
+                    AddedAt = DateTime.UtcNow.AddDays(-2)
                 }
             };
             context.ToWatchList.AddRange(toWatchList);

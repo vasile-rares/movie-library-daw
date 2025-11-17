@@ -60,7 +60,7 @@ namespace MovieLibrary.API.Services
         SeriesId = dto.SeriesId,
         Score = dto.Score,
         Comment = dto.Comment,
-        CreatedAt = DateTime.Now
+        CreatedAt = DateTime.UtcNow
       };
 
       var createdRating = await _ratingRepository.CreateAsync(rating);

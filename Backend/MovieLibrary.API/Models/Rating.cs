@@ -28,6 +28,6 @@ namespace MovieLibrary.API.Models
         [MaxLength(300)]
         public string? Comment { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

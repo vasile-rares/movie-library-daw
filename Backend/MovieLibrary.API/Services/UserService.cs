@@ -44,7 +44,7 @@ namespace MovieLibrary.API.Services
         Email = dto.Email,
         PasswordHash = HashPassword(dto.Password), // In production, use proper hashing
         Role = dto.Role,
-        CreatedAt = DateTime.Now
+        CreatedAt = DateTime.UtcNow
       };
 
       var createdUser = await _userRepository.CreateAsync(user);

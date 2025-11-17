@@ -4,11 +4,13 @@ namespace MovieLibrary.API.Middlewares
   {
     private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionHandlerMiddleware> _logger;
+    private readonly IWebHostEnvironment _env;
 
-    public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
+    public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger, IWebHostEnvironment env)
     {
       _next = next;
       _logger = logger;
+      _env = env;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -20,11 +22,11 @@ namespace MovieLibrary.API.Middlewares
       catch (Exception ex)
       {
         _logger.LogError(ex, "An unhandled exception occurred");
-        await HandleExceptionAsync(context, ex);
+        await HandleExceptionAsync(context, ex, _env);
       }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception, IWebHostEnvironment env)
     {
       context.Response.ContentType = "application/json";
 
@@ -38,7 +40,7 @@ namespace MovieLibrary.API.Middlewares
           UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
           _ => StatusCodes.Status500InternalServerError
         },
-        details = exception.StackTrace
+        details = env.IsDevelopment() ? exception.StackTrace : null
       };
 
       context.Response.StatusCode = response.statusCode;

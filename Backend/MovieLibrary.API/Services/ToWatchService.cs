@@ -46,7 +46,7 @@ namespace MovieLibrary.API.Services
         UserId = dto.UserId,
         MovieId = dto.MovieId,
         SeriesId = dto.SeriesId,
-        AddedAt = DateTime.Now
+        AddedAt = DateTime.UtcNow
       };
 
       var createdToWatch = await _toWatchRepository.CreateAsync(toWatch);

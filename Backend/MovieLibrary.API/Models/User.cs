@@ -19,7 +19,7 @@ namespace MovieLibrary.API.Models
     [Required, MaxLength(255)]
     public string PasswordHash { get; set; } = null!;
 
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [MaxLength(20)]
     public string Role { get; set; } = "User";

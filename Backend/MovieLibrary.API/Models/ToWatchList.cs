@@ -22,6 +22,6 @@ namespace MovieLibrary.API.Models
         [ForeignKey("SeriesId")]
         public Series? Series { get; set; }
 
-        public DateTime AddedAt { get; set; } = DateTime.Now;
+        public DateTime AddedAt { get; set; } = DateTime.UtcNow;
     }
 }
