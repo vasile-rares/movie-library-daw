@@ -86,8 +86,18 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("http://localhost:5173")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
+});
+
+// Add Antiforgery for CSRF protection
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-XSRF-TOKEN";
+    options.Cookie.Name = "XSRF-TOKEN";
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
 builder.Services.AddControllers();
@@ -159,6 +169,9 @@ if (app.Environment.IsDevelopment())
 // Disable HTTPS redirection in development to avoid CORS issues with frontend
 // app.UseHttpsRedirection();
 
+// XSS Protection Middleware (trebuie să fie înainte de CORS pentru a seta headers)
+app.UseMiddleware<XssProtectionMiddleware>();
+
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
@@ -168,5 +181,12 @@ app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.MapControllers();
+
+// Endpoint pentru antiforgery token (opțional, pentru formulare)
+app.MapGet("/antiforgery/token", (Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery, HttpContext context) =>
+{
+    var tokens = antiforgery.GetAndStoreTokens(context);
+    return Results.Ok(new { token = tokens.RequestToken });
+}).RequireAuthorization();
 
 app.Run();
