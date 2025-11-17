@@ -44,6 +44,23 @@ namespace MovieLibrary.API.Services
       if (dto.MovieId.HasValue && dto.SeriesId.HasValue)
         throw new ArgumentException("Cannot add both Movie and Series at the same time");
 
+      // Check if user already has this movie/series in their watch list
+      var userWatchList = await _toWatchRepository.GetByUserIdAsync(dto.UserId);
+
+      if (dto.MovieId.HasValue)
+      {
+        var existingMovie = userWatchList.FirstOrDefault(tw => tw.MovieId == dto.MovieId);
+        if (existingMovie != null)
+          throw new ArgumentException("This movie is already in your watch list");
+      }
+
+      if (dto.SeriesId.HasValue)
+      {
+        var existingSeries = userWatchList.FirstOrDefault(tw => tw.SeriesId == dto.SeriesId);
+        if (existingSeries != null)
+          throw new ArgumentException("This series is already in your watch list");
+      }
+
       var toWatch = new ToWatchList
       {
         UserId = dto.UserId,
