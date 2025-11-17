@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using MovieLibrary.API.Attributes;
 
 namespace MovieLibrary.API.DTOs.Requests.Series;
 
@@ -20,7 +19,7 @@ public class CreateSeriesDto
   [Range(1, 10000)]
   public int? EpisodesCount { get; set; }
 
-  [MaxLength(255), SafeUrl]
+  [MaxLength(255)]
   public string? ImageUrl { get; set; }
 
   public List<int> GenreIds { get; set; } = new();

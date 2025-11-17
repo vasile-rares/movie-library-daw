@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using MovieLibrary.API.Attributes;
 
 namespace MovieLibrary.API.DTOs.Requests.Movie;
 
@@ -14,7 +13,7 @@ public class UpdateMovieDto
   [Range(1800, 2100)]
   public int? ReleaseYear { get; set; }
 
-  [MaxLength(255), SafeUrl]
+  [MaxLength(255)]
   public string? ImageUrl { get; set; }
 
   public List<int>? GenreIds { get; set; }
