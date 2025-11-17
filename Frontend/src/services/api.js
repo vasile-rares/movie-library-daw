@@ -34,8 +34,7 @@ api.interceptors.response.use(
       const isAuthPage = currentPath === '/login' || currentPath === '/register';
 
       if (!isAuthPage) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        localStorage.clear();
         window.location.href = "/login";
       }
     }

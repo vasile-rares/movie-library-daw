@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
@@ -10,6 +11,7 @@ import MovieDetail from './pages/MovieDetail';
 import SeriesDetail from './pages/SeriesDetail';
 import MyList from './pages/MyList';
 import Settings from './pages/Settings';
+import Admin from './pages/Admin';
 import './App.css';
 
 function App() {
@@ -73,6 +75,14 @@ function App() {
               <ProtectedRoute>
                 <Settings />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <Admin />
+              </AdminRoute>
             }
           />
           <Route path="*" element={<Navigate to="/" replace />} />

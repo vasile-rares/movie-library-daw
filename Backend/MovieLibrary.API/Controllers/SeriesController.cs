@@ -42,6 +42,7 @@ namespace MovieLibrary.API.Controllers
       return Ok(new { message = "Series retrieved successfully.", data = series });
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult> Create([FromBody] CreateSeriesDto dto)
     {
@@ -49,6 +50,7 @@ namespace MovieLibrary.API.Controllers
       return CreatedAtAction(nameof(GetById), new { id = series.Id }, new { message = "Series created successfully.", data = series });
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult> Update(int id, [FromBody] UpdateSeriesDto dto)
     {
@@ -56,6 +58,7 @@ namespace MovieLibrary.API.Controllers
       return Ok(new { message = "Series updated successfully.", data = series });
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

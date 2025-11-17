@@ -40,6 +40,7 @@ const Header = () => {
             <Link to="/movies">Movies</Link>
             <Link to="/series">Series</Link>
             <Link to="/my-list">My List</Link>
+            {user?.role === 'Admin' && <Link to="/admin">Admin</Link>}
           </nav>
         </div>
         <div className="header-right">
