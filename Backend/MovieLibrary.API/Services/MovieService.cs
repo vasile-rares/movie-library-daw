@@ -1,6 +1,6 @@
+using AutoMapper;
 using MovieLibrary.API.DTOs.Requests.Movie;
 using MovieLibrary.API.DTOs.Responses.Movie;
-using MovieLibrary.API.DTOs.Responses.Genre;
 using MovieLibrary.API.Interfaces.Repositories;
 using MovieLibrary.API.Interfaces.Services;
 using MovieLibrary.API.Models;
@@ -11,29 +11,31 @@ namespace MovieLibrary.API.Services
   {
     private readonly IMovieRepository _movieRepository;
     private readonly IGenreRepository _genreRepository;
+    private readonly IMapper _mapper;
 
-    public MovieService(IMovieRepository movieRepository, IGenreRepository genreRepository)
+    public MovieService(IMovieRepository movieRepository, IGenreRepository genreRepository, IMapper mapper)
     {
       _movieRepository = movieRepository;
       _genreRepository = genreRepository;
+      _mapper = mapper;
     }
 
     public async Task<IEnumerable<MovieResponseDto>> GetAllMoviesAsync()
     {
       var movies = await _movieRepository.GetAllAsync();
-      return movies.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<MovieResponseDto>>(movies);
     }
 
     public async Task<MovieResponseDto?> GetMovieByIdAsync(int id)
     {
       var movie = await _movieRepository.GetByIdAsync(id);
-      return movie == null ? null : MapToResponseDto(movie);
+      return movie == null ? null : _mapper.Map<MovieResponseDto>(movie);
     }
 
     public async Task<IEnumerable<MovieResponseDto>> GetMoviesByGenreAsync(int genreId)
     {
       var movies = await _movieRepository.GetByGenreAsync(genreId);
-      return movies.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<MovieResponseDto>>(movies);
     }
 
     public async Task<MovieResponseDto> CreateMovieAsync(CreateMovieDto dto)
@@ -55,7 +57,7 @@ namespace MovieLibrary.API.Services
 
       // Reload to get genres
       var movieWithGenres = await _movieRepository.GetByIdAsync(createdMovie.Id);
-      return MapToResponseDto(movieWithGenres!);
+      return _mapper.Map<MovieResponseDto>(movieWithGenres!);
     }
 
     public async Task<MovieResponseDto> UpdateMovieAsync(int id, UpdateMovieDto dto)
@@ -89,29 +91,12 @@ namespace MovieLibrary.API.Services
 
       // Reload to get updated genres
       var updatedMovie = await _movieRepository.GetByIdAsync(id);
-      return MapToResponseDto(updatedMovie!);
+      return _mapper.Map<MovieResponseDto>(updatedMovie!);
     }
 
     public async Task<bool> DeleteMovieAsync(int id)
     {
       return await _movieRepository.DeleteAsync(id);
-    }
-
-    private static MovieResponseDto MapToResponseDto(Movie movie)
-    {
-      return new MovieResponseDto
-      {
-        Id = movie.Id,
-        Title = movie.Title,
-        Description = movie.Description,
-        ReleaseYear = movie.ReleaseYear,
-        ImageUrl = movie.ImageUrl,
-        Genres = movie.MovieGenres.Select(mg => new GenreResponseDto
-        {
-          Id = mg.Genre.Id,
-          Name = mg.Genre.Name
-        }).ToList()
-      };
     }
   }
 }

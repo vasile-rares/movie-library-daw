@@ -1,3 +1,4 @@
+using AutoMapper;
 using MovieLibrary.API.DTOs.Requests.User;
 using MovieLibrary.API.DTOs.Responses.User;
 using MovieLibrary.API.Interfaces.Repositories;
@@ -9,22 +10,24 @@ namespace MovieLibrary.API.Services
   public class UserService : IUserService
   {
     private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IMapper mapper)
     {
       _userRepository = userRepository;
+      _mapper = mapper;
     }
 
     public async Task<IEnumerable<UserResponseDto>> GetAllUsersAsync()
     {
       var users = await _userRepository.GetAllAsync();
-      return users.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<UserResponseDto>>(users);
     }
 
     public async Task<UserResponseDto?> GetUserByIdAsync(int id)
     {
       var user = await _userRepository.GetByIdAsync(id);
-      return user == null ? null : MapToResponseDto(user);
+      return user == null ? null : _mapper.Map<UserResponseDto>(user);
     }
 
     public async Task<UserResponseDto> CreateUserAsync(CreateUserDto dto)
@@ -48,7 +51,7 @@ namespace MovieLibrary.API.Services
       };
 
       var createdUser = await _userRepository.CreateAsync(user);
-      return MapToResponseDto(createdUser);
+      return _mapper.Map<UserResponseDto>(createdUser);
     }
 
     public async Task<UserResponseDto> UpdateUserAsync(int id, UpdateUserDto dto)
@@ -70,24 +73,12 @@ namespace MovieLibrary.API.Services
         user.Role = dto.Role;
 
       var updatedUser = await _userRepository.UpdateAsync(user);
-      return MapToResponseDto(updatedUser);
+      return _mapper.Map<UserResponseDto>(updatedUser);
     }
 
     public async Task<bool> DeleteUserAsync(int id)
     {
       return await _userRepository.DeleteAsync(id);
-    }
-
-    private static UserResponseDto MapToResponseDto(User user)
-    {
-      return new UserResponseDto
-      {
-        Id = user.Id,
-        Username = user.Username,
-        Email = user.Email,
-        Role = user.Role,
-        CreatedAt = user.CreatedAt
-      };
     }
 
     private static string HashPassword(string password)

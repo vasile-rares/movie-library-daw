@@ -1,6 +1,8 @@
+using AutoMapper;
 using Moq;
 using MovieLibrary.API.DTOs.Requests.Movie;
 using MovieLibrary.API.Interfaces.Repositories;
+using MovieLibrary.API.Mappings;
 using MovieLibrary.API.Models;
 using MovieLibrary.API.Services;
 
@@ -10,13 +12,19 @@ public class MovieServiceTests
 {
   private readonly Mock<IMovieRepository> _mockMovieRepository;
   private readonly Mock<IGenreRepository> _mockGenreRepository;
+  private readonly IMapper _mapper;
   private readonly MovieService _movieService;
 
   public MovieServiceTests()
   {
     _mockMovieRepository = new Mock<IMovieRepository>();
     _mockGenreRepository = new Mock<IGenreRepository>();
-    _movieService = new MovieService(_mockMovieRepository.Object, _mockGenreRepository.Object);
+
+    // Configure AutoMapper
+    var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+    _mapper = config.CreateMapper();
+
+    _movieService = new MovieService(_mockMovieRepository.Object, _mockGenreRepository.Object, _mapper);
   }
 
   [Fact]

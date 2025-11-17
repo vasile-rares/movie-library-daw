@@ -12,7 +12,21 @@ namespace MovieLibrary.API.Data
                 return; // Database has been seeded
             }
 
-            // Seed Genres
+            // Seed all data in correct order
+            var genres = SeedGenres(context);
+            var users = SeedUsers(context);
+            var movies = SeedMovies(context);
+            var series = SeedSeries(context);
+            SeedMovieGenres(context, movies, genres);
+            SeedSeriesGenres(context, series, genres);
+            SeedRatings(context, users, movies, series);
+            SeedToWatch(context, users, movies, series);
+
+            Console.WriteLine("Database seeding completed successfully!");
+        }
+
+        private static List<Genre> SeedGenres(MovieLibraryDbContext context)
+        {
             var genres = new List<Genre>
             {
                 new Genre { Name = "Action" },
@@ -29,14 +43,19 @@ namespace MovieLibrary.API.Data
             context.Genres.AddRange(genres);
             context.SaveChanges();
 
-            // Seed Users (password for all is: "password123")
+            return genres;
+        }
+
+        private static List<User> SeedUsers(MovieLibraryDbContext context)
+        {
+            // Password for all users is: "password123"
             var users = new List<User>
             {
                 new User
                 {
                     Username = "admin",
                     Email = "admin@movielibrary.com",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"), // password123
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
                     Role = "Admin",
                     CreatedAt = DateTime.UtcNow
                 },
@@ -44,7 +63,7 @@ namespace MovieLibrary.API.Data
                 {
                     Username = "john_doe",
                     Email = "john.doe@example.com",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"), // password123
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
                     Role = "User",
                     CreatedAt = DateTime.UtcNow
                 },
@@ -52,7 +71,7 @@ namespace MovieLibrary.API.Data
                 {
                     Username = "jane_smith",
                     Email = "jane@example.com",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"), // password123
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
                     Role = "User",
                     CreatedAt = DateTime.UtcNow
                 }
@@ -60,7 +79,11 @@ namespace MovieLibrary.API.Data
             context.Users.AddRange(users);
             context.SaveChanges();
 
-            // Seed Movies
+            return users;
+        }
+
+        private static List<Movie> SeedMovies(MovieLibraryDbContext context)
+        {
             var movies = new List<Movie>
             {
                 new Movie
@@ -102,7 +125,11 @@ namespace MovieLibrary.API.Data
             context.Movies.AddRange(movies);
             context.SaveChanges();
 
-            // Seed Series
+            return movies;
+        }
+
+        private static List<Series> SeedSeries(MovieLibraryDbContext context)
+        {
             var series = new List<Series>
             {
                 new Series
@@ -145,55 +172,63 @@ namespace MovieLibrary.API.Data
             context.Series.AddRange(series);
             context.SaveChanges();
 
-            // Seed MovieGenres (Many-to-Many)
+            return series;
+        }
+
+        private static void SeedMovieGenres(MovieLibraryDbContext context, List<Movie> movies, List<Genre> genres)
+        {
             var movieGenres = new List<MovieGenre>
             {
                 // The Matrix - Action, Sci-Fi
                 new MovieGenre { MovieId = movies[0].Id, GenreId = genres[0].Id },
                 new MovieGenre { MovieId = movies[0].Id, GenreId = genres[4].Id },
-                
+
                 // Inception - Action, Sci-Fi, Thriller
                 new MovieGenre { MovieId = movies[1].Id, GenreId = genres[0].Id },
                 new MovieGenre { MovieId = movies[1].Id, GenreId = genres[4].Id },
                 new MovieGenre { MovieId = movies[1].Id, GenreId = genres[6].Id },
-                
+
                 // The Godfather - Drama
                 new MovieGenre { MovieId = movies[2].Id, GenreId = genres[2].Id },
-                
+
                 // Pulp Fiction - Drama, Thriller
                 new MovieGenre { MovieId = movies[3].Id, GenreId = genres[2].Id },
                 new MovieGenre { MovieId = movies[3].Id, GenreId = genres[6].Id },
-                
+
                 // Interstellar - Sci-Fi, Drama
                 new MovieGenre { MovieId = movies[4].Id, GenreId = genres[4].Id },
                 new MovieGenre { MovieId = movies[4].Id, GenreId = genres[2].Id }
             };
             context.MovieGenres.AddRange(movieGenres);
             context.SaveChanges();
+        }
 
-            // Seed SeriesGenres (Many-to-Many)
+        private static void SeedSeriesGenres(MovieLibraryDbContext context, List<Series> series, List<Genre> genres)
+        {
             var seriesGenres = new List<SeriesGenre>
             {
                 // Breaking Bad - Drama, Thriller
                 new SeriesGenre { SeriesId = series[0].Id, GenreId = genres[2].Id },
                 new SeriesGenre { SeriesId = series[0].Id, GenreId = genres[6].Id },
-                
+
                 // Game of Thrones - Drama, Fantasy
                 new SeriesGenre { SeriesId = series[1].Id, GenreId = genres[2].Id },
                 new SeriesGenre { SeriesId = series[1].Id, GenreId = genres[9].Id },
-                
+
                 // Stranger Things - Horror, Sci-Fi, Thriller
                 new SeriesGenre { SeriesId = series[2].Id, GenreId = genres[3].Id },
                 new SeriesGenre { SeriesId = series[2].Id, GenreId = genres[4].Id },
                 new SeriesGenre { SeriesId = series[2].Id, GenreId = genres[6].Id },
-                
+
                 // The Office - Comedy
                 new SeriesGenre { SeriesId = series[3].Id, GenreId = genres[1].Id }
             };
             context.SeriesGenres.AddRange(seriesGenres);
             context.SaveChanges();
+        }
 
-            // Seed Ratings
+        private static void SeedRatings(MovieLibraryDbContext context, List<User> users, List<Movie> movies, List<Series> series)
+        {
             var ratings = new List<Rating>
             {
                 new Rating
@@ -231,8 +266,10 @@ namespace MovieLibrary.API.Data
             };
             context.Ratings.AddRange(ratings);
             context.SaveChanges();
+        }
 
-            // Seed ToWatch
+        private static void SeedToWatch(MovieLibraryDbContext context, List<User> users, List<Movie> movies, List<Series> series)
+        {
             var toWatchList = new List<ToWatchList>
             {
                 new ToWatchList
@@ -262,8 +299,6 @@ namespace MovieLibrary.API.Data
             };
             context.ToWatchList.AddRange(toWatchList);
             context.SaveChanges();
-
-            Console.WriteLine("Database seeding completed successfully!");
         }
     }
 }

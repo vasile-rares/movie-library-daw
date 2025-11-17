@@ -1,6 +1,6 @@
+using AutoMapper;
 using MovieLibrary.API.DTOs.Requests.Series;
 using MovieLibrary.API.DTOs.Responses.Series;
-using MovieLibrary.API.DTOs.Responses.Genre;
 using MovieLibrary.API.Interfaces.Repositories;
 using MovieLibrary.API.Interfaces.Services;
 using MovieLibrary.API.Models;
@@ -10,28 +10,30 @@ namespace MovieLibrary.API.Services
   public class SeriesService : ISeriesService
   {
     private readonly ISeriesRepository _seriesRepository;
+    private readonly IMapper _mapper;
 
-    public SeriesService(ISeriesRepository seriesRepository)
+    public SeriesService(ISeriesRepository seriesRepository, IMapper mapper)
     {
       _seriesRepository = seriesRepository;
+      _mapper = mapper;
     }
 
     public async Task<IEnumerable<SeriesResponseDto>> GetAllSeriesAsync()
     {
       var series = await _seriesRepository.GetAllAsync();
-      return series.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<SeriesResponseDto>>(series);
     }
 
     public async Task<SeriesResponseDto?> GetSeriesByIdAsync(int id)
     {
       var series = await _seriesRepository.GetByIdAsync(id);
-      return series == null ? null : MapToResponseDto(series);
+      return series == null ? null : _mapper.Map<SeriesResponseDto>(series);
     }
 
     public async Task<IEnumerable<SeriesResponseDto>> GetSeriesByGenreAsync(int genreId)
     {
       var series = await _seriesRepository.GetByGenreAsync(genreId);
-      return series.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<SeriesResponseDto>>(series);
     }
 
     public async Task<SeriesResponseDto> CreateSeriesAsync(CreateSeriesDto dto)
@@ -54,7 +56,7 @@ namespace MovieLibrary.API.Services
       }
 
       var seriesWithGenres = await _seriesRepository.GetByIdAsync(createdSeries.Id);
-      return MapToResponseDto(seriesWithGenres!);
+      return _mapper.Map<SeriesResponseDto>(seriesWithGenres!);
     }
 
     public async Task<SeriesResponseDto> UpdateSeriesAsync(int id, UpdateSeriesDto dto)
@@ -93,31 +95,12 @@ namespace MovieLibrary.API.Services
       }
 
       var updatedSeries = await _seriesRepository.GetByIdAsync(id);
-      return MapToResponseDto(updatedSeries!);
+      return _mapper.Map<SeriesResponseDto>(updatedSeries!);
     }
 
     public async Task<bool> DeleteSeriesAsync(int id)
     {
       return await _seriesRepository.DeleteAsync(id);
-    }
-
-    private static SeriesResponseDto MapToResponseDto(Series series)
-    {
-      return new SeriesResponseDto
-      {
-        Id = series.Id,
-        Title = series.Title,
-        Description = series.Description,
-        ReleaseYear = series.ReleaseYear,
-        SeasonsCount = series.SeasonsCount,
-        EpisodesCount = series.EpisodesCount,
-        ImageUrl = series.ImageUrl,
-        Genres = series.SeriesGenres.Select(sg => new GenreResponseDto
-        {
-          Id = sg.Genre.Id,
-          Name = sg.Genre.Name
-        }).ToList()
-      };
     }
   }
 }

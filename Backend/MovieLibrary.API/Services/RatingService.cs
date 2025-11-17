@@ -1,3 +1,4 @@
+using AutoMapper;
 using MovieLibrary.API.DTOs.Requests.Rating;
 using MovieLibrary.API.DTOs.Responses.Rating;
 using MovieLibrary.API.Interfaces.Repositories;
@@ -9,40 +10,42 @@ namespace MovieLibrary.API.Services
   public class RatingService : IRatingService
   {
     private readonly IRatingRepository _ratingRepository;
+    private readonly IMapper _mapper;
 
-    public RatingService(IRatingRepository ratingRepository)
+    public RatingService(IRatingRepository ratingRepository, IMapper mapper)
     {
       _ratingRepository = ratingRepository;
+      _mapper = mapper;
     }
 
     public async Task<IEnumerable<RatingResponseDto>> GetAllRatingsAsync()
     {
       var ratings = await _ratingRepository.GetAllAsync();
-      return ratings.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<RatingResponseDto>>(ratings);
     }
 
     public async Task<RatingResponseDto?> GetRatingByIdAsync(int id)
     {
       var rating = await _ratingRepository.GetByIdAsync(id);
-      return rating == null ? null : MapToResponseDto(rating);
+      return rating == null ? null : _mapper.Map<RatingResponseDto>(rating);
     }
 
     public async Task<IEnumerable<RatingResponseDto>> GetRatingsByUserIdAsync(int userId)
     {
       var ratings = await _ratingRepository.GetByUserIdAsync(userId);
-      return ratings.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<RatingResponseDto>>(ratings);
     }
 
     public async Task<IEnumerable<RatingResponseDto>> GetRatingsByMovieIdAsync(int movieId)
     {
       var ratings = await _ratingRepository.GetByMovieIdAsync(movieId);
-      return ratings.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<RatingResponseDto>>(ratings);
     }
 
     public async Task<IEnumerable<RatingResponseDto>> GetRatingsBySeriesIdAsync(int seriesId)
     {
       var ratings = await _ratingRepository.GetBySeriesIdAsync(seriesId);
-      return ratings.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<RatingResponseDto>>(ratings);
     }
 
     public async Task<RatingResponseDto> CreateRatingAsync(CreateRatingDto dto)
@@ -65,7 +68,7 @@ namespace MovieLibrary.API.Services
 
       var createdRating = await _ratingRepository.CreateAsync(rating);
       var ratingWithDetails = await _ratingRepository.GetByIdAsync(createdRating.Id);
-      return MapToResponseDto(ratingWithDetails!);
+      return _mapper.Map<RatingResponseDto>(ratingWithDetails!);
     }
 
     public async Task<RatingResponseDto> UpdateRatingAsync(int id, UpdateRatingDto dto)
@@ -82,29 +85,12 @@ namespace MovieLibrary.API.Services
 
       var updatedRating = await _ratingRepository.UpdateAsync(rating);
       var ratingWithDetails = await _ratingRepository.GetByIdAsync(updatedRating.Id);
-      return MapToResponseDto(ratingWithDetails!);
+      return _mapper.Map<RatingResponseDto>(ratingWithDetails!);
     }
 
     public async Task<bool> DeleteRatingAsync(int id)
     {
       return await _ratingRepository.DeleteAsync(id);
-    }
-
-    private static RatingResponseDto MapToResponseDto(Rating rating)
-    {
-      return new RatingResponseDto
-      {
-        Id = rating.Id,
-        UserId = rating.UserId,
-        Username = rating.User.Username,
-        MovieId = rating.MovieId,
-        MovieTitle = rating.Movie?.Title,
-        SeriesId = rating.SeriesId,
-        SeriesTitle = rating.Series?.Title,
-        Score = rating.Score,
-        Comment = rating.Comment,
-        CreatedAt = rating.CreatedAt
-      };
     }
   }
 }

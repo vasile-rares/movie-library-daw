@@ -1,3 +1,4 @@
+using AutoMapper;
 using MovieLibrary.API.DTOs.Requests.Genre;
 using MovieLibrary.API.DTOs.Responses.Genre;
 using MovieLibrary.API.Interfaces.Repositories;
@@ -9,22 +10,24 @@ namespace MovieLibrary.API.Services
   public class GenreService : IGenreService
   {
     private readonly IGenreRepository _genreRepository;
+    private readonly IMapper _mapper;
 
-    public GenreService(IGenreRepository genreRepository)
+    public GenreService(IGenreRepository genreRepository, IMapper mapper)
     {
       _genreRepository = genreRepository;
+      _mapper = mapper;
     }
 
     public async Task<IEnumerable<GenreResponseDto>> GetAllGenresAsync()
     {
       var genres = await _genreRepository.GetAllAsync();
-      return genres.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<GenreResponseDto>>(genres);
     }
 
     public async Task<GenreResponseDto?> GetGenreByIdAsync(int id)
     {
       var genre = await _genreRepository.GetByIdAsync(id);
-      return genre == null ? null : MapToResponseDto(genre);
+      return genre == null ? null : _mapper.Map<GenreResponseDto>(genre);
     }
 
     public async Task<GenreResponseDto> CreateGenreAsync(CreateGenreDto dto)
@@ -39,7 +42,7 @@ namespace MovieLibrary.API.Services
       };
 
       var createdGenre = await _genreRepository.CreateAsync(genre);
-      return MapToResponseDto(createdGenre);
+      return _mapper.Map<GenreResponseDto>(createdGenre);
     }
 
     public async Task<GenreResponseDto> UpdateGenreAsync(int id, CreateGenreDto dto)
@@ -51,21 +54,12 @@ namespace MovieLibrary.API.Services
       genre.Name = dto.Name;
 
       var updatedGenre = await _genreRepository.UpdateAsync(genre);
-      return MapToResponseDto(updatedGenre);
+      return _mapper.Map<GenreResponseDto>(updatedGenre);
     }
 
     public async Task<bool> DeleteGenreAsync(int id)
     {
       return await _genreRepository.DeleteAsync(id);
-    }
-
-    private static GenreResponseDto MapToResponseDto(Genre genre)
-    {
-      return new GenreResponseDto
-      {
-        Id = genre.Id,
-        Name = genre.Name
-      };
     }
   }
 }

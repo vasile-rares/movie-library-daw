@@ -32,6 +32,9 @@ builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IRatingService, RatingService>();
 builder.Services.AddScoped<IToWatchService, ToWatchService>();
 
+// Register AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
+
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
 {

@@ -1,3 +1,4 @@
+using AutoMapper;
 using MovieLibrary.API.DTOs.Requests.ToWatch;
 using MovieLibrary.API.DTOs.Responses.ToWatch;
 using MovieLibrary.API.Interfaces.Repositories;
@@ -9,28 +10,30 @@ namespace MovieLibrary.API.Services
   public class ToWatchService : IToWatchService
   {
     private readonly IToWatchRepository _toWatchRepository;
+    private readonly IMapper _mapper;
 
-    public ToWatchService(IToWatchRepository toWatchRepository)
+    public ToWatchService(IToWatchRepository toWatchRepository, IMapper mapper)
     {
       _toWatchRepository = toWatchRepository;
+      _mapper = mapper;
     }
 
     public async Task<IEnumerable<ToWatchResponseDto>> GetAllToWatchAsync()
     {
       var toWatchList = await _toWatchRepository.GetAllAsync();
-      return toWatchList.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<ToWatchResponseDto>>(toWatchList);
     }
 
     public async Task<ToWatchResponseDto?> GetToWatchByIdAsync(int id)
     {
       var toWatch = await _toWatchRepository.GetByIdAsync(id);
-      return toWatch == null ? null : MapToResponseDto(toWatch);
+      return toWatch == null ? null : _mapper.Map<ToWatchResponseDto>(toWatch);
     }
 
     public async Task<IEnumerable<ToWatchResponseDto>> GetToWatchByUserIdAsync(int userId)
     {
       var toWatchList = await _toWatchRepository.GetByUserIdAsync(userId);
-      return toWatchList.Select(MapToResponseDto);
+      return _mapper.Map<IEnumerable<ToWatchResponseDto>>(toWatchList);
     }
 
     public async Task<ToWatchResponseDto> CreateToWatchAsync(CreateToWatchDto dto)
@@ -51,29 +54,12 @@ namespace MovieLibrary.API.Services
 
       var createdToWatch = await _toWatchRepository.CreateAsync(toWatch);
       var toWatchWithDetails = await _toWatchRepository.GetByIdAsync(createdToWatch.Id);
-      return MapToResponseDto(toWatchWithDetails!);
+      return _mapper.Map<ToWatchResponseDto>(toWatchWithDetails!);
     }
 
     public async Task<bool> DeleteToWatchAsync(int id)
     {
       return await _toWatchRepository.DeleteAsync(id);
-    }
-
-    private static ToWatchResponseDto MapToResponseDto(ToWatchList toWatch)
-    {
-      return new ToWatchResponseDto
-      {
-        Id = toWatch.Id,
-        UserId = toWatch.UserId,
-        Username = toWatch.User?.Username ?? "Unknown",
-        MovieId = toWatch.MovieId,
-        MovieTitle = toWatch.Movie?.Title,
-        MovieImageUrl = toWatch.Movie?.ImageUrl,
-        SeriesId = toWatch.SeriesId,
-        SeriesTitle = toWatch.Series?.Title,
-        SeriesImageUrl = toWatch.Series?.ImageUrl,
-        AddedAt = toWatch.AddedAt
-      };
     }
   }
 }
