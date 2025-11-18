@@ -7,7 +7,7 @@ import './Home.css';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
-  const [series, setSeries] = useState([]);
+  const [shows, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -18,12 +18,12 @@ const Home = () => {
   const fetchContent = async () => {
     try {
       setLoading(true);
-      const [moviesRes, seriesRes] = await Promise.all([
+      const [moviesRes, showsRes] = await Promise.all([
         titleService.getByType(0), // TitleType.Movie = 0
-        titleService.getByType(1), // TitleType.Series = 1
+        titleService.getByType(1), // TitleType.Show = 1
       ]);
       setMovies(moviesRes.data || []);
-      setSeries(seriesRes.data || []);
+      setShows(showsRes.data || []);
     } catch (err) {
       setError('Failed to load content');
       console.error(err);
@@ -32,7 +32,7 @@ const Home = () => {
     }
   };
 
-  const featuredContent = [...movies, ...series][0];
+  const featuredContent = [...movies, ...shows][0];
 
   if (loading) {
     return (
@@ -58,7 +58,7 @@ const Home = () => {
     <>
       <Header />
       <main className="home">
-        {featuredContent && <Hero item={featuredContent} type={featuredContent.seasonsCount ? 'series' : 'movie'} />}
+        {featuredContent && <Hero item={featuredContent} type={featuredContent.seasonsCount ? 'show' : 'movie'} />}
 
         {movies.length > 0 && (
           <section className="content-section">
@@ -71,12 +71,12 @@ const Home = () => {
           </section>
         )}
 
-        {series.length > 0 && (
+        {shows.length > 0 && (
           <section className="content-section">
-            <h2 className="section-title">Popular Series</h2>
+            <h2 className="section-title">Popular Shows</h2>
             <div className="content-grid">
-              {series.slice(0, 12).map((s) => (
-                <TitleCard key={s.id} item={s} type="series" />
+              {shows.slice(0, 12).map((s) => (
+                <TitleCard key={s.id} item={s} type="show" />
               ))}
             </div>
           </section>

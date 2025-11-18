@@ -5,8 +5,8 @@ import Header from '../../components/Header';
 import TitleCard from '../../components/TitleCard';
 import './Browse.css';
 
-const Series = () => {
-  const [allSeries, setAllSeries] = useState([]);
+const Shows = () => {
+  const [allShows, setAllShows] = useState([]);
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,28 +18,28 @@ const Series = () => {
 
   const fetchData = async () => {
     try {
-      const [genresRes, seriesRes] = await Promise.all([
+      const [genresRes, showsRes] = await Promise.all([
         genreService.getAll(),
         titleService.getByType(1)
       ]);
       setGenres(genresRes.data || []);
-      setAllSeries(seriesRes.data || []);
+      setAllShows(showsRes.data || []);
     } catch (err) {
-      setError('Failed to load series');
+      setError('Failed to load shows');
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Filter series on the client side based on selected genre
-  const filteredSeries = useMemo(() => {
-    if (!selectedGenre) return allSeries;
+  // Filter shows on the client side based on selected genre
+  const filteredShows = useMemo(() => {
+    if (!selectedGenre) return allShows;
 
-    return allSeries.filter((series) =>
-      series.genres?.some((genre) => genre.id === selectedGenre)
+    return allShows.filter((show) =>
+      show.genres?.some((genre) => genre.id === selectedGenre)
     );
-  }, [allSeries, selectedGenre]);
+  }, [allShows, selectedGenre]);
 
   if (loading) {
     return (
@@ -57,7 +57,7 @@ const Series = () => {
       <Header />
       <main className="browse-page">
         <div className="browse-header">
-          <h1 className="browse-title">Series</h1>
+          <h1 className="browse-title">Shows</h1>
           <div className="genre-filter-dropdown">
             <label htmlFor="genre-select" className="filter-label">Genre:</label>
             <select
@@ -79,14 +79,14 @@ const Series = () => {
         {error && <div className="error-message">{error}</div>}
 
         <div className="browse-content">
-          {filteredSeries.length > 0 ? (
+          {filteredShows.length > 0 ? (
             <div className="content-grid">
-              {filteredSeries.map((s) => (
-                <TitleCard key={s.id} item={s} type="series" />
+              {filteredShows.map((s) => (
+                <TitleCard key={s.id} item={s} type="show" />
               ))}
             </div>
           ) : (
-            <div className="no-content">No series found</div>
+            <div className="no-content">No shows found</div>
           )}
         </div>
       </main>
@@ -94,4 +94,4 @@ const Series = () => {
   );
 };
 
-export default Series;
+export default Shows;

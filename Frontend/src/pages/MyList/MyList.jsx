@@ -45,7 +45,7 @@ const MyList = () => {
     if (item.titleType === 0) {
       navigate(`/movie/${item.titleId}`);
     } else if (item.titleType === 1) {
-      navigate(`/series/${item.titleId}`);
+      navigate(`/show/${item.titleId}`);
     }
   };
 
@@ -169,7 +169,7 @@ const MyList = () => {
           ) : (
             <div className="empty-list">
               <h2>No items in this category</h2>
-              <p>Start adding movies and series to your list!</p>
+              <p>Start adding movies and shows to your list!</p>
               <button className="browse-btn" onClick={() => navigate('/movies')}>
                 Browse Movies
               </button>

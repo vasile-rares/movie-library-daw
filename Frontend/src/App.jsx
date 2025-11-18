@@ -6,9 +6,9 @@ import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import Home from './pages/Home/Home';
 import Movies from './pages/Browse/Movies';
-import Series from './pages/Browse/Series';
+import Shows from './pages/Browse/Shows';
 import MovieDetail from './pages/Detail/MovieDetail';
-import SeriesDetail from './pages/Detail/SeriesDetail';
+import ShowDetail from './pages/Detail/ShowDetail';
 import MyList from './pages/MyList/MyList';
 import Settings from './pages/Settings/Settings';
 import Admin from './pages/Admin/Admin';
@@ -38,10 +38,10 @@ function App() {
             }
           />
           <Route
-            path="/series"
+            path="/shows"
             element={
               <ProtectedRoute>
-                <Series />
+                <Shows />
               </ProtectedRoute>
             }
           />
@@ -54,10 +54,10 @@ function App() {
             }
           />
           <Route
-            path="/series/:id"
+            path="/show/:id"
             element={
               <ProtectedRoute>
-                <SeriesDetail />
+                <ShowDetail />
               </ProtectedRoute>
             }
           />

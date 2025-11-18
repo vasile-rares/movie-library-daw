@@ -8,7 +8,7 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState('movies');
   const [genres, setGenres] = useState([]);
   const [movies, setMovies] = useState([]);
-  const [series, setSeries] = useState([]);
+  const [shows, setShows] = useState([]);
   const [editingItem, setEditingItem] = useState(null);
   const [message, setMessage] = useState('');
 
@@ -20,7 +20,7 @@ const Admin = () => {
     genreIds: []
   });
 
-  const [seriesForm, setSeriesForm] = useState({
+  const [showForm, setShowsForm] = useState({
     title: '',
     description: '',
     releaseYear: '',
@@ -33,7 +33,7 @@ const Admin = () => {
   useEffect(() => {
     loadGenres();
     loadMovies();
-    loadSeries();
+    loadShows();
   }, []);
 
   const loadGenres = async () => {
@@ -55,12 +55,12 @@ const Admin = () => {
     }
   };
 
-  const loadSeries = async () => {
+  const loadShows = async () => {
     try {
       const response = await titleService.getByType(1);
-      setSeries(response.data || []);
+      setShows(response.data || []);
     } catch (error) {
-      console.error('Error loading series:', error);
+      console.error('Error loading show:', error);
     }
   };
 
@@ -91,28 +91,28 @@ const Admin = () => {
     }
   };
 
-  const handleSeriesSubmit = async (e) => {
+  const handleShowSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = {
-        ...seriesForm,
+        ...showForm,
         type: 1,
-        releaseYear: seriesForm.releaseYear ? parseInt(seriesForm.releaseYear) : null,
-        seasonsCount: seriesForm.seasonsCount ? parseInt(seriesForm.seasonsCount) : null,
-        episodesCount: seriesForm.episodesCount ? parseInt(seriesForm.episodesCount) : null,
-        genreIds: seriesForm.genreIds.map(id => parseInt(id))
+        releaseYear: showForm.releaseYear ? parseInt(showForm.releaseYear) : null,
+        seasonsCount: showForm.seasonsCount ? parseInt(showForm.seasonsCount) : null,
+        episodesCount: showForm.episodesCount ? parseInt(showForm.episodesCount) : null,
+        genreIds: showForm.genreIds.map(id => parseInt(id))
       };
 
       if (editingItem) {
         await titleService.update(editingItem.id, formData);
-        setMessage('Series updated successfully!');
+        setMessage('Shows updated successfully!');
       } else {
         await titleService.create(formData);
-        setMessage('Series created successfully!');
+        setMessage('Shows created successfully!');
       }
 
-      resetSeriesForm();
-      loadSeries();
+      resetShowsForm();
+      loadShows();
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       setMessage(`Error: ${error.response?.data?.message || error.message}`);
@@ -134,13 +134,13 @@ const Admin = () => {
     }
   };
 
-  const handleDeleteSeries = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this series?')) return;
+  const handleDeleteShow = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this show?')) return;
 
     try {
       await titleService.delete(id);
-      setMessage('Series deleted successfully!');
-      loadSeries();
+      setMessage('Shows deleted successfully!');
+      loadShows();
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       setMessage(`Error: ${error.response?.data?.message || error.message}`);
@@ -161,19 +161,19 @@ const Admin = () => {
     setEditingItem(movie);
   };
 
-  const editSeries = (seriesItem) => {
-    console.log('Editing series:', seriesItem);
-    setActiveTab('series');
-    setSeriesForm({
-      title: seriesItem.title || '',
-      description: seriesItem.description || '',
-      releaseYear: seriesItem.releaseYear ? seriesItem.releaseYear.toString() : '',
-      seasonsCount: seriesItem.seasonsCount ? seriesItem.seasonsCount.toString() : '',
-      episodesCount: seriesItem.episodesCount ? seriesItem.episodesCount.toString() : '',
-      imageUrl: seriesItem.imageUrl || '',
-      genreIds: seriesItem.genres?.map(g => g.id) || []
+  const editShow = (showItem) => {
+    console.log('Editing show:', showItem);
+    setActiveTab('shows');
+    setShowsForm({
+      title: showItem.title || '',
+      description: showItem.description || '',
+      releaseYear: showItem.releaseYear ? showItem.releaseYear.toString() : '',
+      seasonsCount: showItem.seasonsCount ? showItem.seasonsCount.toString() : '',
+      episodesCount: showItem.episodesCount ? showItem.episodesCount.toString() : '',
+      imageUrl: showItem.imageUrl || '',
+      genreIds: showItem.genres?.map(g => g.id) || []
     });
-    setEditingItem(seriesItem);
+    setEditingItem(showItem);
   };
 
   const resetMovieForm = () => {
@@ -187,8 +187,8 @@ const Admin = () => {
     setEditingItem(null);
   };
 
-  const resetSeriesForm = () => {
-    setSeriesForm({
+  const resetShowsForm = () => {
+    setShowsForm({
       title: '',
       description: '',
       releaseYear: '',
@@ -209,7 +209,7 @@ const Admin = () => {
           : [...prev.genreIds, genreId]
       }));
     } else {
-      setSeriesForm(prev => ({
+      setShowsForm(prev => ({
         ...prev,
         genreIds: prev.genreIds.includes(genreId)
           ? prev.genreIds.filter(id => id !== genreId)
@@ -241,13 +241,13 @@ const Admin = () => {
             Manage Movies
           </button>
           <button
-            className={`tab-button ${activeTab === 'series' ? 'active' : ''}`}
+            className={`tab-button ${activeTab === 'shows' ? 'active' : ''}`}
             onClick={() => {
-              setActiveTab('series');
-              resetSeriesForm();
+              setActiveTab('shows');
+              resetShowsForm();
             }}
           >
-            Manage Series
+            Manage Shows
           </button>
         </div>
 
@@ -354,17 +354,17 @@ const Admin = () => {
           </div>
         )}
 
-        {activeTab === 'series' && (
+        {activeTab === 'shows' && (
           <div className="admin-content">
             <div className="form-section">
-              <h2>{editingItem ? 'Edit Series' : 'Add New Series'}</h2>
-              <form onSubmit={handleSeriesSubmit} className="admin-form">
+              <h2>{editingItem ? 'Edit Shows' : 'Add New Shows'}</h2>
+              <form onSubmit={handleShowSubmit} className="admin-form">
                 <div className="form-group">
                   <label>Title *</label>
                   <input
                     type="text"
-                    value={seriesForm.title}
-                    onChange={(e) => setSeriesForm({ ...seriesForm, title: e.target.value })}
+                    value={showForm.title}
+                    onChange={(e) => setShowsForm({ ...showForm, title: e.target.value })}
                     required
                   />
                 </div>
@@ -372,8 +372,8 @@ const Admin = () => {
                 <div className="form-group">
                   <label>Description *</label>
                   <textarea
-                    value={seriesForm.description}
-                    onChange={(e) => setSeriesForm({ ...seriesForm, description: e.target.value })}
+                    value={showForm.description}
+                    onChange={(e) => setShowsForm({ ...showForm, description: e.target.value })}
                     required
                     rows="4"
                   />
@@ -384,8 +384,8 @@ const Admin = () => {
                     <label>Release Year</label>
                     <input
                       type="number"
-                      value={seriesForm.releaseYear}
-                      onChange={(e) => setSeriesForm({ ...seriesForm, releaseYear: e.target.value })}
+                      value={showForm.releaseYear}
+                      onChange={(e) => setShowsForm({ ...showForm, releaseYear: e.target.value })}
                       min="1800"
                       max="2100"
                     />
@@ -395,8 +395,8 @@ const Admin = () => {
                     <label>Seasons Count</label>
                     <input
                       type="number"
-                      value={seriesForm.seasonsCount}
-                      onChange={(e) => setSeriesForm({ ...seriesForm, seasonsCount: e.target.value })}
+                      value={showForm.seasonsCount}
+                      onChange={(e) => setShowsForm({ ...showForm, seasonsCount: e.target.value })}
                       min="1"
                       max="100"
                     />
@@ -407,8 +407,8 @@ const Admin = () => {
                   <label>Episodes Count</label>
                   <input
                     type="number"
-                    value={seriesForm.episodesCount}
-                    onChange={(e) => setSeriesForm({ ...seriesForm, episodesCount: e.target.value })}
+                    value={showForm.episodesCount}
+                    onChange={(e) => setShowsForm({ ...showForm, episodesCount: e.target.value })}
                     min="1"
                     max="10000"
                   />
@@ -418,8 +418,8 @@ const Admin = () => {
                   <label>Image URL *</label>
                   <input
                     type="url"
-                    value={seriesForm.imageUrl}
-                    onChange={(e) => setSeriesForm({ ...seriesForm, imageUrl: e.target.value })}
+                    value={showForm.imageUrl}
+                    onChange={(e) => setShowsForm({ ...showForm, imageUrl: e.target.value })}
                     required
                   />
                 </div>
@@ -431,7 +431,7 @@ const Admin = () => {
                       <label key={genre.id} className="checkbox-label">
                         <input
                           type="checkbox"
-                          checked={seriesForm.genreIds.includes(genre.id)}
+                          checked={showForm.genreIds.includes(genre.id)}
                           onChange={() => handleGenreToggle(genre.id, false)}
                         />
                         {genre.name}
@@ -442,10 +442,10 @@ const Admin = () => {
 
                 <div className="form-actions">
                   <button type="submit" className="btn-primary">
-                    {editingItem ? 'Update Series' : 'Create Series'}
+                    {editingItem ? 'Update Shows' : 'Create Shows'}
                   </button>
                   {editingItem && (
-                    <button type="button" onClick={resetSeriesForm} className="btn-secondary">
+                    <button type="button" onClick={resetShowsForm} className="btn-secondary">
                       Cancel
                     </button>
                   )}
@@ -454,22 +454,22 @@ const Admin = () => {
             </div>
 
             <div className="list-section">
-              <h2>All Series</h2>
+              <h2>All Shows</h2>
               <div className="items-list">
-                {series.map(seriesItem => (
-                  <div key={seriesItem.id} className="item-card">
-                    <img src={seriesItem.imageUrl} alt={seriesItem.title} />
+                {series.map(showItem => (
+                  <div key={showItem.id} className="item-card">
+                    <img src={showItem.imageUrl} alt={showItem.title} />
                     <div className="item-info">
-                      <h3>{seriesItem.title}</h3>
-                      <p>{seriesItem.releaseYear} • {seriesItem.seasonsCount} seasons • {seriesItem.episodesCount} episodes</p>
+                      <h3>{showItem.title}</h3>
+                      <p>{showItem.releaseYear} • {showItem.seasonsCount} seasons • {showItem.episodesCount} episodes</p>
                       <div className="item-genres">
-                        {seriesItem.genres?.map(g => g.name).join(', ')}
+                        {showItem.genres?.map(g => g.name).join(', ')}
                       </div>
                       <div className="item-actions">
-                        <button onClick={() => editSeries(seriesItem)} className="btn-edit">
+                        <button onClick={() => editShow(showItem)} className="btn-edit">
                           Edit
                         </button>
-                        <button onClick={() => handleDeleteSeries(seriesItem.id)} className="btn-delete">
+                        <button onClick={() => handleDeleteShow(showItem.id)} className="btn-delete">
                           Delete
                         </button>
                       </div>

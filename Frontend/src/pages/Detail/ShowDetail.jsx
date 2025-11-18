@@ -7,10 +7,10 @@ import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/Header';
 import './Detail.css';
 
-const SeriesDetail = () => {
+const ShowDetail = () => {
   const { id } = useParams();
   const { user } = useAuth();
-  const [series, setSeries] = useState(null);
+  const [show, setShow] = useState(null);
   const [ratings, setRatings] = useState([]);
   const [userRating, setUserRating] = useState(null);
   const [newRating, setNewRating] = useState({ score: 5, comment: '' });
@@ -18,18 +18,18 @@ const SeriesDetail = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchSeriesDetails();
+    fetchShowDetails();
   }, [id]);
 
-  const fetchSeriesDetails = async () => {
+  const fetchShowDetails = async () => {
     try {
       setLoading(true);
-      const [seriesRes, ratingsRes] = await Promise.all([
+      const [showRes, ratingsRes] = await Promise.all([
         titleService.getById(id),
         ratingService.getByTitle(id),
       ]);
 
-      setSeries(seriesRes.data);
+      setShow(showRes.data);
       setRatings(ratingsRes.data || []);
 
       const existingRating = (ratingsRes.data || []).find(r => r.userId === user?.userId);
@@ -38,7 +38,7 @@ const SeriesDetail = () => {
         setNewRating({ score: existingRating.score, comment: existingRating.comment || '' });
       }
     } catch (err) {
-      setError('Failed to load series details');
+      setError('Failed to load show details');
       console.error(err);
     } finally {
       setLoading(false);
@@ -71,7 +71,7 @@ const SeriesDetail = () => {
         await ratingService.create(ratingData);
       }
 
-      await fetchSeriesDetails();
+      await fetchShowDetails();
       alert('Rating submitted!');
     } catch (err) {
       console.error(err);
@@ -90,11 +90,11 @@ const SeriesDetail = () => {
     );
   }
 
-  if (error || !series) {
+  if (error || !show) {
     return (
       <>
         <Header />
-        <div className="error-container">{error || 'Series not found'}</div>
+        <div className="error-container">{error || 'Show not found'}</div>
       </>
     );
   }
@@ -103,7 +103,7 @@ const SeriesDetail = () => {
     ? (ratings.reduce((sum, r) => sum + r.score, 0) / ratings.length).toFixed(1)
     : 'N/A';
 
-  const imageSrc = series.imageUrl || `https://via.placeholder.com/1920x800/141414/e50914?text=${encodeURIComponent(series.title)}`;
+  const imageSrc = show.imageUrl || `https://via.placeholder.com/1920x800/141414/e50914?text=${encodeURIComponent(show.title)}`;
 
   return (
     <>
@@ -112,7 +112,7 @@ const SeriesDetail = () => {
         <div className="detail-container">
           <aside className="detail-sidebar">
             <div className="poster-container">
-              <img src={imageSrc} alt={series.title} className="detail-poster" />
+              <img src={imageSrc} alt={show.title} className="detail-poster" />
               <button className="add-list-btn" onClick={handleAddToList}>
                 + Add to My List
               </button>
@@ -122,18 +122,18 @@ const SeriesDetail = () => {
               <h3 className="panel-heading">Information</h3>
               <div className="info-row">
                 <span className="info-label">Year</span>
-                <span className="info-value">{series.releaseYear}</span>
+                <span className="info-value">{show.releaseYear}</span>
               </div>
-              {series.seasonsCount && (
+              {show.seasonsCount && (
                 <div className="info-row">
                   <span className="info-label">Seasons</span>
-                  <span className="info-value">{series.seasonsCount}</span>
+                  <span className="info-value">{show.seasonsCount}</span>
                 </div>
               )}
-              {series.episodesCount && (
+              {show.episodesCount && (
                 <div className="info-row">
                   <span className="info-label">Episodes</span>
-                  <span className="info-value">{series.episodesCount}</span>
+                  <span className="info-value">{show.episodesCount}</span>
                 </div>
               )}
               <div className="info-row">
@@ -144,11 +144,11 @@ const SeriesDetail = () => {
                 <span className="info-label">Reviews</span>
                 <span className="info-value">{ratings.length}</span>
               </div>
-              {series.genres && series.genres.length > 0 && (
+              {show.genres && show.genres.length > 0 && (
                 <div className="info-row genres-row">
                   <span className="info-label">Genres</span>
                   <div className="genres-list">
-                    {series.genres.map((genre) => (
+                    {show.genres.map((genre) => (
                       <span key={genre.id} className="genre-badge">
                         {genre.name}
                       </span>
@@ -160,11 +160,11 @@ const SeriesDetail = () => {
           </aside>
 
           <div className="detail-main">
-            <h1 className="detail-heading">{series.title}</h1>
+            <h1 className="detail-heading">{show.title}</h1>
 
             <section className="content-block">
               <h2 className="block-title">Synopsis</h2>
-              <p className="synopsis-text">{series.description}</p>
+              <p className="synopsis-text">{show.description}</p>
             </section>
 
             <section className="content-block">
@@ -218,7 +218,7 @@ const SeriesDetail = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="no-reviews-msg">No reviews yet. Be the first to rate this series!</p>
+                  <p className="no-reviews-msg">No reviews yet. Be the first to rate this show!</p>
                 )}
               </div>
             </section>
@@ -229,4 +229,4 @@ const SeriesDetail = () => {
   );
 };
 
-export default SeriesDetail;
+export default ShowDetail;

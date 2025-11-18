@@ -50,7 +50,7 @@ const Header = () => {
   };
 
   const handleResultClick = (item) => {
-    const type = item.type === 0 ? 'movie' : 'series';
+    const type = item.type === 0 ? 'movie' : 'show';
     navigate(`/${type}/${item.id}`);
     setSearchQuery('');
     setSearchResults([]);
@@ -88,7 +88,7 @@ const Header = () => {
         <nav className="main-nav">
           <Link to="/">Home</Link>
           <Link to="/movies">Movies</Link>
-          <Link to="/series">Series</Link>
+          <Link to="/shows">Shows</Link>
           {user?.role === 'Admin' && <Link to="/admin">Admin</Link>}
 
           <div className="search-container" ref={searchRef}>
@@ -135,7 +135,7 @@ const Header = () => {
                         <div className="result-info">
                           <div className="result-title">{item.title}</div>
                           <div className="result-meta">
-                            <span className="result-type">{item.type === 0 ? 'Movie' : 'Series'}</span>
+                            <span className="result-type">{item.type === 0 ? 'Movie' : 'Show'}</span>
                             <span className="result-year">{item.releaseYear}</span>
                           </div>
                         </div>
