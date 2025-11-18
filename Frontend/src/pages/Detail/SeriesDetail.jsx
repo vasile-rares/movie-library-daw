@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { titleService } from '../services/titleService';
-import { ratingService } from '../services/ratingService';
-import { myListService } from '../services/myListService';
-import { useAuth } from '../context/AuthContext';
-import Header from '../components/Header';
+import { useParams } from 'react-router-dom';
+import { titleService } from '../../services/titleService';
+import { ratingService } from '../../services/ratingService';
+import { myListService } from '../../services/myListService';
+import { useAuth } from '../../context/AuthContext';
+import Header from '../../components/Header';
 import './Detail.css';
 
-const MovieDetail = () => {
+const SeriesDetail = () => {
   const { id } = useParams();
   const { user } = useAuth();
-  const navigate = useNavigate();
-  const [movie, setMovie] = useState(null);
+  const [series, setSeries] = useState(null);
   const [ratings, setRatings] = useState([]);
   const [userRating, setUserRating] = useState(null);
   const [newRating, setNewRating] = useState({ score: 5, comment: '' });
@@ -19,18 +18,18 @@ const MovieDetail = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchMovieDetails();
+    fetchSeriesDetails();
   }, [id]);
 
-  const fetchMovieDetails = async () => {
+  const fetchSeriesDetails = async () => {
     try {
       setLoading(true);
-      const [movieRes, ratingsRes] = await Promise.all([
+      const [seriesRes, ratingsRes] = await Promise.all([
         titleService.getById(id),
         ratingService.getByTitle(id),
       ]);
 
-      setMovie(movieRes.data);
+      setSeries(seriesRes.data);
       setRatings(ratingsRes.data || []);
 
       const existingRating = (ratingsRes.data || []).find(r => r.userId === user?.userId);
@@ -39,7 +38,7 @@ const MovieDetail = () => {
         setNewRating({ score: existingRating.score, comment: existingRating.comment || '' });
       }
     } catch (err) {
-      setError('Failed to load movie details');
+      setError('Failed to load series details');
       console.error(err);
     } finally {
       setLoading(false);
@@ -72,7 +71,7 @@ const MovieDetail = () => {
         await ratingService.create(ratingData);
       }
 
-      await fetchMovieDetails();
+      await fetchSeriesDetails();
       alert('Rating submitted!');
     } catch (err) {
       console.error(err);
@@ -91,11 +90,11 @@ const MovieDetail = () => {
     );
   }
 
-  if (error || !movie) {
+  if (error || !series) {
     return (
       <>
         <Header />
-        <div className="error-container">{error || 'Movie not found'}</div>
+        <div className="error-container">{error || 'Series not found'}</div>
       </>
     );
   }
@@ -104,7 +103,7 @@ const MovieDetail = () => {
     ? (ratings.reduce((sum, r) => sum + r.score, 0) / ratings.length).toFixed(1)
     : 'N/A';
 
-  const imageSrc = movie.imageUrl || `https://via.placeholder.com/1920x800/141414/e50914?text=${encodeURIComponent(movie.title)}`;
+  const imageSrc = series.imageUrl || `https://via.placeholder.com/1920x800/141414/e50914?text=${encodeURIComponent(series.title)}`;
 
   return (
     <>
@@ -113,7 +112,7 @@ const MovieDetail = () => {
         <div className="detail-container">
           <aside className="detail-sidebar">
             <div className="poster-container">
-              <img src={imageSrc} alt={movie.title} className="detail-poster" />
+              <img src={imageSrc} alt={series.title} className="detail-poster" />
               <button className="add-list-btn" onClick={handleAddToList}>
                 + Add to My List
               </button>
@@ -123,8 +122,20 @@ const MovieDetail = () => {
               <h3 className="panel-heading">Information</h3>
               <div className="info-row">
                 <span className="info-label">Year</span>
-                <span className="info-value">{movie.releaseYear}</span>
+                <span className="info-value">{series.releaseYear}</span>
               </div>
+              {series.seasonsCount && (
+                <div className="info-row">
+                  <span className="info-label">Seasons</span>
+                  <span className="info-value">{series.seasonsCount}</span>
+                </div>
+              )}
+              {series.episodesCount && (
+                <div className="info-row">
+                  <span className="info-label">Episodes</span>
+                  <span className="info-value">{series.episodesCount}</span>
+                </div>
+              )}
               <div className="info-row">
                 <span className="info-label">Rating</span>
                 <span className="info-value">★ {averageRating}/10</span>
@@ -133,11 +144,11 @@ const MovieDetail = () => {
                 <span className="info-label">Reviews</span>
                 <span className="info-value">{ratings.length}</span>
               </div>
-              {movie.genres && movie.genres.length > 0 && (
+              {series.genres && series.genres.length > 0 && (
                 <div className="info-row genres-row">
                   <span className="info-label">Genres</span>
                   <div className="genres-list">
-                    {movie.genres.map((genre) => (
+                    {series.genres.map((genre) => (
                       <span key={genre.id} className="genre-badge">
                         {genre.name}
                       </span>
@@ -149,11 +160,11 @@ const MovieDetail = () => {
           </aside>
 
           <div className="detail-main">
-            <h1 className="detail-heading">{movie.title}</h1>
+            <h1 className="detail-heading">{series.title}</h1>
 
             <section className="content-block">
               <h2 className="block-title">Synopsis</h2>
-              <p className="synopsis-text">{movie.description}</p>
+              <p className="synopsis-text">{series.description}</p>
             </section>
 
             <section className="content-block">
@@ -207,7 +218,7 @@ const MovieDetail = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="no-reviews-msg">No reviews yet. Be the first to rate this movie!</p>
+                  <p className="no-reviews-msg">No reviews yet. Be the first to rate this series!</p>
                 )}
               </div>
             </section>
@@ -218,4 +229,4 @@ const MovieDetail = () => {
   );
 };
 
-export default MovieDetail;
+export default SeriesDetail;

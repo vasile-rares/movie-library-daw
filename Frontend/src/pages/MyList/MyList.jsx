@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { myListService } from '../services/myListService';
-import Header from '../components/Header';
+import { myListService } from '../../services/myListService';
+import Header from '../../components/Header';
 import './MyList.css';
 
 const MyList = () => {

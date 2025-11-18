@@ -2,16 +2,16 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Home from './pages/Home';
-import Movies from './pages/Movies';
-import Series from './pages/Series';
-import MovieDetail from './pages/MovieDetail';
-import SeriesDetail from './pages/SeriesDetail';
-import MyList from './pages/MyList';
-import Settings from './pages/Settings';
-import Admin from './pages/Admin';
+import Login from './pages/Auth/Login';
+import Register from './pages/Auth/Register';
+import Home from './pages/Home/Home';
+import Movies from './pages/Browse/Movies';
+import Series from './pages/Browse/Series';
+import MovieDetail from './pages/Detail/MovieDetail';
+import SeriesDetail from './pages/Detail/SeriesDetail';
+import MyList from './pages/MyList/MyList';
+import Settings from './pages/Settings/Settings';
+import Admin from './pages/Admin/Admin';
 import './App.css';
 
 function App() {

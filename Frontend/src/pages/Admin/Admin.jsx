@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import Header from '../components/Header';
-import { titleService } from '../services/titleService';
-import { genreService } from '../services/genreService';
+import Header from '../../components/Header';
+import { titleService } from '../../services/titleService';
+import { genreService } from '../../services/genreService';
 import './Admin.css';
 
 const Admin = () => {

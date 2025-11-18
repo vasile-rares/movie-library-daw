@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
-import { titleService } from '../services/titleService';
-import { genreService } from '../services/genreService';
-import Header from '../components/Header';
-import TitleCard from '../components/TitleCard';
+import { titleService } from '../../services/titleService';
+import { genreService } from '../../services/genreService';
+import Header from '../../components/Header';
+import TitleCard from '../../components/TitleCard';
 import './Browse.css';
 
-const Movies = () => {
-  const [allMovies, setAllMovies] = useState([]);
+const Series = () => {
+  const [allSeries, setAllSeries] = useState([]);
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,28 +18,28 @@ const Movies = () => {
 
   const fetchData = async () => {
     try {
-      const [genresRes, moviesRes] = await Promise.all([
+      const [genresRes, seriesRes] = await Promise.all([
         genreService.getAll(),
-        titleService.getByType(0)
+        titleService.getByType(1)
       ]);
       setGenres(genresRes.data || []);
-      setAllMovies(moviesRes.data || []);
+      setAllSeries(seriesRes.data || []);
     } catch (err) {
-      setError('Failed to load movies');
+      setError('Failed to load series');
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Filter movies on the client side based on selected genre
-  const filteredMovies = useMemo(() => {
-    if (!selectedGenre) return allMovies;
+  // Filter series on the client side based on selected genre
+  const filteredSeries = useMemo(() => {
+    if (!selectedGenre) return allSeries;
 
-    return allMovies.filter((movie) =>
-      movie.genres?.some((genre) => genre.id === selectedGenre)
+    return allSeries.filter((series) =>
+      series.genres?.some((genre) => genre.id === selectedGenre)
     );
-  }, [allMovies, selectedGenre]);
+  }, [allSeries, selectedGenre]);
 
   if (loading) {
     return (
@@ -57,7 +57,7 @@ const Movies = () => {
       <Header />
       <main className="browse-page">
         <div className="browse-header">
-          <h1 className="browse-title">Movies</h1>
+          <h1 className="browse-title">Series</h1>
           <div className="genre-filter-dropdown">
             <label htmlFor="genre-select" className="filter-label">Genre:</label>
             <select
@@ -79,14 +79,14 @@ const Movies = () => {
         {error && <div className="error-message">{error}</div>}
 
         <div className="browse-content">
-          {filteredMovies.length > 0 ? (
+          {filteredSeries.length > 0 ? (
             <div className="content-grid">
-              {filteredMovies.map((movie) => (
-                <TitleCard key={movie.id} item={movie} type="movie" />
+              {filteredSeries.map((s) => (
+                <TitleCard key={s.id} item={s} type="series" />
               ))}
             </div>
           ) : (
-            <div className="no-content">No movies found</div>
+            <div className="no-content">No series found</div>
           )}
         </div>
       </main>
@@ -94,4 +94,4 @@ const Movies = () => {
   );
 };
 
-export default Movies;
+export default Series;

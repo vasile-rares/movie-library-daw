@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { titleService } from '../services/titleService';
-import Header from '../components/Header';
-import Hero from '../components/Hero';
-import TitleCard from '../components/TitleCard';
+import { titleService } from '../../services/titleService';
+import Header from '../../components/Header';
+import Hero from '../../components/Hero';
+import TitleCard from '../../components/TitleCard';
 import './Home.css';
 
 const Home = () => {

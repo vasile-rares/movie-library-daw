@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
-import Header from '../components/Header';
+import { useAuth } from '../../context/AuthContext';
+import api from '../../services/api';
+import Header from '../../components/Header';
 import './Settings.css';
 
 const Settings = () => {
