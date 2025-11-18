@@ -89,11 +89,8 @@ const Header = () => {
           <Link to="/">Home</Link>
           <Link to="/movies">Movies</Link>
           <Link to="/series">Series</Link>
-          <Link to="/my-list">My List</Link>
           {user?.role === 'Admin' && <Link to="/admin">Admin</Link>}
-        </nav>
 
-        <div className="header-actions">
           <div className="search-container" ref={searchRef}>
             <div className="search-input-wrapper">
               <svg className="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -151,6 +148,14 @@ const Header = () => {
               </div>
             )}
           </div>
+        </nav>
+
+        <div className="header-actions">
+          <Link to="/my-list" className="my-list-icon" title="My List">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </Link>
 
           <div className="user-dropdown" ref={dropdownRef}>
             <button

@@ -59,6 +59,24 @@
   flex-shrink: 0;
 }
 
+/* My List Icon */
+.my-list-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.my-list-icon:hover {
+  color: var(--primary-color);
+}
+
+.my-list-icon svg {
+  flex-shrink: 0;
+}
+
 /* Search */
 .search-container {
   position: relative;
@@ -337,6 +355,11 @@
     padding: 0.375rem 0.625rem;
   }
 
+  .my-list-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
   .search-input {
     width: 160px;
   }
@@ -372,6 +395,11 @@
 
   .header-actions {
     gap: 0.5rem;
+  }
+
+  .my-list-icon svg {
+    width: 16px;
+    height: 16px;
   }
 
   .search-input {
