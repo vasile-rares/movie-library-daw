@@ -1,6 +1,6 @@
 .home {
   min-height: 100vh;
-  padding-top: 60px;
+  padding-top: 48px;
   background: var(--bg-primary);
 }
 
@@ -32,7 +32,7 @@
   align-items: center;
   min-height: 100vh;
   background: var(--bg-primary);
-  padding-top: 60px;
+  padding-top: 48px;
 }
 
 .spinner {
@@ -58,7 +58,7 @@
   background: var(--bg-primary);
   color: var(--error);
   font-size: 1.25rem;
-  padding-top: 60px;
+  padding-top: 48px;
 }
 
 @media (max-width: 768px) {

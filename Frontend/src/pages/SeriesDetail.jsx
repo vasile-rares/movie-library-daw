@@ -109,50 +109,69 @@ const SeriesDetail = () => {
     <>
       <Header />
       <main className="detail-page">
-        <div className="detail-hero" style={{ backgroundImage: `url(${imageSrc})` }}>
-          <div className="detail-hero-overlay">
-            <div className="detail-hero-content">
-              <h1 className="detail-title">{series.title}</h1>
-              <div className="detail-meta">
-                <span className="detail-year">{series.releaseYear}</span>
-                {series.seasonsCount && (
-                  <span className="detail-seasons">{series.seasonsCount} Seasons</span>
-                )}
-                {series.episodesCount && (
-                  <span className="detail-episodes">{series.episodesCount} Episodes</span>
-                )}
-                <span className="detail-rating">★ {averageRating}/10</span>
-                <span className="detail-count">({ratings.length} ratings)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="detail-content">
-          <div className="detail-main">
-            <section className="detail-section">
-              <h2>Overview</h2>
-              <p className="detail-description">{series.description}</p>
-              {series.genres && series.genres.length > 0 && (
-                <div className="detail-genres">
-                  <strong>Genres:</strong>
-                  {series.genres.map((genre) => (
-                    <span key={genre.id} className="genre-tag">
-                      {genre.name}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <button className="add-to-list-detail-btn" onClick={handleAddToList}>
+        <div className="detail-container">
+          <aside className="detail-sidebar">
+            <div className="poster-container">
+              <img src={imageSrc} alt={series.title} className="detail-poster" />
+              <button className="add-list-btn" onClick={handleAddToList}>
                 + Add to My List
               </button>
+            </div>
+
+            <div className="info-panel">
+              <h3 className="panel-heading">Information</h3>
+              <div className="info-row">
+                <span className="info-label">Year</span>
+                <span className="info-value">{series.releaseYear}</span>
+              </div>
+              {series.seasonsCount && (
+                <div className="info-row">
+                  <span className="info-label">Seasons</span>
+                  <span className="info-value">{series.seasonsCount}</span>
+                </div>
+              )}
+              {series.episodesCount && (
+                <div className="info-row">
+                  <span className="info-label">Episodes</span>
+                  <span className="info-value">{series.episodesCount}</span>
+                </div>
+              )}
+              <div className="info-row">
+                <span className="info-label">Rating</span>
+                <span className="info-value">★ {averageRating}/10</span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">Reviews</span>
+                <span className="info-value">{ratings.length}</span>
+              </div>
+              {series.genres && series.genres.length > 0 && (
+                <div className="info-row genres-row">
+                  <span className="info-label">Genres</span>
+                  <div className="genres-list">
+                    {series.genres.map((genre) => (
+                      <span key={genre.id} className="genre-badge">
+                        {genre.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </aside>
+
+          <div className="detail-main">
+            <h1 className="detail-heading">{series.title}</h1>
+
+            <section className="content-block">
+              <h2 className="block-title">Synopsis</h2>
+              <p className="synopsis-text">{series.description}</p>
             </section>
 
-            <section className="detail-section">
-              <h2>Your Rating</h2>
+            <section className="content-block">
+              <h2 className="block-title">Your Rating</h2>
               <form onSubmit={handleSubmitRating} className="rating-form">
-                <div className="rating-input-group">
-                  <label htmlFor="score">Score (1-10):</label>
+                <div className="form-row">
+                  <label htmlFor="score">Score (1-10)</label>
                   <input
                     type="number"
                     id="score"
@@ -160,11 +179,12 @@ const SeriesDetail = () => {
                     max="10"
                     value={newRating.score}
                     onChange={(e) => setNewRating({ ...newRating, score: e.target.value })}
+                    className="score-input"
                     required
                   />
                 </div>
-                <div className="rating-input-group">
-                  <label htmlFor="comment">Comment (optional):</label>
+                <div className="form-row">
+                  <label htmlFor="comment">Comment</label>
                   <textarea
                     id="comment"
                     rows="4"
@@ -172,32 +192,33 @@ const SeriesDetail = () => {
                     value={newRating.comment}
                     onChange={(e) => setNewRating({ ...newRating, comment: e.target.value })}
                     placeholder="Share your thoughts..."
+                    className="comment-input"
                   />
                 </div>
-                <button type="submit" className="submit-rating-btn">
+                <button type="submit" className="submit-btn">
                   {userRating ? 'Update Rating' : 'Submit Rating'}
                 </button>
               </form>
             </section>
 
-            <section className="detail-section">
-              <h2>User Reviews ({ratings.length})</h2>
-              <div className="reviews-list">
+            <section className="content-block">
+              <h2 className="block-title">Reviews ({ratings.length})</h2>
+              <div className="reviews-container">
                 {ratings.length > 0 ? (
                   ratings.map((rating) => (
-                    <div key={rating.id} className="review-card">
-                      <div className="review-header">
-                        <span className="review-author">{rating.username}</span>
-                        <span className="review-score">★ {rating.score}/10</span>
+                    <div key={rating.id} className="review-item">
+                      <div className="review-top">
+                        <span className="reviewer-name">{rating.username}</span>
+                        <span className="review-rating">★ {rating.score}/10</span>
                       </div>
-                      {rating.comment && <p className="review-comment">{rating.comment}</p>}
-                      <span className="review-date">
+                      {rating.comment && <p className="review-text">{rating.comment}</p>}
+                      <span className="review-timestamp">
                         {new Date(rating.createdAt).toLocaleDateString()}
                       </span>
                     </div>
                   ))
                 ) : (
-                  <p className="no-reviews">No reviews yet. Be the first to rate this series!</p>
+                  <p className="no-reviews-msg">No reviews yet. Be the first to rate this series!</p>
                 )}
               </div>
             </section>
