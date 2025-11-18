@@ -15,7 +15,7 @@
   height: 100%;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   padding: 0 1.5rem;
 }
 
@@ -80,6 +80,7 @@
 /* Search */
 .search-container {
   position: relative;
+  margin-left: 0.5rem;
 }
 
 .search-input-wrapper {
@@ -235,7 +236,7 @@
 }
 
 .result-year::before {
-  content: '•';
+  content: "•";
   margin-right: 0.5rem;
 }
 

@@ -58,22 +58,21 @@ const Series = () => {
       <main className="browse-page">
         <div className="browse-header">
           <h1 className="browse-title">Series</h1>
-          <div className="genre-filters">
-            <button
-              className={`genre-btn ${!selectedGenre ? 'active' : ''}`}
-              onClick={() => setSelectedGenre(null)}
+          <div className="genre-filter-dropdown">
+            <label htmlFor="genre-select" className="filter-label">Genre:</label>
+            <select
+              id="genre-select"
+              className="genre-select"
+              value={selectedGenre || ''}
+              onChange={(e) => setSelectedGenre(e.target.value ? parseInt(e.target.value) : null)}
             >
-              All
-            </button>
-            {genres.map((genre) => (
-              <button
-                key={genre.id}
-                className={`genre-btn ${selectedGenre === genre.id ? 'active' : ''}`}
-                onClick={() => setSelectedGenre(genre.id)}
-              >
-                {genre.name}
-              </button>
-            ))}
+              <option value="">All Genres</option>
+              {genres.map((genre) => (
+                <option key={genre.id} value={genre.id}>
+                  {genre.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

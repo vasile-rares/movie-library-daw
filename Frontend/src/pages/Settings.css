@@ -237,6 +237,7 @@
   background: transparent;
   color: var(--error);
   border: 2px solid var(--error);
+  white-space: nowrap;
 }
 
 .btn-danger:hover:not(:disabled) {
