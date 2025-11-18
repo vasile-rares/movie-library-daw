@@ -59,5 +59,23 @@ namespace MovieLibrary.API.Controllers
 
       return Ok(new { message = "User deleted successfully." });
     }
+
+    [HttpPost("{id}/profile-picture")]
+    public async Task<ActionResult> UploadProfilePicture(int id, IFormFile file)
+    {
+      try
+      {
+        var user = await _userService.UploadProfilePictureAsync(id, file);
+        return Ok(new { message = "Profile picture updated successfully.", data = user });
+      }
+      catch (KeyNotFoundException ex)
+      {
+        return NotFound(new { message = ex.Message });
+      }
+      catch (ArgumentException ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
+    }
   }
 }

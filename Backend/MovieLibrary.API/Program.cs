@@ -173,10 +173,12 @@ if (app.Environment.IsDevelopment())
 // Disable HTTPS redirection in development to avoid CORS issues with frontend
 // app.UseHttpsRedirection();
 
+app.UseCors("AllowFrontend");
+
+app.UseStaticFiles();
+
 // XSS Protection Middleware (trebuie să fie înainte de CORS pentru a seta headers)
 app.UseMiddleware<XssProtectionMiddleware>();
-
-app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();

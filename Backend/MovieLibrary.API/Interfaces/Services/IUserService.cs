@@ -9,6 +9,7 @@ namespace MovieLibrary.API.Interfaces.Services
     Task<UserResponseDto?> GetUserByIdAsync(int id);
     Task<UserResponseDto> CreateUserAsync(CreateUserDto dto);
     Task<UserResponseDto> UpdateUserAsync(int id, UpdateUserDto dto);
+    Task<UserResponseDto> UploadProfilePictureAsync(int id, IFormFile file);
     Task<bool> DeleteUserAsync(int id);
   }
 }

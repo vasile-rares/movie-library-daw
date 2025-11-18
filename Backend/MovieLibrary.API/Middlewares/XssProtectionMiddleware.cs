@@ -34,7 +34,10 @@ public class XssProtectionMiddleware
     context.Response.Headers["Content-Security-Policy"] = "default-src 'self'";
 
     // Check request body for potential XSS
-    if (context.Request.Method == "POST" || context.Request.Method == "PUT")
+    // Skip for multipart/form-data (file uploads) as reading the body as string is not appropriate
+    var contentType = context.Request.ContentType;
+    if ((context.Request.Method == "POST" || context.Request.Method == "PUT") &&
+        (string.IsNullOrEmpty(contentType) || !contentType.Contains("multipart/form-data")))
     {
       context.Request.EnableBuffering();
 
