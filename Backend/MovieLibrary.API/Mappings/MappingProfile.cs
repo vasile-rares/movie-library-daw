@@ -1,8 +1,7 @@
 using AutoMapper;
-using MovieLibrary.API.DTOs.Responses.Movie;
-using MovieLibrary.API.DTOs.Responses.Series;
+using MovieLibrary.API.DTOs.Responses.Title;
 using MovieLibrary.API.DTOs.Responses.Rating;
-using MovieLibrary.API.DTOs.Responses.ToWatch;
+using MovieLibrary.API.DTOs.Responses.MyList;
 using MovieLibrary.API.DTOs.Responses.Genre;
 using MovieLibrary.API.DTOs.Responses.User;
 using MovieLibrary.API.Models;
@@ -13,37 +12,27 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // Movie mappings
-        CreateMap<Movie, MovieResponseDto>()
+        // Title mappings
+        CreateMap<Title, TitleResponseDto>()
             .ForMember(dest => dest.Genres, opt => opt.MapFrom(src =>
-                src.MovieGenres.Select(mg => new GenreResponseDto
+                src.TitleGenres.Select(tg => new GenreResponseDto
                 {
-                    Id = mg.Genre.Id,
-                    Name = mg.Genre.Name
-                })));
-
-        // Series mappings
-        CreateMap<Series, SeriesResponseDto>()
-            .ForMember(dest => dest.Genres, opt => opt.MapFrom(src =>
-                src.SeriesGenres.Select(sg => new GenreResponseDto
-                {
-                    Id = sg.Genre.Id,
-                    Name = sg.Genre.Name
+                    Id = tg.Genre.Id,
+                    Name = tg.Genre.Name
                 })));
 
         // Rating mappings (flattened structure)
         CreateMap<Rating, RatingResponseDto>()
             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
-            .ForMember(dest => dest.MovieTitle, opt => opt.MapFrom(src => src.Movie != null ? src.Movie.Title : null))
-            .ForMember(dest => dest.SeriesTitle, opt => opt.MapFrom(src => src.Series != null ? src.Series.Title : null));
+            .ForMember(dest => dest.TitleName, opt => opt.MapFrom(src => src.Title.Name))
+            .ForMember(dest => dest.TitleType, opt => opt.MapFrom(src => src.Title.Type));
 
-        // ToWatchList mappings (flattened structure)
-        CreateMap<ToWatchList, ToWatchResponseDto>()
-            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User != null ? src.User.Username : "Unknown"))
-            .ForMember(dest => dest.MovieTitle, opt => opt.MapFrom(src => src.Movie != null ? src.Movie.Title : null))
-            .ForMember(dest => dest.MovieImageUrl, opt => opt.MapFrom(src => src.Movie != null ? src.Movie.ImageUrl : null))
-            .ForMember(dest => dest.SeriesTitle, opt => opt.MapFrom(src => src.Series != null ? src.Series.Title : null))
-            .ForMember(dest => dest.SeriesImageUrl, opt => opt.MapFrom(src => src.Series != null ? src.Series.ImageUrl : null));
+        // MyList mappings (flattened structure)
+        CreateMap<MyList, MyListResponseDto>()
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
+            .ForMember(dest => dest.TitleName, opt => opt.MapFrom(src => src.Title.Name))
+            .ForMember(dest => dest.TitleType, opt => opt.MapFrom(src => src.Title.Type))
+            .ForMember(dest => dest.TitleImageUrl, opt => opt.MapFrom(src => src.Title.ImageUrl));
 
         // Genre mappings
         CreateMap<Genre, GenreResponseDto>();

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { seriesService } from '../services/seriesService';
+import { titleService } from '../services/titleService';
 import { ratingService } from '../services/ratingService';
-import { toWatchService } from '../services/toWatchService';
+import { myListService } from '../services/myListService';
 import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import './Detail.css';
@@ -25,7 +25,7 @@ const SeriesDetail = () => {
     try {
       setLoading(true);
       const [seriesRes, ratingsRes] = await Promise.all([
-        seriesService.getById(id),
+        titleService.getById(id),
         ratingService.getBySeries(id),
       ]);
 
@@ -47,7 +47,7 @@ const SeriesDetail = () => {
 
   const handleAddToList = async () => {
     try {
-      await toWatchService.addToList({ seriesId: parseInt(id) });
+      await myListService.addToList({ titleId: parseInt(id), status: 0 });
       alert('Added to My List!');
     } catch (err) {
       console.error(err);

@@ -17,20 +17,18 @@ builder.Services.AddDbContext<MovieLibraryDbContext>(options =>
 
 // Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-builder.Services.AddScoped<ISeriesRepository, SeriesRepository>();
+builder.Services.AddScoped<ITitleRepository, TitleRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
-builder.Services.AddScoped<IToWatchRepository, ToWatchRepository>();
+builder.Services.AddScoped<IMyListRepository, MyListRepository>();
 
 // Register Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IMovieService, MovieService>();
-builder.Services.AddScoped<ISeriesService, SeriesService>();
+builder.Services.AddScoped<ITitleService, TitleService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IRatingService, RatingService>();
-builder.Services.AddScoped<IToWatchService, ToWatchService>();
+builder.Services.AddScoped<IMyListService, MyListService>();
 
 // Register AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
-import { movieService } from '../services/movieService';
-import { seriesService } from '../services/seriesService';
+import { titleService } from '../services/titleService';
 import { genreService } from '../services/genreService';
 import './Admin.css';
 
@@ -48,7 +47,7 @@ const Admin = () => {
 
   const loadMovies = async () => {
     try {
-      const response = await movieService.getAll();
+      const response = await titleService.getByType(0);
       console.log('Movies loaded from API:', response.data);
       setMovies(response.data || []);
     } catch (error) {
@@ -58,7 +57,7 @@ const Admin = () => {
 
   const loadSeries = async () => {
     try {
-      const response = await seriesService.getAll();
+      const response = await titleService.getByType(1);
       setSeries(response.data || []);
     } catch (error) {
       console.error('Error loading series:', error);
@@ -70,15 +69,16 @@ const Admin = () => {
     try {
       const formData = {
         ...movieForm,
+        type: 0,
         releaseYear: movieForm.releaseYear ? parseInt(movieForm.releaseYear) : null,
         genreIds: movieForm.genreIds.map(id => parseInt(id))
       };
 
       if (editingItem) {
-        await movieService.update(editingItem.id, formData);
+        await titleService.update(editingItem.id, formData);
         setMessage('Movie updated successfully!');
       } else {
-        await movieService.create(formData);
+        await titleService.create(formData);
         setMessage('Movie created successfully!');
       }
 
@@ -96,6 +96,7 @@ const Admin = () => {
     try {
       const formData = {
         ...seriesForm,
+        type: 1,
         releaseYear: seriesForm.releaseYear ? parseInt(seriesForm.releaseYear) : null,
         seasonsCount: seriesForm.seasonsCount ? parseInt(seriesForm.seasonsCount) : null,
         episodesCount: seriesForm.episodesCount ? parseInt(seriesForm.episodesCount) : null,
@@ -103,10 +104,10 @@ const Admin = () => {
       };
 
       if (editingItem) {
-        await seriesService.update(editingItem.id, formData);
+        await titleService.update(editingItem.id, formData);
         setMessage('Series updated successfully!');
       } else {
-        await seriesService.create(formData);
+        await titleService.create(formData);
         setMessage('Series created successfully!');
       }
 
@@ -123,7 +124,7 @@ const Admin = () => {
     if (!window.confirm('Are you sure you want to delete this movie?')) return;
 
     try {
-      await movieService.delete(id);
+      await titleService.delete(id);
       setMessage('Movie deleted successfully!');
       loadMovies();
       setTimeout(() => setMessage(''), 3000);
@@ -137,7 +138,7 @@ const Admin = () => {
     if (!window.confirm('Are you sure you want to delete this series?')) return;
 
     try {
-      await seriesService.delete(id);
+      await titleService.delete(id);
       setMessage('Series deleted successfully!');
       loadSeries();
       setTimeout(() => setMessage(''), 3000);

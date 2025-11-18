@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { seriesService } from '../services/seriesService';
+import { titleService } from '../services/titleService';
 import { genreService } from '../services/genreService';
 import Header from '../components/Header';
 import MovieCard from '../components/MovieCard';
@@ -20,7 +20,7 @@ const Series = () => {
     try {
       const [genresRes, seriesRes] = await Promise.all([
         genreService.getAll(),
-        seriesService.getAll()
+        titleService.getByType(1)
       ]);
       setGenres(genresRes.data || []);
       setAllSeries(seriesRes.data || []);

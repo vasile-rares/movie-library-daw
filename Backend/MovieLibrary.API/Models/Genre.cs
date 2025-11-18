@@ -14,7 +14,6 @@ namespace MovieLibrary.API.Models
         public string Name { get; set; } = null!;
 
         // Navigation properties
-        public ICollection<MovieGenre> MovieGenres { get; set; } = new List<MovieGenre>();
-        public ICollection<SeriesGenre> SeriesGenres { get; set; } = new List<SeriesGenre>();
+        public ICollection<TitleGenre> TitleGenres { get; set; } = new List<TitleGenre>();
     }
 }

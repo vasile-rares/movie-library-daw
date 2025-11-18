@@ -23,7 +23,7 @@ namespace MovieLibrary.API.Repositories
     {
       return await _context.Users
           .Include(u => u.Ratings)
-          .Include(u => u.ToWatchList)
+          .Include(u => u.MyLists)
           .FirstOrDefaultAsync(u => u.Id == id);
     }
 

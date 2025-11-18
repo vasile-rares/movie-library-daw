@@ -10,11 +10,13 @@ namespace MovieLibrary.API.Services
   public class RatingService : IRatingService
   {
     private readonly IRatingRepository _ratingRepository;
+    private readonly ITitleRepository _titleRepository;
     private readonly IMapper _mapper;
 
-    public RatingService(IRatingRepository ratingRepository, IMapper mapper)
+    public RatingService(IRatingRepository ratingRepository, ITitleRepository titleRepository, IMapper mapper)
     {
       _ratingRepository = ratingRepository;
+      _titleRepository = titleRepository;
       _mapper = mapper;
     }
 
@@ -36,31 +38,23 @@ namespace MovieLibrary.API.Services
       return _mapper.Map<IEnumerable<RatingResponseDto>>(ratings);
     }
 
-    public async Task<IEnumerable<RatingResponseDto>> GetRatingsByMovieIdAsync(int movieId)
+    public async Task<IEnumerable<RatingResponseDto>> GetRatingsByTitleIdAsync(int titleId)
     {
-      var ratings = await _ratingRepository.GetByMovieIdAsync(movieId);
-      return _mapper.Map<IEnumerable<RatingResponseDto>>(ratings);
-    }
-
-    public async Task<IEnumerable<RatingResponseDto>> GetRatingsBySeriesIdAsync(int seriesId)
-    {
-      var ratings = await _ratingRepository.GetBySeriesIdAsync(seriesId);
+      var ratings = await _ratingRepository.GetByTitleIdAsync(titleId);
       return _mapper.Map<IEnumerable<RatingResponseDto>>(ratings);
     }
 
     public async Task<RatingResponseDto> CreateRatingAsync(CreateRatingDto dto)
     {
-      if (!dto.MovieId.HasValue && !dto.SeriesId.HasValue)
-        throw new ArgumentException("Either MovieId or SeriesId must be provided");
-
-      if (dto.MovieId.HasValue && dto.SeriesId.HasValue)
-        throw new ArgumentException("Cannot rate both Movie and Series at the same time");
+      // Validate that the title exists
+      var titleExists = await _titleRepository.ExistsAsync(dto.TitleId);
+      if (!titleExists)
+        throw new KeyNotFoundException($"Title with ID {dto.TitleId} not found");
 
       var rating = new Rating
       {
         UserId = dto.UserId,
-        MovieId = dto.MovieId,
-        SeriesId = dto.SeriesId,
+        TitleId = dto.TitleId,
         Score = dto.Score,
         Comment = dto.Comment,
         CreatedAt = DateTime.UtcNow

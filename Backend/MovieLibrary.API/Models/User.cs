@@ -25,7 +25,7 @@ namespace MovieLibrary.API.Models
     public string Role { get; set; } = "User";
 
     // Navigation properties
-    public ICollection<ToWatchList> ToWatchList { get; set; } = new List<ToWatchList>();
+    public ICollection<MyList> MyLists { get; set; } = new List<MyList>();
     public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
   }
 }

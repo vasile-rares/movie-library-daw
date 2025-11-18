@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toWatchService } from '../services/toWatchService';
+import { myListService } from '../services/myListService';
 import './MovieCard.css';
 
 const MovieCard = ({ item, type = 'movie', onAddToList, isInList = false }) => {
@@ -15,8 +15,7 @@ const MovieCard = ({ item, type = 'movie', onAddToList, isInList = false }) => {
     e.stopPropagation();
     setLoading(true);
     try {
-      const data = type === 'movie' ? { movieId: item.id } : { seriesId: item.id };
-      await toWatchService.addToList(data);
+      await myListService.addToList({ titleId: item.id, status: 0 });
       if (onAddToList) onAddToList();
     } catch (error) {
       console.error('Error adding to list:', error);

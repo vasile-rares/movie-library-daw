@@ -8,8 +8,7 @@ namespace MovieLibrary.API.Interfaces.Services
     Task<IEnumerable<RatingResponseDto>> GetAllRatingsAsync();
     Task<RatingResponseDto?> GetRatingByIdAsync(int id);
     Task<IEnumerable<RatingResponseDto>> GetRatingsByUserIdAsync(int userId);
-    Task<IEnumerable<RatingResponseDto>> GetRatingsByMovieIdAsync(int movieId);
-    Task<IEnumerable<RatingResponseDto>> GetRatingsBySeriesIdAsync(int seriesId);
+    Task<IEnumerable<RatingResponseDto>> GetRatingsByTitleIdAsync(int titleId);
     Task<RatingResponseDto> CreateRatingAsync(CreateRatingDto dto);
     Task<RatingResponseDto> UpdateRatingAsync(int id, UpdateRatingDto dto);
     Task<bool> DeleteRatingAsync(int id);

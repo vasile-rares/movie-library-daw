@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { movieService } from '../services/movieService';
-import { seriesService } from '../services/seriesService';
+import { titleService } from '../services/titleService';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import MovieCard from '../components/MovieCard';
@@ -20,8 +19,8 @@ const Home = () => {
     try {
       setLoading(true);
       const [moviesRes, seriesRes] = await Promise.all([
-        movieService.getAll(),
-        seriesService.getAll(),
+        titleService.getByType(0), // TitleType.Movie = 0
+        titleService.getByType(1), // TitleType.Series = 1
       ]);
       setMovies(moviesRes.data || []);
       setSeries(seriesRes.data || []);

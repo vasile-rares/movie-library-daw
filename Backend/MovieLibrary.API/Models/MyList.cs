@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieLibrary.API.Models
 {
-    [Table("Ratings")]
-    public class Rating
+    [Table("MyList")]
+    public class MyList
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,12 +18,11 @@ namespace MovieLibrary.API.Models
         [ForeignKey("TitleId")]
         public Title Title { get; set; } = null!;
 
-        [Range(1, 10)]
-        public int Score { get; set; }
+        [Required]
+        public WatchStatus Status { get; set; } = WatchStatus.PlanToWatch;
 
-        [MaxLength(300)]
-        public string? Comment { get; set; }
+        public DateTime AddedAt { get; set; } = DateTime.UtcNow;
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? StatusUpdatedAt { get; set; }
     }
 }

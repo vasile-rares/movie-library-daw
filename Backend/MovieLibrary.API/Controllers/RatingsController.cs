@@ -42,17 +42,10 @@ namespace MovieLibrary.API.Controllers
       return Ok(new { message = "Ratings retrieved successfully.", data = ratings });
     }
 
-    [HttpGet("movie/{movieId}")]
-    public async Task<ActionResult> GetByMovieId(int movieId)
+    [HttpGet("title/{titleId}")]
+    public async Task<ActionResult> GetRatingsByTitleId(int titleId)
     {
-      var ratings = await _ratingService.GetRatingsByMovieIdAsync(movieId);
-      return Ok(new { message = "Ratings retrieved successfully.", data = ratings });
-    }
-
-    [HttpGet("series/{seriesId}")]
-    public async Task<ActionResult> GetBySeriesId(int seriesId)
-    {
-      var ratings = await _ratingService.GetRatingsBySeriesIdAsync(seriesId);
+      var ratings = await _ratingService.GetRatingsByTitleIdAsync(titleId);
       return Ok(new { message = "Ratings retrieved successfully.", data = ratings });
     }
 

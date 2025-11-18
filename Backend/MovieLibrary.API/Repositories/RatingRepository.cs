@@ -18,8 +18,7 @@ namespace MovieLibrary.API.Repositories
     {
       return await _context.Ratings
           .Include(r => r.User)
-          .Include(r => r.Movie)
-          .Include(r => r.Series)
+          .Include(r => r.Title)
           .ToListAsync();
     }
 
@@ -27,33 +26,23 @@ namespace MovieLibrary.API.Repositories
     {
       return await _context.Ratings
           .Include(r => r.User)
-          .Include(r => r.Movie)
-          .Include(r => r.Series)
+          .Include(r => r.Title)
           .FirstOrDefaultAsync(r => r.Id == id);
     }
 
     public async Task<IEnumerable<Rating>> GetByUserIdAsync(int userId)
     {
       return await _context.Ratings
-          .Include(r => r.Movie)
-          .Include(r => r.Series)
+          .Include(r => r.Title)
           .Where(r => r.UserId == userId)
           .ToListAsync();
     }
 
-    public async Task<IEnumerable<Rating>> GetByMovieIdAsync(int movieId)
+    public async Task<IEnumerable<Rating>> GetByTitleIdAsync(int titleId)
     {
       return await _context.Ratings
           .Include(r => r.User)
-          .Where(r => r.MovieId == movieId)
-          .ToListAsync();
-    }
-
-    public async Task<IEnumerable<Rating>> GetBySeriesIdAsync(int seriesId)
-    {
-      return await _context.Ratings
-          .Include(r => r.User)
-          .Where(r => r.SeriesId == seriesId)
+          .Where(r => r.TitleId == titleId)
           .ToListAsync();
     }
 

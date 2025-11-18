@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toWatchService } from '../services/toWatchService';
+import { myListService } from '../services/myListService';
 import Header from '../components/Header';
 import './MyList.css';
 
@@ -17,7 +17,7 @@ const MyList = () => {
   const fetchMyList = async () => {
     try {
       setLoading(true);
-      const response = await toWatchService.getMyList();
+      const response = await myListService.getMyList();
       setList(response.data || []);
     } catch (err) {
       setError('Failed to load your list');
@@ -31,7 +31,7 @@ const MyList = () => {
     if (!confirm('Remove from your list?')) return;
 
     try {
-      await toWatchService.removeFromList(id);
+      await myListService.removeFromList(id);
       setList(list.filter((item) => item.id !== id));
     } catch (err) {
       console.error(err);
@@ -40,10 +40,11 @@ const MyList = () => {
   };
 
   const handleItemClick = (item) => {
-    if (item.movieId) {
-      navigate(`/movie/${item.movieId}`);
-    } else if (item.seriesId) {
-      navigate(`/series/${item.seriesId}`);
+    // titleType: 0 = Movie, 1 = Series
+    if (item.titleType === 0) {
+      navigate(`/movie/${item.titleId}`);
+    } else if (item.titleType === 1) {
+      navigate(`/series/${item.titleId}`);
     }
   };
 
@@ -75,8 +76,8 @@ const MyList = () => {
           {list.length > 0 ? (
             <div className="my-list-grid">
               {list.map((item) => {
-                const title = item.movieTitle || item.seriesTitle;
-                const imageUrl = item.movieImageUrl || item.seriesImageUrl;
+                const title = item.titleName;
+                const imageUrl = item.titleImageUrl;
                 const imageSrc = imageUrl || `https://via.placeholder.com/300x450/141414/e50914?text=${encodeURIComponent(title)}`;
 
                 return (
@@ -89,7 +90,7 @@ const MyList = () => {
                       <div className="my-list-item-overlay">
                         <h3>{title}</h3>
                         <p className="item-type">
-                          {item.movieId ? 'Movie' : 'Series'}
+                          {item.titleType === 0 ? 'Movie' : 'Series'}
                         </p>
                       </div>
                     </div>
