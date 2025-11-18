@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { myListService } from '../services/myListService';
-import './MovieCard.css';
+import './TitleCard.css';
 
-const MovieCard = ({ item, type = 'movie', onAddToList, isInList = false }) => {
+const TitleCard = ({ item, type = 'movie', onAddToList, isInList = false }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +28,7 @@ const MovieCard = ({ item, type = 'movie', onAddToList, isInList = false }) => {
   const imageSrc = item.imageUrl || `https://via.placeholder.com/300x450/141414/e50914?text=${encodeURIComponent(item.title)}`;
 
   return (
-    <div className="movie-card">
+    <div className="title-card">
       <div className="card-poster" onClick={handleClick}>
         <img src={imageSrc} alt={item.title} loading="lazy" />
         {!isInList && (
@@ -59,4 +59,4 @@ const MovieCard = ({ item, type = 'movie', onAddToList, isInList = false }) => {
   );
 };
 
-export default MovieCard;
+export default TitleCard;

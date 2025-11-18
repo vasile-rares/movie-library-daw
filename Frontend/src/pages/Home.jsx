@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { titleService } from '../services/titleService';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
-import MovieCard from '../components/MovieCard';
+import TitleCard from '../components/TitleCard';
 import './Home.css';
 
 const Home = () => {
@@ -65,7 +65,7 @@ const Home = () => {
             <h2 className="section-title">Popular Movies</h2>
             <div className="content-grid">
               {movies.slice(0, 12).map((movie) => (
-                <MovieCard key={movie.id} item={movie} type="movie" />
+                <TitleCard key={movie.id} item={movie} type="movie" />
               ))}
             </div>
           </section>
@@ -76,7 +76,7 @@ const Home = () => {
             <h2 className="section-title">Popular Series</h2>
             <div className="content-grid">
               {series.slice(0, 12).map((s) => (
-                <MovieCard key={s.id} item={s} type="series" />
+                <TitleCard key={s.id} item={s} type="series" />
               ))}
             </div>
           </section>

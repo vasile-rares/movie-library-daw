@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { titleService } from '../services/titleService';
 import { genreService } from '../services/genreService';
 import Header from '../components/Header';
-import MovieCard from '../components/MovieCard';
+import TitleCard from '../components/TitleCard';
 import './Browse.css';
 
 const Movies = () => {
@@ -83,7 +83,7 @@ const Movies = () => {
           {filteredMovies.length > 0 ? (
             <div className="content-grid">
               {filteredMovies.map((movie) => (
-                <MovieCard key={movie.id} item={movie} type="movie" />
+                <TitleCard key={movie.id} item={movie} type="movie" />
               ))}
             </div>
           ) : (

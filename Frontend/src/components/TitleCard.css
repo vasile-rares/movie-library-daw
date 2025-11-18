@@ -1,4 +1,4 @@
-.movie-card {
+.title-card {
   display: flex;
   flex-direction: column;
   background: var(--bg-card);
@@ -9,7 +9,7 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.movie-card:hover {
+.title-card:hover {
   border-color: var(--border-accent);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
