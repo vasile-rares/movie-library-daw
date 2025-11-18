@@ -13,7 +13,7 @@ using MovieLibrary.API.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<MovieLibraryDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieLibraryDb")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
