@@ -27,6 +27,7 @@
   border-bottom: 2px solid var(--border-primary);
   overflow-x: auto;
   scrollbar-width: none;
+  justify-content: center;
 }
 
 .my-list-tabs::-webkit-scrollbar {

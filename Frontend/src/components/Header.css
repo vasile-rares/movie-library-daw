@@ -322,7 +322,6 @@
 .dropdown-divider {
   height: 1px;
   background: var(--border-primary);
-  margin: 0.25rem 0;
 }
 
 .dropdown-option.logout-option {
