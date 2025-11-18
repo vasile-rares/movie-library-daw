@@ -12,6 +12,7 @@ const Settings = () => {
   // Form states
   const [nickname, setNickname] = useState(user?.nickname || '');
   const [email, setEmail] = useState(user?.email || '');
+  const [profilePictureUrl, setProfilePictureUrl] = useState(user?.profilePictureUrl || '');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -37,13 +38,17 @@ const Settings = () => {
       const response = await api.put(`/users/${user.userId}`, {
         nickname: nickname !== user.nickname ? nickname : undefined,
         email: email !== user.email ? email : undefined,
+        profilePictureUrl: profilePictureUrl !== user.profilePictureUrl ? profilePictureUrl : undefined,
       });
 
       // Update localStorage with new user data
-      const updatedUser = { ...user, nickname, email };
+      const updatedUser = { ...user, nickname, email, profilePictureUrl };
       localStorage.setItem('user', JSON.stringify(updatedUser));
 
       showMessage('success', 'Profile updated successfully!');
+
+      // Reload page to update header avatar
+      setTimeout(() => window.location.reload(), 1000);
     } catch (err) {
       showMessage('error', err.response?.data?.message || 'Failed to update profile');
     } finally {
@@ -190,6 +195,32 @@ const Settings = () => {
                         required
                         className="form-input"
                       />
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="profilePicture">Profile Picture URL</label>
+                      <div className="profile-picture-group">
+                        {profilePictureUrl && (
+                          <div className="profile-preview">
+                            <img
+                              src={profilePictureUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${nickname}`}
+                              alt="Profile preview"
+                              onError={(e) => {
+                                e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${nickname}`;
+                              }}
+                            />
+                          </div>
+                        )}
+                        <input
+                          type="url"
+                          id="profilePicture"
+                          value={profilePictureUrl}
+                          onChange={(e) => setProfilePictureUrl(e.target.value)}
+                          placeholder="https://example.com/avatar.jpg"
+                          className="form-input"
+                        />
+                      </div>
+                      <small className="form-hint">Enter a URL to your profile picture or use a service like <a href="https://gravatar.com" target="_blank" rel="noopener noreferrer">Gravatar</a></small>
                     </div>
 
                     <div className="form-group">

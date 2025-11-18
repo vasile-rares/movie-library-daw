@@ -162,7 +162,16 @@ const Header = () => {
               className="user-trigger"
               onClick={() => setDropdownOpen(!dropdownOpen)}
             >
-              {user?.nickname}
+              <div className="user-avatar">
+                <img
+                  src={user?.profilePictureUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.nickname}`}
+                  alt={user?.nickname}
+                  onError={(e) => {
+                    e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.nickname}`;
+                  }}
+                />
+              </div>
+              <span className="user-nickname">{user?.nickname}</span>
               <svg
                 className={`arrow ${dropdownOpen ? 'open' : ''}`}
                 width="10"

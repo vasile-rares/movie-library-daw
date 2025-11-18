@@ -205,6 +205,42 @@
   font-size: 0.8rem;
 }
 
+.form-hint a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.form-hint a:hover {
+  text-decoration: underline;
+}
+
+/* Profile Picture Group */
+.profile-picture-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-preview {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--primary-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-picture-group .form-input {
+  flex: 1;
+}
+
 /* Buttons */
 .btn {
   padding: 0.75rem 1.75rem;
