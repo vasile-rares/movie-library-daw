@@ -51,25 +51,28 @@ namespace MovieLibrary.API.Data
             {
                 new User
                 {
-                    Username = "admin",
+                    Nickname = "admin",
                     Email = "admin@movielibrary.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
+                    ProfilePictureUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=admin",
                     Role = "Admin",
                     CreatedAt = DateTime.UtcNow
                 },
                 new User
                 {
-                    Username = "john_doe",
+                    Nickname = "john_doe",
                     Email = "john.doe@example.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
+                    ProfilePictureUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=john",
                     Role = "User",
                     CreatedAt = DateTime.UtcNow
                 },
                 new User
                 {
-                    Username = "jane_smith",
+                    Nickname = "jane_smith",
                     Email = "jane@example.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
+                    ProfilePictureUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=jane",
                     Role = "User",
                     CreatedAt = DateTime.UtcNow
                 }

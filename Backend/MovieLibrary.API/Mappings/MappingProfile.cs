@@ -24,13 +24,13 @@ public class MappingProfile : Profile
 
         // Rating mappings (flattened structure)
         CreateMap<Rating, RatingResponseDto>()
-            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Nickname))
             .ForMember(dest => dest.TitleName, opt => opt.MapFrom(src => src.Title.Name))
             .ForMember(dest => dest.TitleType, opt => opt.MapFrom(src => src.Title.Type));
 
         // MyList mappings (flattened structure)
         CreateMap<MyList, MyListResponseDto>()
-            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Nickname))
             .ForMember(dest => dest.TitleName, opt => opt.MapFrom(src => src.Title.Name))
             .ForMember(dest => dest.TitleType, opt => opt.MapFrom(src => src.Title.Type))
             .ForMember(dest => dest.TitleImageUrl, opt => opt.MapFrom(src => src.Title.ImageUrl));

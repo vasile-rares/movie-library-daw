@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import './Auth.css';
 
 const Register = () => {
-  const [username, setUsername] = useState('');
+  const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -19,6 +19,18 @@ const Register = () => {
     e.preventDefault();
     setError('');
 
+    // Validate nickname
+    const nicknameRegex = /^[a-zA-Z0-9_]+$/;
+    if (!nicknameRegex.test(nickname)) {
+      setError('Nickname can only contain letters, numbers, and underscores');
+      return;
+    }
+
+    if (nickname.length < 3 || nickname.length > 30) {
+      setError('Nickname must be between 3 and 30 characters');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -32,7 +44,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      await register(username, email, password);
+      await register(nickname, email, password);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to register. Please try again.');
@@ -53,10 +65,13 @@ const Register = () => {
             <div className="form-group">
               <input
                 type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Nickname (letters, numbers, underscore)"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
                 required
+                minLength={3}
+                maxLength={30}
+                pattern="[a-zA-Z0-9_]+"
                 className="auth-input"
               />
             </div>

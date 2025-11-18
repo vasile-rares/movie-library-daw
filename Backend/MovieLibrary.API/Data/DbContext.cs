@@ -45,7 +45,7 @@ namespace MovieLibrary.API.Data
 
       // Configure unique constraints
       modelBuilder.Entity<User>()
-          .HasIndex(u => u.Username)
+          .HasIndex(u => u.Nickname)
           .IsUnique();
 
       modelBuilder.Entity<User>()

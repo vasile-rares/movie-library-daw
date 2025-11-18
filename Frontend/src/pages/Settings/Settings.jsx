@@ -10,7 +10,7 @@ const Settings = () => {
   const navigate = useNavigate();
 
   // Form states
-  const [username, setUsername] = useState(user?.username || '');
+  const [nickname, setNickname] = useState(user?.nickname || '');
   const [email, setEmail] = useState(user?.email || '');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -35,12 +35,12 @@ const Settings = () => {
 
     try {
       const response = await api.put(`/users/${user.userId}`, {
-        username: username !== user.username ? username : undefined,
+        nickname: nickname !== user.nickname ? nickname : undefined,
         email: email !== user.email ? email : undefined,
       });
 
       // Update localStorage with new user data
-      const updatedUser = { ...user, username, email };
+      const updatedUser = { ...user, nickname, email };
       localStorage.setItem('user', JSON.stringify(updatedUser));
 
       showMessage('success', 'Profile updated successfully!');
@@ -169,12 +169,12 @@ const Settings = () => {
 
                   <form onSubmit={handleUpdateProfile} className="settings-form">
                     <div className="form-group">
-                      <label htmlFor="username">Username</label>
+                      <label htmlFor="nickname">Username</label>
                       <input
                         type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        id="nickname"
+                        value={nickname}
+                        onChange={(e) => setNickname(e.target.value)}
                         required
                         className="form-input"
                       />

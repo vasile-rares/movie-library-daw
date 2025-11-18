@@ -162,7 +162,7 @@ const Header = () => {
               className="user-trigger"
               onClick={() => setDropdownOpen(!dropdownOpen)}
             >
-              {user?.username}
+              {user?.nickname}
               <svg
                 className={`arrow ${dropdownOpen ? 'open' : ''}`}
                 width="10"

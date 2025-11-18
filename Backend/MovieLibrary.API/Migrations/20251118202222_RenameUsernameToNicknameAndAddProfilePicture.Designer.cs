@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieLibrary.API.Data;
 
@@ -11,9 +12,11 @@ using MovieLibrary.API.Data;
 namespace MovieLibrary.API.Migrations
 {
     [DbContext(typeof(MovieLibraryDbContext))]
-    partial class MovieLibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251118202222_RenameUsernameToNicknameAndAddProfilePicture")]
+    partial class RenameUsernameToNicknameAndAddProfilePicture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -27,9 +27,9 @@ namespace MovieLibrary.API.Repositories
           .FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public async Task<User?> GetByUsernameAsync(string username)
+    public async Task<User?> GetByNicknameAsync(string nickname)
     {
-      return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+      return await _context.Users.FirstOrDefaultAsync(u => u.Nickname == nickname);
     }
 
     public async Task<User?> GetByEmailAsync(string email)

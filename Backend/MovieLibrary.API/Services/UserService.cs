@@ -32,10 +32,10 @@ namespace MovieLibrary.API.Services
 
     public async Task<UserResponseDto> CreateUserAsync(CreateUserDto dto)
     {
-      // Check if username or email already exists
-      var existingUser = await _userRepository.GetByUsernameAsync(dto.Username);
+      // Check if nickname or email already exists
+      var existingUser = await _userRepository.GetByNicknameAsync(dto.Nickname);
       if (existingUser != null)
-        throw new ArgumentException("Username already exists");
+        throw new ArgumentException("Nickname already exists");
 
       existingUser = await _userRepository.GetByEmailAsync(dto.Email);
       if (existingUser != null)
@@ -43,9 +43,10 @@ namespace MovieLibrary.API.Services
 
       var user = new User
       {
-        Username = dto.Username,
+        Nickname = dto.Nickname,
         Email = dto.Email,
-        PasswordHash = HashPassword(dto.Password), // In production, use proper hashing
+        PasswordHash = HashPassword(dto.Password),
+        ProfilePictureUrl = dto.ProfilePictureUrl,
         Role = dto.Role,
         CreatedAt = DateTime.UtcNow
       };
@@ -60,14 +61,17 @@ namespace MovieLibrary.API.Services
       if (user == null)
         throw new KeyNotFoundException($"User with ID {id} not found");
 
-      if (!string.IsNullOrEmpty(dto.Username))
-        user.Username = dto.Username;
+      if (!string.IsNullOrEmpty(dto.Nickname))
+        user.Nickname = dto.Nickname;
 
       if (!string.IsNullOrEmpty(dto.Email))
         user.Email = dto.Email;
 
       if (!string.IsNullOrEmpty(dto.Password))
         user.PasswordHash = HashPassword(dto.Password);
+
+      if (dto.ProfilePictureUrl != null)
+        user.ProfilePictureUrl = dto.ProfilePictureUrl;
 
       if (!string.IsNullOrEmpty(dto.Role))
         user.Role = dto.Role;

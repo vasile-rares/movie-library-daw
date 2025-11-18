@@ -28,9 +28,9 @@ public class AuthService : IAuthService
     if (existingUser != null)
       throw new ArgumentException("User with this email already exists");
 
-    var existingUsername = await _userRepository.GetByUsernameAsync(dto.Username);
-    if (existingUsername != null)
-      throw new ArgumentException("Username is already taken");
+    var existingNickname = await _userRepository.GetByNicknameAsync(dto.Nickname);
+    if (existingNickname != null)
+      throw new ArgumentException("Nickname is already taken");
 
     // Hash password
     var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
@@ -38,9 +38,10 @@ public class AuthService : IAuthService
     // Create user
     var user = new User
     {
-      Username = dto.Username,
+      Nickname = dto.Nickname,
       Email = dto.Email,
       PasswordHash = passwordHash,
+      ProfilePictureUrl = dto.ProfilePictureUrl,
       Role = "User",
       CreatedAt = DateTime.UtcNow
     };
@@ -55,8 +56,9 @@ public class AuthService : IAuthService
     return new AuthResponseDto
     {
       UserId = createdUser.Id,
-      Username = createdUser.Username,
+      Nickname = createdUser.Nickname,
       Email = createdUser.Email,
+      ProfilePictureUrl = createdUser.ProfilePictureUrl,
       Role = createdUser.Role,
       Token = token,
       ExpiresAt = expiresAt
@@ -82,8 +84,9 @@ public class AuthService : IAuthService
     return new AuthResponseDto
     {
       UserId = user.Id,
-      Username = user.Username,
+      Nickname = user.Nickname,
       Email = user.Email,
+      ProfilePictureUrl = user.ProfilePictureUrl,
       Role = user.Role,
       Token = token,
       ExpiresAt = expiresAt
@@ -96,7 +99,7 @@ public class AuthService : IAuthService
     {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Name, user.Nickname),
             new Claim(ClaimTypes.Role, user.Role),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };

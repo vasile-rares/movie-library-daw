@@ -10,14 +10,18 @@ namespace MovieLibrary.API.Models
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    [Required, MaxLength(50)]
-    public string Username { get; set; } = null!;
+    [Required, MaxLength(30)]
+    [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Nickname can only contain letters, numbers, and underscores")]
+    public string Nickname { get; set; } = null!;
 
     [Required, MaxLength(100)]
     public string Email { get; set; } = null!;
 
     [Required, MaxLength(255)]
     public string PasswordHash { get; set; } = null!;
+
+    [MaxLength(255)]
+    public string? ProfilePictureUrl { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
