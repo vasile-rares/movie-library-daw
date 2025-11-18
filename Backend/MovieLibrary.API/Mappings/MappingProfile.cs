@@ -14,6 +14,7 @@ public class MappingProfile : Profile
     {
         // Title mappings
         CreateMap<Title, TitleResponseDto>()
+            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Genres, opt => opt.MapFrom(src =>
                 src.TitleGenres.Select(tg => new GenreResponseDto
                 {

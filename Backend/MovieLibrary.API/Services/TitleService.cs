@@ -59,7 +59,7 @@ namespace MovieLibrary.API.Services
 
       var title = new Title
       {
-        Name = dto.Name,
+        Name = dto.Title,
         Description = dto.Description,
         ReleaseYear = dto.ReleaseYear,
         ImageUrl = dto.ImageUrl,
@@ -97,7 +97,7 @@ namespace MovieLibrary.API.Services
         }
       }
 
-      title.Name = dto.Name;
+      title.Name = dto.Title;
       title.Description = dto.Description;
       title.ReleaseYear = dto.ReleaseYear;
       title.ImageUrl = dto.ImageUrl;

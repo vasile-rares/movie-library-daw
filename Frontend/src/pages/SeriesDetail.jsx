@@ -26,7 +26,7 @@ const SeriesDetail = () => {
       setLoading(true);
       const [seriesRes, ratingsRes] = await Promise.all([
         titleService.getById(id),
-        ratingService.getBySeries(id),
+        ratingService.getByTitle(id),
       ]);
 
       setSeries(seriesRes.data);
@@ -60,7 +60,7 @@ const SeriesDetail = () => {
     try {
       const ratingData = {
         userId: user.userId,
-        seriesId: parseInt(id),
+        titleId: parseInt(id),
         score: parseInt(newRating.score),
         comment: newRating.comment,
       };

@@ -27,7 +27,7 @@ const MovieDetail = () => {
       setLoading(true);
       const [movieRes, ratingsRes] = await Promise.all([
         titleService.getById(id),
-        ratingService.getByMovie(id),
+        ratingService.getByTitle(id),
       ]);
 
       setMovie(movieRes.data);
@@ -61,7 +61,7 @@ const MovieDetail = () => {
     try {
       const ratingData = {
         userId: user.userId,
-        movieId: parseInt(id),
+        titleId: parseInt(id),
         score: parseInt(newRating.score),
         comment: newRating.comment,
       };

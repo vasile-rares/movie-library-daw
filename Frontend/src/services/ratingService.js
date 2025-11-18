@@ -16,13 +16,8 @@ export const ratingService = {
     return response.data;
   },
 
-  async getByMovie(movieId) {
-    const response = await api.get(`/ratings/movie/${movieId}`);
-    return response.data;
-  },
-
-  async getBySeries(seriesId) {
-    const response = await api.get(`/ratings/series/${seriesId}`);
+  async getByTitle(titleId) {
+    const response = await api.get(`/ratings/title/${titleId}`);
     return response.data;
   },
 

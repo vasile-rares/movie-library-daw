@@ -6,7 +6,7 @@ namespace MovieLibrary.API.DTOs.Responses.Title;
 public class TitleResponseDto
 {
     public int Id { get; set; }
-    public string Name { get; set; } = null!;
+    public string Title { get; set; } = null!;
     public string? Description { get; set; }
     public int? ReleaseYear { get; set; }
     public string? ImageUrl { get; set; }
