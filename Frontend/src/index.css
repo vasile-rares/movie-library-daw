@@ -5,49 +5,64 @@
 }
 
 :root {
-  /* Modern color palette - Purple/Blue theme */
-  --primary-color: #6366f1;
-  --primary-dark: #4f46e5;
-  --primary-light: #818cf8;
-  --secondary-color: #8b5cf6;
-  --accent-color: #06b6d4;
+  /* MAL-inspired Modern Blue/Cyan Theme */
+  --primary-color: #2e51a2;
+  --primary-dark: #1c3a7a;
+  --primary-light: #4a6bb5;
+  --secondary-color: #00d4ff;
+  --accent-color: #ffc119;
 
-  /* Background colors */
-  --bg-primary: #0f0f23;
-  --bg-secondary: #1a1a2e;
-  --bg-tertiary: #16213e;
-  --bg-card: rgba(99, 102, 241, 0.05);
+  /* Background colors - Light theme inspired by MAL */
+  --bg-primary: #e8e8ed;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f7f7fb;
+  --bg-card: #ffffff;
+  --bg-hover: #f5f5f8;
+
+  /* Border colors */
+  --border-primary: #e0e0e6;
+  --border-secondary: #d0d0d8;
+  --border-accent: #2e51a2;
 
   /* Text colors */
-  --text-primary: #f3f4f6;
-  --text-secondary: #d1d5db;
-  --text-muted: #9ca3af;
+  --text-primary: #1c1c1e;
+  --text-secondary: #5c5c66;
+  --text-muted: #8e8e93;
+  --text-link: #2e51a2;
+  --text-white: #ffffff;
 
   /* Semantic colors */
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  --info: #3b82f6;
+  --success: #34c759;
+  --warning: #ff9500;
+  --error: #ff3b30;
+  --info: #007aff;
+
+  /* Status colors (MyAnimeList style) */
+  --status-watching: #2db039;
+  --status-completed: #26448f;
+  --status-onhold: #f9d457;
+  --status-dropped: #a12f31;
+  --status-plantowatch: #c3c3c3;
 
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-secondary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  --gradient-accent: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  --gradient-primary: linear-gradient(135deg, #2e51a2 0%, #4a6bb5 100%);
+  --gradient-secondary: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+  --gradient-accent: linear-gradient(135deg, #ffc119 0%, #ff9500 100%);
+  --gradient-hero: linear-gradient(to right, rgba(46, 81, 162, 0.95) 0%, rgba(46, 81, 162, 0.7) 50%, transparent 100%);
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
+  --shadow-xl: 0 8px 24px 0 rgba(0, 0, 0, 0.2);
+  --shadow-card: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
 
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
 
-  color-scheme: dark;
+  color-scheme: light;
   color: var(--text-primary);
   background-color: var(--bg-primary);
 
@@ -62,10 +77,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background: var(--bg-primary);
-  background-image:
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
-  background-attachment: fixed;
   color: var(--text-primary);
   overflow-x: hidden;
 }
@@ -77,28 +88,39 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
 }
 
 h1 {
-  font-size: 2.5rem;
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
 }
 
 a {
-  color: inherit;
+  color: var(--text-link);
   text-decoration: none;
   transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-light);
 }
 
 button {
   font-family: inherit;
   cursor: pointer;
   transition: all 0.2s ease;
+  border: none;
+  outline: none;
 }
 
 input, textarea, select {
@@ -120,23 +142,23 @@ img {
   font-size: 1.5rem;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - MAL style */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: var(--bg-tertiary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
-  border-radius: 6px;
-  border: 2px solid var(--bg-primary);
+  background: #c0c0c8;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--primary-light), var(--secondary-color));
+  background: #a0a0a8;
 }
 
 /* Selection */

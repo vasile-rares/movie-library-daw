@@ -8,6 +8,7 @@ const MyList = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('all');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,26 +60,84 @@ const MyList = () => {
     );
   }
 
+  const statusNames = {
+    0: 'Plan to Watch',
+    1: 'Watching',
+    2: 'Completed',
+    3: 'On Hold',
+    4: 'Dropped'
+  };
+
+  const filteredList = activeTab === 'all'
+    ? list
+    : list.filter(item => item.status === parseInt(activeTab));
+
+  const getStatusCounts = () => {
+    const counts = { all: list.length };
+    [0, 1, 2, 3, 4].forEach(status => {
+      counts[status] = list.filter(item => item.status === status).length;
+    });
+    return counts;
+  };
+
+  const counts = getStatusCounts();
+
   return (
     <>
       <Header />
       <main className="my-list-page">
         <div className="my-list-header">
           <h1 className="my-list-title">My List</h1>
-          <p className="my-list-subtitle">
-            {list.length} {list.length === 1 ? 'item' : 'items'} in your list
-          </p>
+        </div>
+
+        <div className="my-list-tabs">
+          <button
+            className={`tab ${activeTab === 'all' ? 'active' : ''}`}
+            onClick={() => setActiveTab('all')}
+          >
+            All ({counts.all})
+          </button>
+          <button
+            className={`tab ${activeTab === '1' ? 'active' : ''}`}
+            onClick={() => setActiveTab('1')}
+          >
+            Watching ({counts[1]})
+          </button>
+          <button
+            className={`tab ${activeTab === '2' ? 'active' : ''}`}
+            onClick={() => setActiveTab('2')}
+          >
+            Completed ({counts[2]})
+          </button>
+          <button
+            className={`tab ${activeTab === '0' ? 'active' : ''}`}
+            onClick={() => setActiveTab('0')}
+          >
+            Plan to Watch ({counts[0]})
+          </button>
+          <button
+            className={`tab ${activeTab === '3' ? 'active' : ''}`}
+            onClick={() => setActiveTab('3')}
+          >
+            On Hold ({counts[3]})
+          </button>
+          <button
+            className={`tab ${activeTab === '4' ? 'active' : ''}`}
+            onClick={() => setActiveTab('4')}
+          >
+            Dropped ({counts[4]})
+          </button>
         </div>
 
         {error && <div className="error-message">{error}</div>}
 
         <div className="my-list-content">
-          {list.length > 0 ? (
+          {filteredList.length > 0 ? (
             <div className="my-list-grid">
-              {list.map((item) => {
+              {filteredList.map((item) => {
                 const title = item.titleName;
                 const imageUrl = item.titleImageUrl;
-                const imageSrc = imageUrl || `https://via.placeholder.com/300x450/141414/e50914?text=${encodeURIComponent(title)}`;
+                const imageSrc = imageUrl || `https://via.placeholder.com/300x450/2e51a2/ffffff?text=${encodeURIComponent(title)}`;
 
                 return (
                   <div key={item.id} className="my-list-item">
@@ -87,6 +146,9 @@ const MyList = () => {
                       onClick={() => handleItemClick(item)}
                     >
                       <img src={imageSrc} alt={title} />
+                      <div className={`status-badge status-${item.status}`}>
+                        {statusNames[item.status]}
+                      </div>
                       <div className="my-list-item-overlay">
                         <h3>{title}</h3>
                         <p className="item-type">
@@ -106,7 +168,7 @@ const MyList = () => {
             </div>
           ) : (
             <div className="empty-list">
-              <h2>Your list is empty</h2>
+              <h2>No items in this category</h2>
               <p>Start adding movies and series to your list!</p>
               <button className="browse-btn" onClick={() => navigate('/movies')}>
                 Browse Movies
