@@ -106,6 +106,10 @@ namespace MovieLibrary.API.Services
       if (!allowedExtensions.Contains(extension))
         throw new ArgumentException("Invalid file type. Only .jpg, .jpeg, .png, .gif are allowed.");
 
+      // Validate file signature (magic numbers)
+      if (!IsValidImageSignature(file))
+        throw new ArgumentException("Invalid file content. The file does not match its extension.");
+
       var webRootPath = _environment.WebRootPath;
       if (string.IsNullOrEmpty(webRootPath))
       {
@@ -142,6 +146,26 @@ namespace MovieLibrary.API.Services
       var updatedUser = await _userRepository.UpdateAsync(user);
 
       return _mapper.Map<UserResponseDto>(updatedUser);
+    }
+
+    private static bool IsValidImageSignature(IFormFile file)
+    {
+      using var reader = new BinaryReader(file.OpenReadStream());
+      var signatures = new Dictionary<string, List<byte[]>>
+      {
+        { ".jpeg", new List<byte[]> { new byte[] { 0xFF, 0xD8, 0xFF } } },
+        { ".jpg", new List<byte[]> { new byte[] { 0xFF, 0xD8, 0xFF } } },
+        { ".png", new List<byte[]> { new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A } } },
+        { ".gif", new List<byte[]> { new byte[] { 0x47, 0x49, 0x46, 0x38 } } }
+      };
+
+      var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+      if (!signatures.ContainsKey(extension)) return false;
+
+      var headerBytes = reader.ReadBytes(signatures[extension].Max(m => m.Length));
+
+      return signatures[extension].Any(signature =>
+        headerBytes.Take(signature.Length).SequenceEqual(signature));
     }
 
     private static string HashPassword(string password)
