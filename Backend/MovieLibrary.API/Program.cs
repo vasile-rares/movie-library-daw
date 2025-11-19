@@ -9,6 +9,8 @@ using MovieLibrary.API.Interfaces.Services;
 using MovieLibrary.API.Repositories;
 using MovieLibrary.API.Services;
 using MovieLibrary.API.Middlewares;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -113,6 +115,20 @@ builder.Services.AddAntiforgery(options =>
 
 builder.Services.AddControllers();
 
+// Add Rate Limiting
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddFixedWindowLimiter("fixed", options =>
+    {
+        options.PermitLimit = 100;
+        options.Window = TimeSpan.FromMinutes(1);
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 5;
+    });
+});
+
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -182,6 +198,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowFrontend");
 
+app.UseRateLimiter();
+
 app.UseStaticFiles();
 
 // XSS Protection Middleware (trebuie să fie înainte de CORS pentru a seta headers)
@@ -193,7 +211,7 @@ app.UseAuthorization();
 // Global Exception Handling (după authentication/authorization)
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-app.MapControllers();
+app.MapControllers().RequireRateLimiting("fixed");
 
 // Endpoint pentru antiforgery token (opțional, pentru formulare)
 app.MapGet("/antiforgery/token", (Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery, HttpContext context) =>

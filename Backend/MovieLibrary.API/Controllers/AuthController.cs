@@ -23,7 +23,18 @@ public class AuthController : ControllerBase
 
     SetTokenCookie(response.Token);
 
-    return Ok(new { message = "User registered successfully.", data = response });
+    // Return response without token
+    var responseData = new
+    {
+        response.UserId,
+        response.Nickname,
+        response.Email,
+        response.ProfilePictureUrl,
+        response.Role,
+        response.ExpiresAt
+    };
+
+    return Ok(new { message = "User registered successfully.", data = responseData });
   }
 
   [HttpPost("login")]
@@ -33,7 +44,18 @@ public class AuthController : ControllerBase
 
     SetTokenCookie(response.Token);
 
-    return Ok(new { message = "Login successful.", data = response });
+    // Return response without token
+    var responseData = new
+    {
+        response.UserId,
+        response.Nickname,
+        response.Email,
+        response.ProfilePictureUrl,
+        response.Role,
+        response.ExpiresAt
+    };
+
+    return Ok(new { message = "Login successful.", data = responseData });
   }
 
   [HttpPost("logout")]
