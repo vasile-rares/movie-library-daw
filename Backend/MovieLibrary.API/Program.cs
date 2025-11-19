@@ -57,9 +57,16 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero // Remove default 5 minute tolerance
     };
 
-    // Enable detailed authentication failure logging
     options.Events = new JwtBearerEvents
     {
+        OnMessageReceived = context =>
+        {
+            if (context.Request.Cookies.ContainsKey("jwt"))
+            {
+                context.Token = context.Request.Cookies["jwt"];
+            }
+            return Task.CompletedTask;
+        },
         OnAuthenticationFailed = context =>
         {
             Console.WriteLine($"Authentication failed: {context.Exception.Message}");

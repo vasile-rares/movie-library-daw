@@ -1,15 +1,18 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5002/api";
+// Use relative path to leverage Vite proxy
+const API_URL = "/api";
 
 const api = axios.create({
   baseURL: API_URL,
+  withCredentials: true, // Important for cookies
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Add token to requests
+// Add token to requests - REMOVED as we use cookies now
+/*
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -22,6 +25,7 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+*/
 
 // Handle response errors
 api.interceptors.response.use(
@@ -31,7 +35,8 @@ api.interceptors.response.use(
     // and we get a 401 (unauthorized) error
     if (error.response?.status === 401) {
       const currentPath = window.location.pathname;
-      const isAuthPage = currentPath === '/login' || currentPath === '/register';
+      const isAuthPage =
+        currentPath === "/login" || currentPath === "/register";
 
       if (!isAuthPage) {
         localStorage.clear();
