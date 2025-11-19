@@ -150,7 +150,7 @@ const Register = () => {
             <p>
               Already have an account?{' '}
               <Link to="/login" className="auth-link">
-                Sign in now
+                Sign up
               </Link>
             </p>
           </div>

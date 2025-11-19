@@ -294,30 +294,6 @@ const Settings = () => {
                     className="settings-form"
                   >
                     <div className="form-group">
-                      <label htmlFor="nickname">Username</label>
-                      <input
-                        type="text"
-                        id="nickname"
-                        value={nickname}
-                        onChange={(e) => setNickname(e.target.value)}
-                        required
-                        className="form-input"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="email">Email Address</label>
-                      <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="form-input"
-                      />
-                    </div>
-
-                    <div className="form-group">
                       <label htmlFor="profilePicture">Profile Picture</label>
                       <div className="profile-picture-group">
                         <div className="profile-preview">
@@ -349,6 +325,30 @@ const Settings = () => {
                         </div>
                       </div>
                       <small className="form-hint">Upload a local file.</small>
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="nickname">Nickname</label>
+                      <input
+                        type="text"
+                        id="nickname"
+                        value={nickname}
+                        onChange={(e) => setNickname(e.target.value)}
+                        required
+                        className="form-input"
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="email">Email Address</label>
+                      <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="form-input"
+                      />
                     </div>
 
                     <div className="form-group">
