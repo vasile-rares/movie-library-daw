@@ -30,20 +30,22 @@ namespace MovieLibrary.API.Middlewares
     {
       context.Response.ContentType = "application/json";
 
+      var statusCode = exception switch
+      {
+        KeyNotFoundException => StatusCodes.Status404NotFound,
+        ArgumentException => StatusCodes.Status400BadRequest,
+        UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
+        _ => StatusCodes.Status500InternalServerError
+      };
+
       var response = new
       {
-        message = exception.Message,
-        statusCode = exception switch
-        {
-          KeyNotFoundException => StatusCodes.Status404NotFound,
-          ArgumentException => StatusCodes.Status400BadRequest,
-          UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
-          _ => StatusCodes.Status500InternalServerError
-        },
+        message = env.IsDevelopment() ? exception.Message : "An error occurred while processing your request.",
+        statusCode = statusCode,
         details = env.IsDevelopment() ? exception.StackTrace : null
       };
 
-      context.Response.StatusCode = response.statusCode;
+      context.Response.StatusCode = statusCode;
       return context.Response.WriteAsJsonAsync(response);
     }
   }
