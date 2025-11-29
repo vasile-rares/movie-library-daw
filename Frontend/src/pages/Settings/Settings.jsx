@@ -28,9 +28,73 @@ const Settings = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // Real-time validation errors for passwords
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  // Touched fields
+  const [touched, setTouched] = useState({
+    newPassword: false,
+    confirmPassword: false,
+  });
+
   const showMessage = (type, text) => {
     setMessage({ type, text });
     setTimeout(() => setMessage({ type: "", text: "" }), 5000);
+  };
+
+  // Validation functions
+  const validateNewPassword = (value) => {
+    if (!value) {
+      return "Password is required";
+    }
+    if (value.length < 6) {
+      return "Password must be at least 6 characters";
+    }
+    return "";
+  };
+
+  const validateConfirmPassword = (value) => {
+    if (!value) {
+      return "Please confirm your password";
+    }
+    if (value !== newPassword) {
+      return "Passwords do not match";
+    }
+    return "";
+  };
+
+  // Handle password changes with validation
+  const handleNewPasswordChange = (e) => {
+    const value = e.target.value;
+    setNewPassword(value);
+    if (touched.newPassword) {
+      setNewPasswordError(validateNewPassword(value));
+    }
+    if (touched.confirmPassword && confirmPassword) {
+      setConfirmPasswordError(
+        value !== confirmPassword ? "Passwords do not match" : ""
+      );
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+    if (touched.confirmPassword) {
+      setConfirmPasswordError(validateConfirmPassword(value));
+    }
+  };
+
+  // Handle blur events
+  const handlePasswordBlur = (field) => {
+    setTouched({ ...touched, [field]: true });
+
+    if (field === "newPassword") {
+      setNewPasswordError(validateNewPassword(newPassword));
+    } else if (field === "confirmPassword") {
+      setConfirmPasswordError(validateConfirmPassword(confirmPassword));
+    }
   };
 
   const getImageUrl = (url) => {
@@ -106,13 +170,21 @@ const Settings = () => {
   const handleChangePassword = async (e) => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) {
-      showMessage("error", "New passwords do not match");
-      return;
-    }
+    // Mark all fields as touched
+    setTouched({
+      newPassword: true,
+      confirmPassword: true,
+    });
 
-    if (newPassword.length < 6) {
-      showMessage("error", "Password must be at least 6 characters");
+    // Validate all fields
+    const newPasswordErr = validateNewPassword(newPassword);
+    const confirmPasswordErr = validateConfirmPassword(confirmPassword);
+
+    setNewPasswordError(newPasswordErr);
+    setConfirmPasswordError(confirmPasswordErr);
+
+    // If any errors, don't submit
+    if (newPasswordErr || confirmPasswordErr) {
       return;
     }
 
@@ -126,6 +198,9 @@ const Settings = () => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
+      setNewPasswordError("");
+      setConfirmPasswordError("");
+      setTouched({ newPassword: false, confirmPassword: false });
       showMessage("success", "Password changed successfully!");
     } catch (err) {
       showMessage(
@@ -293,24 +368,62 @@ const Settings = () => {
                     onSubmit={handleUpdateProfile}
                     className="settings-form"
                   >
-                    <div className="form-group">
-                      <label htmlFor="profilePicture">Profile Picture</label>
-                      <div className="profile-picture-group">
-                        <div className="profile-preview">
-                          <img
-                            src={
-                              selectedFile
-                                ? URL.createObjectURL(selectedFile)
-                                : getImageUrl(profilePictureUrl) ||
-                                  `https://api.dicebear.com/7.x/avataaars/svg?seed=${nickname}`
-                            }
-                            alt="Profile preview"
-                            onError={(e) => {
-                              e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${nickname}`;
-                            }}
+                    <div className="account-layout">
+                      <div className="account-fields">
+                        <div className="form-group">
+                          <label htmlFor="nickname">Nickname</label>
+                          <input
+                            type="text"
+                            id="nickname"
+                            value={nickname}
+                            onChange={(e) => setNickname(e.target.value)}
+                            required
+                            className="form-input"
                           />
                         </div>
-                        <div className="file-input-wrapper">
+
+                        <div className="form-group">
+                          <label htmlFor="email">Email Address</label>
+                          <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="form-input"
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label>Account Role</label>
+                          <input
+                            type="text"
+                            value={user?.role || "User"}
+                            disabled
+                            className="form-input disabled"
+                          />
+                          <small className="form-hint">
+                            Your account role cannot be changed
+                          </small>
+                        </div>
+                      </div>
+
+                      <div className="account-picture">
+                        <div className="profile-picture-container">
+                          <div className="profile-preview">
+                            <img
+                              src={
+                                selectedFile
+                                  ? URL.createObjectURL(selectedFile)
+                                  : getImageUrl(profilePictureUrl) ||
+                                    `https://api.dicebear.com/7.x/avataaars/svg?seed=${nickname}`
+                              }
+                              alt="Profile preview"
+                              onError={(e) => {
+                                e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${nickname}`;
+                              }}
+                            />
+                          </div>
                           <input
                             type="file"
                             id="profilePictureFile"
@@ -320,48 +433,37 @@ const Settings = () => {
                                 setSelectedFile(e.target.files[0]);
                               }
                             }}
-                            className="form-input"
+                            style={{ display: "none" }}
                           />
+                          <button
+                            type="button"
+                            className="btn-edit-picture"
+                            onClick={() =>
+                              document.getElementById("profilePictureFile").click()
+                            }
+                          >
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                            Edit Photo
+                          </button>
+                          {selectedFile && (
+                            <small className="form-hint selected-file">
+                              Selected: {selectedFile.name}
+                            </small>
+                          )}
                         </div>
                       </div>
-                      <small className="form-hint">Upload a local file.</small>
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="nickname">Nickname</label>
-                      <input
-                        type="text"
-                        id="nickname"
-                        value={nickname}
-                        onChange={(e) => setNickname(e.target.value)}
-                        required
-                        className="form-input"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="email">Email Address</label>
-                      <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="form-input"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>Account Role</label>
-                      <input
-                        type="text"
-                        value={user?.role || "User"}
-                        disabled
-                        className="form-input disabled"
-                      />
-                      <small className="form-hint">
-                        Your account role cannot be changed
-                      </small>
                     </div>
 
                     <button
@@ -450,10 +552,15 @@ const Settings = () => {
                           type={showNewPassword ? "text" : "password"}
                           id="new-password"
                           value={newPassword}
-                          onChange={(e) => setNewPassword(e.target.value)}
-                          required
-                          minLength={6}
-                          className="form-input"
+                          onChange={handleNewPasswordChange}
+                          onBlur={() => handlePasswordBlur("newPassword")}
+                          className={`form-input ${
+                            touched.newPassword
+                              ? newPasswordError
+                                ? "input-error"
+                                : "input-success"
+                              : ""
+                          }`}
                           placeholder="Enter new password"
                         />
                         <button
@@ -495,9 +602,14 @@ const Settings = () => {
                           )}
                         </button>
                       </div>
-                      <small className="form-hint">
-                        Must be at least 6 characters
-                      </small>
+                      {touched.newPassword && newPasswordError && (
+                        <div className="field-error">{newPasswordError}</div>
+                      )}
+                      {!newPasswordError && (
+                        <small className="form-hint">
+                          Must be at least 6 characters
+                        </small>
+                      )}
                     </div>
 
                     <div className="form-group">
@@ -509,10 +621,15 @@ const Settings = () => {
                           type={showConfirmPassword ? "text" : "password"}
                           id="confirm-password"
                           value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                          required
-                          minLength={6}
-                          className="form-input"
+                          onChange={handleConfirmPasswordChange}
+                          onBlur={() => handlePasswordBlur("confirmPassword")}
+                          className={`form-input ${
+                            touched.confirmPassword
+                              ? confirmPasswordError
+                                ? "input-error"
+                                : "input-success"
+                              : ""
+                          }`}
                           placeholder="Confirm new password"
                         />
                         <button
@@ -558,6 +675,11 @@ const Settings = () => {
                           )}
                         </button>
                       </div>
+                      {touched.confirmPassword && confirmPasswordError && (
+                        <div className="field-error">
+                          {confirmPasswordError}
+                        </div>
+                      )}
                     </div>
 
                     <button
