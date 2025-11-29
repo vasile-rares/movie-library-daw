@@ -128,6 +128,86 @@ namespace MovieLibrary.API.Data
                     Type = TitleType.Movie,
                     ImageUrl = "https://image.tmdb.org/t/p/original/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"
                 },
+                new Title
+                {
+                    Name = "The Dark Knight",
+                    Description = "Batman faces the Joker, a criminal mastermind who wants to plunge Gotham into anarchy.",
+                    ReleaseYear = 2008,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/qJ2tW6WMUDux911r6m7haRef0WH.jpg"
+                },
+                new Title
+                {
+                    Name = "Fight Club",
+                    Description = "An insomniac office worker forms an underground fight club.",
+                    ReleaseYear = 1999,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg"
+                },
+                new Title
+                {
+                    Name = "Forrest Gump",
+                    Description = "The presidencies of Kennedy and Johnson unfold through the perspective of an Alabama man.",
+                    ReleaseYear = 1994,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg"
+                },
+                new Title
+                {
+                    Name = "The Shawshank Redemption",
+                    Description = "Two imprisoned men bond over a number of years, finding solace and redemption.",
+                    ReleaseYear = 1994,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg"
+                },
+                new Title
+                {
+                    Name = "Gladiator",
+                    Description = "A former Roman General sets out to exact vengeance against the corrupt emperor.",
+                    ReleaseYear = 2000,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg"
+                },
+                new Title
+                {
+                    Name = "The Prestige",
+                    Description = "Two stage magicians engage in competitive one-upmanship in an attempt to create the ultimate illusion.",
+                    ReleaseYear = 2006,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/tRNlZbgNCNOpLpbPEz5L8G8A0JN.jpg"
+                },
+                new Title
+                {
+                    Name = "Parasite",
+                    Description = "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.",
+                    ReleaseYear = 2019,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg"
+                },
+                new Title
+                {
+                    Name = "Avatar",
+                    Description = "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following orders and protecting an alien civilization.",
+                    ReleaseYear = 2009,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/kyeqWdyUXW608qlYkRqosgbbJyK.jpg"
+                },
+                new Title
+                {
+                    Name = "Avengers: Endgame",
+                    Description = "After the devastating events of Infinity War, the Avengers assemble once more to reverse Thanos' actions.",
+                    ReleaseYear = 2019,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg"
+                },
+                new Title
+                {
+                    Name = "Joker",
+                    Description = "In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society.",
+                    ReleaseYear = 2019,
+                    Type = TitleType.Movie,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg"
+                },
                 // Series
                 new Title
                 {
@@ -168,6 +248,86 @@ namespace MovieLibrary.API.Data
                     SeasonsCount = 9,
                     EpisodesCount = 201,
                     ImageUrl = "https://image.tmdb.org/t/p/original/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg"
+                },
+                new Title
+                {
+                    Name = "The Witcher",
+                    Description = "Geralt of Rivia, a mutated monster-hunter for hire, journeys toward his destiny in a turbulent world.",
+                    ReleaseYear = 2019,
+                    Type = TitleType.Series,
+                    SeasonsCount = 3,
+                    EpisodesCount = 24,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/7vjaCdMw15FEbXyLQTVa04URsPm.jpg"
+                },
+                new Title
+                {
+                    Name = "The Crown",
+                    Description = "Follows the political rivalries and romance of Queen Elizabeth II's reign.",
+                    ReleaseYear = 2016,
+                    Type = TitleType.Series,
+                    SeasonsCount = 6,
+                    EpisodesCount = 60,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/1M876KPjulVwppEpldhdc8V4o68.jpg"
+                },
+                new Title
+                {
+                    Name = "The Mandalorian",
+                    Description = "The travels of a lone bounty hunter in the outer reaches of the galaxy.",
+                    ReleaseYear = 2019,
+                    Type = TitleType.Series,
+                    SeasonsCount = 3,
+                    EpisodesCount = 24,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/eU1i6eHXlzMOlEq0ku1Rzq7Y4wA.jpg"
+                },
+                new Title
+                {
+                    Name = "Friends",
+                    Description = "Follows the personal and professional lives of six friends living in Manhattan.",
+                    ReleaseYear = 1994,
+                    Type = TitleType.Series,
+                    SeasonsCount = 10,
+                    EpisodesCount = 236,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/2koX1xLkpTQM4IZebYvaxgJYSDy.jpg"
+                },
+                new Title
+                {
+                    Name = "The Last of Us",
+                    Description = "After a global pandemic destroys civilization, a hardened survivor takes charge of a 14-year-old girl.",
+                    ReleaseYear = 2023,
+                    Type = TitleType.Series,
+                    SeasonsCount = 1,
+                    EpisodesCount = 9,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg"
+                },
+                new Title
+                {
+                    Name = "Peaky Blinders",
+                    Description = "A gangster family epic set in 1900s England, centering on a gang who sew razor blades in the peaks of their caps.",
+                    ReleaseYear = 2013,
+                    Type = TitleType.Series,
+                    SeasonsCount = 6,
+                    EpisodesCount = 36,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/vUUqzWa2LnHIVqkaKVlVGkVcZIW.jpg"
+                },
+                new Title
+                {
+                    Name = "Wednesday",
+                    Description = "Wednesday Addams' years as a student at Nevermore Academy.",
+                    ReleaseYear = 2022,
+                    Type = TitleType.Series,
+                    SeasonsCount = 1,
+                    EpisodesCount = 8,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"
+                },
+                new Title
+                {
+                    Name = "Sherlock",
+                    Description = "A modern update finds the famous sleuth and his doctor partner solving crime in 21st century London.",
+                    ReleaseYear = 2010,
+                    Type = TitleType.Series,
+                    SeasonsCount = 4,
+                    EpisodesCount = 13,
+                    ImageUrl = "https://image.tmdb.org/t/p/original/7WTsnHkbA0FaG6R9twfFde0I9hl.jpg"
                 }
             };
             context.Titles.AddRange(titles);
@@ -180,6 +340,7 @@ namespace MovieLibrary.API.Data
         {
             var titleGenres = new List<TitleGenre>
             {
+                // Movies
                 // The Matrix - Action, Sci-Fi
                 new TitleGenre { TitleId = titles[0].Id, GenreId = genres[0].Id },
                 new TitleGenre { TitleId = titles[0].Id, GenreId = genres[4].Id },
@@ -200,21 +361,95 @@ namespace MovieLibrary.API.Data
                 new TitleGenre { TitleId = titles[4].Id, GenreId = genres[4].Id },
                 new TitleGenre { TitleId = titles[4].Id, GenreId = genres[2].Id },
 
-                // Breaking Bad - Drama, Thriller
-                new TitleGenre { TitleId = titles[5].Id, GenreId = genres[2].Id },
+                // The Dark Knight - Action, Thriller
+                new TitleGenre { TitleId = titles[5].Id, GenreId = genres[0].Id },
                 new TitleGenre { TitleId = titles[5].Id, GenreId = genres[6].Id },
 
-                // Game of Thrones - Drama, Fantasy
+                // Fight Club - Drama, Thriller
                 new TitleGenre { TitleId = titles[6].Id, GenreId = genres[2].Id },
-                new TitleGenre { TitleId = titles[6].Id, GenreId = genres[9].Id },
+                new TitleGenre { TitleId = titles[6].Id, GenreId = genres[6].Id },
+
+                // Forrest Gump - Drama, Romance
+                new TitleGenre { TitleId = titles[7].Id, GenreId = genres[2].Id },
+                new TitleGenre { TitleId = titles[7].Id, GenreId = genres[5].Id },
+
+                // The Shawshank Redemption - Drama
+                new TitleGenre { TitleId = titles[8].Id, GenreId = genres[2].Id },
+
+                // Gladiator - Action, Drama
+                new TitleGenre { TitleId = titles[9].Id, GenreId = genres[0].Id },
+                new TitleGenre { TitleId = titles[9].Id, GenreId = genres[2].Id },
+
+                // The Prestige - Drama, Thriller
+                new TitleGenre { TitleId = titles[10].Id, GenreId = genres[2].Id },
+                new TitleGenre { TitleId = titles[10].Id, GenreId = genres[6].Id },
+
+                // Parasite - Drama, Thriller
+                new TitleGenre { TitleId = titles[11].Id, GenreId = genres[2].Id },
+                new TitleGenre { TitleId = titles[11].Id, GenreId = genres[6].Id },
+
+                // Avatar - Action, Sci-Fi, Fantasy
+                new TitleGenre { TitleId = titles[12].Id, GenreId = genres[0].Id },
+                new TitleGenre { TitleId = titles[12].Id, GenreId = genres[4].Id },
+                new TitleGenre { TitleId = titles[12].Id, GenreId = genres[9].Id },
+
+                // Avengers: Endgame - Action, Sci-Fi
+                new TitleGenre { TitleId = titles[13].Id, GenreId = genres[0].Id },
+                new TitleGenre { TitleId = titles[13].Id, GenreId = genres[4].Id },
+
+                // Joker - Drama, Thriller
+                new TitleGenre { TitleId = titles[14].Id, GenreId = genres[2].Id },
+                new TitleGenre { TitleId = titles[14].Id, GenreId = genres[6].Id },
+
+                // Series
+                // Breaking Bad - Drama, Thriller
+                new TitleGenre { TitleId = titles[15].Id, GenreId = genres[2].Id },
+                new TitleGenre { TitleId = titles[15].Id, GenreId = genres[6].Id },
+
+                // Game of Thrones - Drama, Fantasy
+                new TitleGenre { TitleId = titles[16].Id, GenreId = genres[2].Id },
+                new TitleGenre { TitleId = titles[16].Id, GenreId = genres[9].Id },
 
                 // Stranger Things - Horror, Sci-Fi, Thriller
-                new TitleGenre { TitleId = titles[7].Id, GenreId = genres[3].Id },
-                new TitleGenre { TitleId = titles[7].Id, GenreId = genres[4].Id },
-                new TitleGenre { TitleId = titles[7].Id, GenreId = genres[6].Id },
+                new TitleGenre { TitleId = titles[17].Id, GenreId = genres[3].Id },
+                new TitleGenre { TitleId = titles[17].Id, GenreId = genres[4].Id },
+                new TitleGenre { TitleId = titles[17].Id, GenreId = genres[6].Id },
 
                 // The Office - Comedy
-                new TitleGenre { TitleId = titles[8].Id, GenreId = genres[1].Id }
+                new TitleGenre { TitleId = titles[18].Id, GenreId = genres[1].Id },
+
+                // The Witcher - Action, Fantasy
+                new TitleGenre { TitleId = titles[19].Id, GenreId = genres[0].Id },
+                new TitleGenre { TitleId = titles[19].Id, GenreId = genres[9].Id },
+
+                // The Crown - Drama
+                new TitleGenre { TitleId = titles[20].Id, GenreId = genres[2].Id },
+
+                // The Mandalorian - Action, Sci-Fi
+                new TitleGenre { TitleId = titles[21].Id, GenreId = genres[0].Id },
+                new TitleGenre { TitleId = titles[21].Id, GenreId = genres[4].Id },
+
+                // Friends - Comedy, Romance
+                new TitleGenre { TitleId = titles[22].Id, GenreId = genres[1].Id },
+                new TitleGenre { TitleId = titles[22].Id, GenreId = genres[5].Id },
+
+                // The Last of Us - Drama, Horror, Thriller
+                new TitleGenre { TitleId = titles[23].Id, GenreId = genres[2].Id },
+                new TitleGenre { TitleId = titles[23].Id, GenreId = genres[3].Id },
+                new TitleGenre { TitleId = titles[23].Id, GenreId = genres[6].Id },
+
+                // Peaky Blinders - Drama, Thriller
+                new TitleGenre { TitleId = titles[24].Id, GenreId = genres[2].Id },
+                new TitleGenre { TitleId = titles[24].Id, GenreId = genres[6].Id },
+
+                // Wednesday - Comedy, Horror, Fantasy
+                new TitleGenre { TitleId = titles[25].Id, GenreId = genres[1].Id },
+                new TitleGenre { TitleId = titles[25].Id, GenreId = genres[3].Id },
+                new TitleGenre { TitleId = titles[25].Id, GenreId = genres[9].Id },
+
+                // Sherlock - Drama, Thriller
+                new TitleGenre { TitleId = titles[26].Id, GenreId = genres[2].Id },
+                new TitleGenre { TitleId = titles[26].Id, GenreId = genres[6].Id }
             };
             context.TitleGenres.AddRange(titleGenres);
             context.SaveChanges();
