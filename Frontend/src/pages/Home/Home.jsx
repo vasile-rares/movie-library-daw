@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { titleService } from '../../services/titleService';
 import Header from '../../components/Header';
 import Hero from '../../components/Hero';
@@ -10,6 +10,8 @@ const Home = () => {
   const [shows, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const moviesScrollRef = useRef(null);
+  const showsScrollRef = useRef(null);
 
   useEffect(() => {
     fetchContent();
@@ -32,7 +34,19 @@ const Home = () => {
     }
   };
 
-  const featuredContent = [...movies, ...shows][0];
+  const scroll = (ref, direction) => {
+    if (ref.current) {
+      const scrollAmount = 600;
+      const newScrollPosition = ref.current.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount);
+      ref.current.scrollTo({
+        left: newScrollPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Get top 5 items for the slideshow
+  const featuredContent = [...movies, ...shows].slice(0, 5);
 
   if (loading) {
     return (
@@ -58,15 +72,35 @@ const Home = () => {
     <>
       <Header />
       <main className="home">
-        {featuredContent && <Hero item={featuredContent} type={featuredContent.seasonsCount ? 'show' : 'movie'} />}
+        {featuredContent.length > 0 && <Hero items={featuredContent} type="movie" />}
 
         {movies.length > 0 && (
           <section className="content-section">
             <h2 className="section-title">Popular Movies</h2>
-            <div className="content-grid">
-              {movies.slice(0, 12).map((movie) => (
-                <TitleCard key={movie.id} item={movie} type="movie" />
-              ))}
+            <div className="carousel-container">
+              <button
+                className="carousel-arrow carousel-arrow-left"
+                onClick={() => scroll(moviesScrollRef, 'left')}
+                aria-label="Scroll left"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <div className="content-carousel" ref={moviesScrollRef}>
+                {movies.map((movie) => (
+                  <TitleCard key={movie.id} item={movie} type="movie" />
+                ))}
+              </div>
+              <button
+                className="carousel-arrow carousel-arrow-right"
+                onClick={() => scroll(moviesScrollRef, 'right')}
+                aria-label="Scroll right"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
             </div>
           </section>
         )}
@@ -74,10 +108,30 @@ const Home = () => {
         {shows.length > 0 && (
           <section className="content-section">
             <h2 className="section-title">Popular Shows</h2>
-            <div className="content-grid">
-              {shows.slice(0, 12).map((s) => (
-                <TitleCard key={s.id} item={s} type="show" />
-              ))}
+            <div className="carousel-container">
+              <button
+                className="carousel-arrow carousel-arrow-left"
+                onClick={() => scroll(showsScrollRef, 'left')}
+                aria-label="Scroll left"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <div className="content-carousel" ref={showsScrollRef}>
+                {shows.map((show) => (
+                  <TitleCard key={show.id} item={show} type="show" />
+                ))}
+              </div>
+              <button
+                className="carousel-arrow carousel-arrow-right"
+                onClick={() => scroll(showsScrollRef, 'right')}
+                aria-label="Scroll right"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
             </div>
           </section>
         )}

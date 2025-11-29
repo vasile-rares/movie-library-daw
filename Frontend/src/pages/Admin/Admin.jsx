@@ -456,7 +456,7 @@ const Admin = () => {
             <div className="list-section">
               <h2>All Shows</h2>
               <div className="items-list">
-                {series.map(showItem => (
+                {shows.map(showItem => (
                   <div key={showItem.id} className="item-card">
                     <img src={showItem.imageUrl} alt={showItem.title} />
                     <div className="item-info">

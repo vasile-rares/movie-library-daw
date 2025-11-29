@@ -26,6 +26,70 @@
   gap: 1.25rem;
 }
 
+/* Carousel Container */
+.carousel-container {
+  position: relative;
+  width: 100%;
+}
+
+.content-carousel {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 0.5rem 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.content-carousel::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.content-carousel > * {
+  flex: 0 0 auto;
+  width: 180px;
+}
+
+/* Carousel Arrows */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+.carousel-arrow:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow-left {
+  left: -25px;
+}
+
+.carousel-arrow-right {
+  right: -25px;
+}
+
+.carousel-arrow svg {
+  width: 24px;
+  height: 24px;
+}
+
 .loading-container {
   display: flex;
   justify-content: center;
@@ -74,5 +138,27 @@
   .content-grid {
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 1rem;
+  }
+
+  .content-carousel > * {
+    width: 140px;
+  }
+
+  .carousel-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel-arrow-left {
+    left: -10px;
+  }
+
+  .carousel-arrow-right {
+    right: -10px;
+  }
+
+  .carousel-arrow svg {
+    width: 20px;
+    height: 20px;
   }
 }
