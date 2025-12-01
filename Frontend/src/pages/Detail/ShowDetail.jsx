@@ -160,15 +160,31 @@ const ShowDetail = () => {
           </aside>
 
           <div className="detail-main">
-            <h1 className="detail-heading">{show.title}</h1>
+            <div className="detail-header">
+              <span className="detail-type-badge">📺 TV Show</span>
+              <h1 className="detail-heading">{show.title}</h1>
+              <div className="detail-meta">
+                <span className="detail-meta-item">{show.releaseYear}</span>
+                {show.seasonsCount && (
+                  <>
+                    <span className="detail-meta-separator"></span>
+                    <span className="detail-meta-item">{show.seasonsCount} {show.seasonsCount === 1 ? 'Season' : 'Seasons'}</span>
+                  </>
+                )}
+                <span className="detail-meta-separator"></span>
+                <span className="detail-meta-item rating">★ {averageRating}/10</span>
+                <span className="detail-meta-separator"></span>
+                <span className="detail-meta-item">{ratings.length} {ratings.length === 1 ? 'review' : 'reviews'}</span>
+              </div>
+            </div>
 
             <section className="content-block">
-              <h2 className="block-title">Synopsis</h2>
+              <h2 className="block-title">📖 Synopsis</h2>
               <p className="synopsis-text">{show.description}</p>
             </section>
 
             <section className="content-block">
-              <h2 className="block-title">Your Rating</h2>
+              <h2 className="block-title">⭐ Your Rating</h2>
               <form onSubmit={handleSubmitRating} className="rating-form">
                 <div className="form-row">
                   <label htmlFor="score">Score (1-10)</label>
@@ -202,7 +218,7 @@ const ShowDetail = () => {
             </section>
 
             <section className="content-block">
-              <h2 className="block-title">Reviews ({ratings.length})</h2>
+              <h2 className="block-title">💬 Reviews ({ratings.length})</h2>
               <div className="reviews-container">
                 {ratings.length > 0 ? (
                   ratings.map((rating) => (

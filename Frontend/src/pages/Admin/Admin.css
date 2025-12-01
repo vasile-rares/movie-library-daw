@@ -19,7 +19,7 @@
 
 .admin-message {
   padding: 0.875rem 1.25rem;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   margin-bottom: 1.5rem;
   font-size: 0.9rem;
   font-weight: 500;
@@ -78,7 +78,7 @@
 .form-section,
 .list-section {
   background: var(--bg-card);
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   padding: 1.5rem;
   border: 1px solid var(--border-primary);
   box-shadow: var(--shadow-card);
@@ -114,7 +114,7 @@
 .form-group textarea {
   padding: 0.75rem;
   border: 1px solid var(--border-secondary);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
   transition: all 0.2s ease;
   background: var(--bg-secondary);
@@ -140,7 +140,7 @@
   gap: 0.875rem;
   padding: 0.875rem;
   background: var(--bg-tertiary);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-primary);
 }
 
@@ -171,7 +171,7 @@
   background: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -190,7 +190,7 @@
   background: transparent;
   color: var(--text-secondary);
   border: 1px solid var(--border-secondary);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
@@ -235,7 +235,7 @@
   gap: 1rem;
   padding: 1rem;
   background: var(--bg-secondary);
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border-primary);
   transition: all 0.2s ease;
 }
@@ -249,7 +249,7 @@
   width: 80px;
   height: 120px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .item-info {
@@ -288,7 +288,7 @@
 .btn-delete {
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
