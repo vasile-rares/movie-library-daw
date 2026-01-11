@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { myListService } from '../../services/myListService';
-import Header from '../../components/Header';
-import './MyList.css';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { myListService } from "../../services/myListService";
+import Header from "../../components/Header";
+import "./MyList.css";
 
 const MyList = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('all');
+  const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState("all");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const MyList = () => {
       const response = await myListService.getMyList();
       setList(response.data || []);
     } catch (err) {
-      setError('Failed to load your list');
+      setError("Failed to load your list");
       console.error(err);
     } finally {
       setLoading(false);
@@ -29,14 +29,28 @@ const MyList = () => {
   };
 
   const handleRemove = async (id) => {
-    if (!confirm('Remove from your list?')) return;
+    if (!confirm("Remove from your list?")) return;
 
     try {
       await myListService.removeFromList(id);
       setList(list.filter((item) => item.id !== id));
     } catch (err) {
       console.error(err);
-      alert('Failed to remove from list');
+      alert("Failed to remove from list");
+    }
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await myListService.updateStatus(id, newStatus);
+      setList(
+        list.map((item) =>
+          item.id === id ? { ...item, status: newStatus } : item
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update status");
     }
   };
 
@@ -61,21 +75,22 @@ const MyList = () => {
   }
 
   const statusNames = {
-    0: 'Plan to Watch',
-    1: 'Watching',
-    2: 'Completed',
-    3: 'On Hold',
-    4: 'Dropped'
+    0: "Plan to Watch",
+    1: "Watching",
+    2: "Completed",
+    3: "On Hold",
+    4: "Dropped",
   };
 
-  const filteredList = activeTab === 'all'
-    ? list
-    : list.filter(item => item.status === parseInt(activeTab));
+  const filteredList =
+    activeTab === "all"
+      ? list
+      : list.filter((item) => item.status === parseInt(activeTab));
 
   const getStatusCounts = () => {
     const counts = { all: list.length };
-    [0, 1, 2, 3, 4].forEach(status => {
-      counts[status] = list.filter(item => item.status === status).length;
+    [0, 1, 2, 3, 4].forEach((status) => {
+      counts[status] = list.filter((item) => item.status === status).length;
     });
     return counts;
   };
@@ -92,38 +107,38 @@ const MyList = () => {
 
         <div className="my-list-tabs">
           <button
-            className={`tab ${activeTab === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveTab('all')}
+            className={`tab ${activeTab === "all" ? "active" : ""}`}
+            onClick={() => setActiveTab("all")}
           >
             All ({counts.all})
           </button>
           <button
-            className={`tab ${activeTab === '1' ? 'active' : ''}`}
-            onClick={() => setActiveTab('1')}
+            className={`tab ${activeTab === "1" ? "active" : ""}`}
+            onClick={() => setActiveTab("1")}
           >
             Watching ({counts[1]})
           </button>
           <button
-            className={`tab ${activeTab === '2' ? 'active' : ''}`}
-            onClick={() => setActiveTab('2')}
+            className={`tab ${activeTab === "2" ? "active" : ""}`}
+            onClick={() => setActiveTab("2")}
           >
             Completed ({counts[2]})
           </button>
           <button
-            className={`tab ${activeTab === '0' ? 'active' : ''}`}
-            onClick={() => setActiveTab('0')}
+            className={`tab ${activeTab === "0" ? "active" : ""}`}
+            onClick={() => setActiveTab("0")}
           >
             Plan to Watch ({counts[0]})
           </button>
           <button
-            className={`tab ${activeTab === '3' ? 'active' : ''}`}
-            onClick={() => setActiveTab('3')}
+            className={`tab ${activeTab === "3" ? "active" : ""}`}
+            onClick={() => setActiveTab("3")}
           >
             On Hold ({counts[3]})
           </button>
           <button
-            className={`tab ${activeTab === '4' ? 'active' : ''}`}
-            onClick={() => setActiveTab('4')}
+            className={`tab ${activeTab === "4" ? "active" : ""}`}
+            onClick={() => setActiveTab("4")}
           >
             Dropped ({counts[4]})
           </button>
@@ -137,7 +152,11 @@ const MyList = () => {
               {filteredList.map((item) => {
                 const title = item.titleName;
                 const imageUrl = item.titleImageUrl;
-                const imageSrc = imageUrl || `https://via.placeholder.com/300x450/2e51a2/ffffff?text=${encodeURIComponent(title)}`;
+                const imageSrc =
+                  imageUrl ||
+                  `https://via.placeholder.com/300x450/2e51a2/ffffff?text=${encodeURIComponent(
+                    title
+                  )}`;
 
                 return (
                   <div key={item.id} className="my-list-item">
@@ -152,16 +171,32 @@ const MyList = () => {
                       <div className="my-list-item-overlay">
                         <h3>{title}</h3>
                         <p className="item-type">
-                          {item.titleType === 0 ? 'Movie' : 'Series'}
+                          {item.titleType === 0 ? "Movie" : "Series"}
                         </p>
                       </div>
                     </div>
-                    <button
-                      className="remove-btn"
-                      onClick={() => handleRemove(item.id)}
-                    >
-                      Remove
-                    </button>
+                    <div className="my-list-item-actions">
+                      <select
+                        className="status-dropdown"
+                        value={item.status}
+                        onChange={(e) =>
+                          handleStatusChange(item.id, parseInt(e.target.value))
+                        }
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {Object.entries(statusNames).map(([value, label]) => (
+                          <option key={value} value={value}>
+                            {label}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        className="remove-btn"
+                        onClick={() => handleRemove(item.id)}
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 );
               })}
@@ -170,7 +205,10 @@ const MyList = () => {
             <div className="empty-list">
               <h2>No items in this category</h2>
               <p>Start adding movies and shows to your list!</p>
-              <button className="browse-btn" onClick={() => navigate('/movies')}>
+              <button
+                className="browse-btn"
+                onClick={() => navigate("/movies")}
+              >
                 Browse Movies
               </button>
             </div>

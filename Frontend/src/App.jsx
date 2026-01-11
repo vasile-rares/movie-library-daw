@@ -1,18 +1,22 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
-import AdminRoute from './components/AdminRoute';
-import Login from './pages/Auth/Login';
-import Register from './pages/Auth/Register';
-import Home from './pages/Home/Home';
-import Movies from './pages/Browse/Movies';
-import Shows from './pages/Browse/Shows';
-import MovieDetail from './pages/Detail/MovieDetail';
-import ShowDetail from './pages/Detail/ShowDetail';
-import MyList from './pages/MyList/MyList';
-import Settings from './pages/Settings/Settings';
-import Admin from './pages/Admin/Admin';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
+import Home from "./pages/Home/Home";
+import Movies from "./pages/Browse/Movies";
+import Shows from "./pages/Browse/Shows";
+import TitleDetail from "./pages/Detail/TitleDetail";
+import MyList from "./pages/MyList/MyList";
+import Settings from "./pages/Settings/Settings";
+import Admin from "./pages/Admin/Admin";
+import "./App.css";
 
 function App() {
   return (
@@ -49,7 +53,7 @@ function App() {
             path="/movie/:id"
             element={
               <ProtectedRoute>
-                <MovieDetail />
+                <TitleDetail titleType="movie" />
               </ProtectedRoute>
             }
           />
@@ -57,7 +61,7 @@ function App() {
             path="/show/:id"
             element={
               <ProtectedRoute>
-                <ShowDetail />
+                <TitleDetail titleType="show" />
               </ProtectedRoute>
             }
           />

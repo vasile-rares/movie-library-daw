@@ -38,7 +38,11 @@
 .add-list-btn {
   width: 100%;
   padding: 1rem;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
   color: white;
   border: none;
   font-size: 0.9rem;
@@ -50,9 +54,61 @@
 }
 
 .add-list-btn:hover {
-  background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+  background: linear-gradient(
+    135deg,
+    var(--primary-dark),
+    var(--primary-color)
+  );
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(46, 81, 162, 0.3);
+}
+
+.list-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.status-dropdown {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: none;
+  border-bottom: 1px solid var(--border-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.status-dropdown:hover {
+  background: var(--bg-tertiary);
+}
+
+.status-dropdown:focus {
+  background: var(--bg-tertiary);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.remove-list-btn {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  color: var(--error);
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.remove-list-btn:hover {
+  background: #fff5f5;
+  color: #c92a2a;
 }
 
 .info-panel {
@@ -274,10 +330,19 @@
   min-height: 100px;
 }
 
+.rating-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
 .submit-btn {
-  align-self: flex-start;
   padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
   color: white;
   border: none;
   border-radius: 8px;
@@ -290,9 +355,34 @@
 }
 
 .submit-btn:hover {
-  background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+  background: linear-gradient(
+    135deg,
+    var(--primary-dark),
+    var(--primary-color)
+  );
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(46, 81, 162, 0.3);
+}
+
+.delete-rating-btn {
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: var(--error);
+  border: 2px solid var(--error);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.delete-rating-btn:hover {
+  background: var(--error);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
 /* Reviews */

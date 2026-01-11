@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { titleService } from '../../services/titleService';
+import { myListService } from '../../services/myListService';
 import Header from '../../components/Header';
 import Hero from '../../components/Hero';
 import TitleCard from '../../components/TitleCard';
@@ -10,11 +11,13 @@ const Home = () => {
   const [shows, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [myListByTitleId, setMyListByTitleId] = useState({});
   const moviesScrollRef = useRef(null);
   const showsScrollRef = useRef(null);
 
   useEffect(() => {
     fetchContent();
+    fetchMyList();
   }, []);
 
   const fetchContent = async () => {
@@ -32,6 +35,36 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchMyList = async () => {
+    try {
+      const response = await myListService.getMyList();
+      const map = (response.data || []).reduce((acc, item) => {
+        acc[item.titleId] = item.id;
+        return acc;
+      }, {});
+      setMyListByTitleId(map);
+    } catch (err) {
+      console.error('Failed to load My List', err);
+    }
+  };
+
+  const handleAddedToList = (createdItem) => {
+    if (!createdItem) return;
+    setMyListByTitleId((prev) => {
+      if (prev[createdItem.titleId]) return prev;
+      return { ...prev, [createdItem.titleId]: createdItem.id };
+    });
+  };
+
+  const handleRemovedFromList = (titleId) => {
+    setMyListByTitleId((prev) => {
+      if (!prev[titleId]) return prev;
+      const next = { ...prev };
+      delete next[titleId];
+      return next;
+    });
   };
 
   const scroll = (ref, direction) => {
@@ -89,7 +122,15 @@ const Home = () => {
               </button>
               <div className="content-carousel" ref={moviesScrollRef}>
                 {movies.map((movie) => (
-                  <TitleCard key={movie.id} item={movie} type="movie" />
+                  <TitleCard
+                    key={movie.id}
+                    item={movie}
+                    type="movie"
+                    isInList={!!myListByTitleId[movie.id]}
+                    listItemId={myListByTitleId[movie.id]}
+                    onAddToList={handleAddedToList}
+                    onRemoveFromList={handleRemovedFromList}
+                  />
                 ))}
               </div>
               <button
@@ -120,7 +161,15 @@ const Home = () => {
               </button>
               <div className="content-carousel" ref={showsScrollRef}>
                 {shows.map((show) => (
-                  <TitleCard key={show.id} item={show} type="show" />
+                  <TitleCard
+                    key={show.id}
+                    item={show}
+                    type="show"
+                    isInList={!!myListByTitleId[show.id]}
+                    listItemId={myListByTitleId[show.id]}
+                    onAddToList={handleAddedToList}
+                    onRemoveFromList={handleRemovedFromList}
+                  />
                 ))}
               </div>
               <button
