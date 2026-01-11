@@ -270,7 +270,7 @@ const Admin = () => {
             <div className="form-section">
               <h2>{editingItem ? "Edit Movie" : "Add New Movie"}</h2>
               <form onSubmit={handleMovieSubmit} className="admin-form">
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Title *</label>
                   <input
                     type="text"
@@ -282,7 +282,7 @@ const Admin = () => {
                   />
                 </div>
 
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Description *</label>
                   <textarea
                     value={movieForm.description}
@@ -297,7 +297,7 @@ const Admin = () => {
                   />
                 </div>
 
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Release Year</label>
                   <input
                     type="number"
@@ -313,7 +313,7 @@ const Admin = () => {
                   />
                 </div>
 
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Image URL *</label>
                   <input
                     type="url"
@@ -325,7 +325,7 @@ const Admin = () => {
                   />
                 </div>
 
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Genres *</label>
                   <div className="genre-checkboxes">
                     {genres.map((genre) => (
@@ -342,14 +342,14 @@ const Admin = () => {
                 </div>
 
                 <div className="form-actions">
-                  <button type="submit" className="btn-primary">
+                  <button type="submit" className="admin-btn-primary">
                     {editingItem ? "Update Movie" : "Create Movie"}
                   </button>
                   {editingItem && (
                     <button
                       type="button"
                       onClick={resetMovieForm}
-                      className="btn-secondary"
+                      className="admin-btn-secondary"
                     >
                       Cancel
                     </button>
@@ -397,7 +397,7 @@ const Admin = () => {
             <div className="form-section">
               <h2>{editingItem ? "Edit Shows" : "Add New Shows"}</h2>
               <form onSubmit={handleShowSubmit} className="admin-form">
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Title *</label>
                   <input
                     type="text"
@@ -409,7 +409,7 @@ const Admin = () => {
                   />
                 </div>
 
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Description *</label>
                   <textarea
                     value={showForm.description}
@@ -421,8 +421,8 @@ const Admin = () => {
                   />
                 </div>
 
-                <div className="form-row">
-                  <div className="form-group">
+                <div className="admin-form-row">
+                  <div className="admin-form-group">
                     <label>Release Year</label>
                     <input
                       type="number"
@@ -438,7 +438,7 @@ const Admin = () => {
                     />
                   </div>
 
-                  <div className="form-group">
+                  <div className="admin-form-group">
                     <label>Seasons Count</label>
                     <input
                       type="number"
@@ -455,7 +455,7 @@ const Admin = () => {
                   </div>
                 </div>
 
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Episodes Count</label>
                   <input
                     type="number"
@@ -471,7 +471,7 @@ const Admin = () => {
                   />
                 </div>
 
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Image URL *</label>
                   <input
                     type="url"
@@ -483,7 +483,7 @@ const Admin = () => {
                   />
                 </div>
 
-                <div className="form-group">
+                <div className="admin-form-group">
                   <label>Genres *</label>
                   <div className="genre-checkboxes">
                     {genres.map((genre) => (
@@ -500,14 +500,14 @@ const Admin = () => {
                 </div>
 
                 <div className="form-actions">
-                  <button type="submit" className="btn-primary">
+                  <button type="submit" className="admin-btn-primary">
                     {editingItem ? "Update Shows" : "Create Shows"}
                   </button>
                   {editingItem && (
                     <button
                       type="button"
                       onClick={resetShowsForm}
-                      className="btn-secondary"
+                      className="admin-btn-secondary"
                     >
                       Cancel
                     </button>
