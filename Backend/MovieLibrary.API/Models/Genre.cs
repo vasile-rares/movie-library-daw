@@ -13,7 +13,6 @@ namespace MovieLibrary.API.Models
         [Required, MaxLength(50)]
         public string Name { get; set; } = null!;
 
-        // Navigation properties
         public ICollection<TitleGenre> TitleGenres { get; set; } = new List<TitleGenre>();
     }
 }

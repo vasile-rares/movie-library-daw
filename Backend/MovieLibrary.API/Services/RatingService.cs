@@ -46,7 +46,6 @@ namespace MovieLibrary.API.Services
 
     public async Task<RatingResponseDto> CreateRatingAsync(CreateRatingDto dto)
     {
-      // Validate that the title exists
       var titleExists = await _titleRepository.ExistsAsync(dto.TitleId);
       if (!titleExists)
         throw new KeyNotFoundException($"Title with ID {dto.TitleId} not found");

@@ -24,11 +24,9 @@ namespace MovieLibrary.API.Models
         [Required]
         public TitleType Type { get; set; }
 
-        // Specific to Series (null for Movies)
-        public int? SeasonsCount { get; set; }
-        public int? EpisodesCount { get; set; }
+        public int? SeasonsCount { get; set; };
+        public int? EpisodesCount { get; set; };
 
-        // Navigation properties
         public ICollection<TitleGenre> TitleGenres { get; set; } = new List<TitleGenre>();
         public ICollection<MyList> MyLists { get; set; } = new List<MyList>();
         public ICollection<Rating> Ratings { get; set; } = new List<Rating>();

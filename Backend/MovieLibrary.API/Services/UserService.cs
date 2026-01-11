@@ -39,7 +39,6 @@ namespace MovieLibrary.API.Services
 
     public async Task<UserResponseDto> CreateUserAsync(CreateUserDto dto)
     {
-      // Check if nickname or email already exists
       var existingUser = await _userRepository.GetByNicknameAsync(dto.Nickname);
       if (existingUser != null)
         throw new ArgumentException("Nickname already exists");
@@ -106,7 +105,6 @@ namespace MovieLibrary.API.Services
       if (!allowedExtensions.Contains(extension))
         throw new ArgumentException("Invalid file type. Only .jpg, .jpeg, .png, .gif are allowed.");
 
-      // Validate file signature (magic numbers)
       if (!IsValidImageSignature(file))
         throw new ArgumentException("Invalid file content. The file does not match its extension.");
 
@@ -128,19 +126,7 @@ namespace MovieLibrary.API.Services
         await file.CopyToAsync(stream);
       }
 
-      // Construct the URL. Assuming the frontend can access this via the base URL.
-      // We need to make sure the path is accessible.
-      // If we use "wwwroot" in path above, we should strip it for the URL if UseStaticFiles is used on wwwroot.
-      // Usually WebRootPath points to wwwroot.
-
-      // If WebRootPath is set, it points to wwwroot.
-      // So uploadsFolder = wwwroot/uploads/profiles
-      // URL should be /uploads/profiles/filename
-
       var relativePath = $"/uploads/profiles/{fileName}";
-
-      // If there was an old picture (and it's local), maybe delete it?
-      // Skipping deletion for now to be safe.
 
       user.ProfilePictureUrl = relativePath;
       var updatedUser = await _userRepository.UpdateAsync(user);

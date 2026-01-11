@@ -1,8 +1,8 @@
-import api from './api';
+import api from "./api";
 
 export const titleService = {
   async getAll() {
-    const response = await api.get('/titles');
+    const response = await api.get("/titles");
     return response.data;
   },
 
@@ -12,7 +12,6 @@ export const titleService = {
   },
 
   async getByType(type) {
-    // type can be 'Movie' or 'Series'
     const response = await api.get(`/titles/type/${type}`);
     return response.data;
   },
@@ -23,7 +22,7 @@ export const titleService = {
   },
 
   async create(titleData) {
-    const response = await api.post('/titles', titleData);
+    const response = await api.post("/titles", titleData);
     return response.data;
   },
 

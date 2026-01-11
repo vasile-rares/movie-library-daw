@@ -9,7 +9,6 @@ const Settings = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  // Form states
   const [nickname, setNickname] = useState(user?.nickname || "");
   const [email, setEmail] = useState(user?.email || "");
   const [profilePictureUrl, setProfilePictureUrl] = useState(
@@ -19,20 +18,14 @@ const Settings = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  // UI states
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [activeSection, setActiveSection] = useState("account");
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  // Real-time validation errors for passwords
   const [newPasswordError, setNewPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
-  // Touched fields
   const [touched, setTouched] = useState({
     newPassword: false,
     confirmPassword: false,
@@ -64,7 +57,6 @@ const Settings = () => {
     return "";
   };
 
-  // Handle password changes with validation
   const handleNewPasswordChange = (e) => {
     const value = e.target.value;
     setNewPassword(value);
@@ -86,7 +78,6 @@ const Settings = () => {
     }
   };
 
-  // Handle blur events
   const handlePasswordBlur = (field) => {
     setTouched({ ...touched, [field]: true });
 
@@ -113,7 +104,6 @@ const Settings = () => {
     try {
       let updatedUserResponse = null;
 
-      // 1. Upload file if selected
       if (selectedFile) {
         const formData = new FormData();
         formData.append("file", selectedFile);
@@ -130,7 +120,6 @@ const Settings = () => {
         setProfilePictureUrl(updatedUserResponse.profilePictureUrl);
       }
 
-      // 2. Update other fields if changed
       const updates = {};
       if (nickname !== user.nickname) updates.nickname = nickname;
       if (email !== user.email) updates.email = email;
@@ -155,7 +144,6 @@ const Settings = () => {
 
       showMessage("success", "Profile updated successfully!");
 
-      // Reload page to update header avatar
       setTimeout(() => window.location.reload(), 1000);
     } catch (err) {
       showMessage(
@@ -170,20 +158,17 @@ const Settings = () => {
   const handleChangePassword = async (e) => {
     e.preventDefault();
 
-    // Mark all fields as touched
     setTouched({
       newPassword: true,
       confirmPassword: true,
     });
 
-    // Validate all fields
     const newPasswordErr = validateNewPassword(newPassword);
     const confirmPasswordErr = validateConfirmPassword(confirmPassword);
 
     setNewPasswordError(newPasswordErr);
     setConfirmPasswordError(confirmPasswordErr);
 
-    // If any errors, don't submit
     if (newPasswordErr || confirmPasswordErr) {
       return;
     }
@@ -439,7 +424,9 @@ const Settings = () => {
                             type="button"
                             className="btn-edit-picture"
                             onClick={() =>
-                              document.getElementById("profilePictureFile").click()
+                              document
+                                .getElementById("profilePictureFile")
+                                .click()
                             }
                           >
                             <svg

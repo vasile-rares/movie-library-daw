@@ -28,7 +28,6 @@ namespace MovieLibrary.API.Models
     [MaxLength(20)]
     public string Role { get; set; } = "User";
 
-    // Navigation properties
     public ICollection<MyList> MyLists { get; set; } = new List<MyList>();
     public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
   }

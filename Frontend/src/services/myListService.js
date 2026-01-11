@@ -1,15 +1,13 @@
-import api from './api';
+import api from "./api";
 
 export const myListService = {
   async getMyList() {
-    const response = await api.get('/mylist/my-list');
+    const response = await api.get("/mylist/my-list");
     return response.data;
   },
 
   async addToList(itemData) {
-    // itemData: { titleId, status }
-    // status: 'PlanToWatch' | 'Watching' | 'Completed' | 'OnHold' | 'Dropped'
-    const response = await api.post('/mylist', itemData);
+    const response = await api.post("/mylist", itemData);
     return response.data;
   },
 
@@ -24,7 +22,6 @@ export const myListService = {
   },
 };
 
-// Export WatchStatus enum for use in components
 export const WatchStatus = {
   PlanToWatch: 0,
   Watching: 1,

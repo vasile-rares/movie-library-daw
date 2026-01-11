@@ -13,13 +13,11 @@ const Register = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Real-time validation errors
   const [nicknameError, setNicknameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  // Touched fields (to show errors only after user interacts)
   const [touched, setTouched] = useState({
     nickname: false,
     email: false,
@@ -30,7 +28,6 @@ const Register = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  // Validation functions
   const validateNickname = (value) => {
     if (!value) {
       return "Nickname is required";
@@ -79,7 +76,6 @@ const Register = () => {
     return "";
   };
 
-  // Handle input changes with validation
   const handleNicknameChange = (e) => {
     const value = e.target.value;
     setNickname(value);
@@ -117,7 +113,6 @@ const Register = () => {
     }
   };
 
-  // Handle blur events
   const handleBlur = (field) => {
     setTouched({ ...touched, [field]: true });
 

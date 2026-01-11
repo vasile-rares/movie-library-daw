@@ -20,7 +20,6 @@ public class TitleServiceTests
     _mockTitleRepository = new Mock<ITitleRepository>();
     _mockGenreRepository = new Mock<IGenreRepository>();
 
-    // Configure AutoMapper
     var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
     _mapper = config.CreateMapper();
 
@@ -30,7 +29,6 @@ public class TitleServiceTests
   [Fact]
   public async Task GetAllAsync_ShouldReturnAllTitles()
   {
-    // Arrange
     var titles = new List<Title>
     {
       new Title
@@ -58,10 +56,8 @@ public class TitleServiceTests
     _mockTitleRepository.Setup(r => r.GetAllAsync())
       .ReturnsAsync(titles);
 
-    // Act
     var result = await _titleService.GetAllAsync();
 
-    // Assert
     Assert.NotNull(result);
     Assert.Equal(2, result.Count());
     _mockTitleRepository.Verify(r => r.GetAllAsync(), Times.Once);
@@ -70,7 +66,6 @@ public class TitleServiceTests
   [Fact]
   public async Task GetByIdAsync_WithValidId_ShouldReturnTitle()
   {
-    // Arrange
     var title = new Title
     {
       Id = 1,
@@ -84,10 +79,8 @@ public class TitleServiceTests
     _mockTitleRepository.Setup(r => r.GetByIdAsync(1))
       .ReturnsAsync(title);
 
-    // Act
     var result = await _titleService.GetByIdAsync(1);
 
-    // Assert
     Assert.NotNull(result);
     Assert.Equal("Test Movie", result.Title);
     Assert.Equal(2023, result.ReleaseYear);
@@ -97,21 +90,17 @@ public class TitleServiceTests
   [Fact]
   public async Task GetByIdAsync_WithInvalidId_ShouldReturnNull()
   {
-    // Arrange
     _mockTitleRepository.Setup(r => r.GetByIdAsync(999))
       .ReturnsAsync((Title?)null);
 
-    // Act
     var result = await _titleService.GetByIdAsync(999);
 
-    // Assert
     Assert.Null(result);
   }
 
   [Fact]
   public async Task GetByTypeAsync_ShouldReturnTitlesOfSpecificType()
   {
-    // Arrange
     var movies = new List<Title>
     {
       new Title
@@ -133,10 +122,8 @@ public class TitleServiceTests
     _mockTitleRepository.Setup(r => r.GetByTypeAsync(TitleType.Movie))
       .ReturnsAsync(movies);
 
-    // Act
     var result = await _titleService.GetByTypeAsync(TitleType.Movie);
 
-    // Assert
     Assert.NotNull(result);
     Assert.Equal(2, result.Count());
     Assert.All(result, t => Assert.Equal(TitleType.Movie, t.Type));
@@ -145,7 +132,6 @@ public class TitleServiceTests
   [Fact]
   public async Task CreateAsync_WithValidData_ShouldCreateTitle()
   {
-    // Arrange
     var createDto = new CreateTitleDto
     {
       Title = "New Movie",
@@ -174,10 +160,8 @@ public class TitleServiceTests
     _mockTitleRepository.Setup(r => r.GetByIdAsync(1))
       .ReturnsAsync(createdTitle);
 
-    // Act
     var result = await _titleService.CreateAsync(createDto);
 
-    // Assert
     Assert.NotNull(result);
     Assert.Equal("New Movie", result.Title);
     Assert.Equal(2024, result.ReleaseYear);
@@ -189,7 +173,6 @@ public class TitleServiceTests
   [Fact]
   public async Task UpdateAsync_WithValidData_ShouldUpdateTitle()
   {
-    // Arrange
     var existingTitle = new Title
     {
       Id = 1,
@@ -212,10 +195,8 @@ public class TitleServiceTests
     _mockTitleRepository.Setup(r => r.GetByIdAsync(1))
       .ReturnsAsync(existingTitle);
 
-    // Act
     var result = await _titleService.UpdateAsync(1, updateDto);
 
-    // Assert
     Assert.NotNull(result);
     Assert.Equal("Updated Title", result.Title);
     _mockTitleRepository.Verify(r => r.UpdateAsync(It.IsAny<Title>()), Times.Once);
@@ -224,14 +205,11 @@ public class TitleServiceTests
   [Fact]
   public async Task DeleteAsync_WithValidId_ShouldReturnTrue()
   {
-    // Arrange
     _mockTitleRepository.Setup(r => r.DeleteAsync(1))
       .ReturnsAsync(true);
 
-    // Act
     var result = await _titleService.DeleteAsync(1);
 
-    // Assert
     Assert.True(result);
     _mockTitleRepository.Verify(r => r.DeleteAsync(1), Times.Once);
   }

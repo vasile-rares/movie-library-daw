@@ -23,7 +23,6 @@ public class AuthService : IAuthService
 
   public async Task<AuthResponseDto> RegisterAsync(RegisterRequestDto dto)
   {
-    // Check if user already exists
     var existingUser = await _userRepository.GetByEmailAsync(dto.Email);
     if (existingUser != null)
       throw new ArgumentException("User with this email already exists");
@@ -32,10 +31,8 @@ public class AuthService : IAuthService
     if (existingNickname != null)
       throw new ArgumentException("Nickname is already taken");
 
-    // Hash password
     var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-    // Create user
     var user = new User
     {
       Nickname = dto.Nickname,
@@ -48,7 +45,6 @@ public class AuthService : IAuthService
 
     var createdUser = await _userRepository.CreateAsync(user);
 
-    // Generate JWT token
     var token = GenerateJwtToken(createdUser);
     var expirationMinutes = _configuration.GetValue<int>("JwtSettings:ExpirationMinutes");
     var expiresAt = DateTime.UtcNow.AddMinutes(expirationMinutes);

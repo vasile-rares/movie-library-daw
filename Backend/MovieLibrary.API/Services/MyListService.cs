@@ -40,12 +40,10 @@ namespace MovieLibrary.API.Services
 
     public async Task<MyListResponseDto> AddToMyListAsync(AddToMyListDto dto)
     {
-      // Validate that the title exists
       var titleExists = await _titleRepository.ExistsAsync(dto.TitleId);
       if (!titleExists)
         throw new KeyNotFoundException($"Title with ID {dto.TitleId} not found");
 
-      // Check for duplicates
       var existingItem = await _myListRepository.GetByUserAndTitleAsync(dto.UserId, dto.TitleId);
       if (existingItem != null)
         throw new ArgumentException("This title is already in your list");

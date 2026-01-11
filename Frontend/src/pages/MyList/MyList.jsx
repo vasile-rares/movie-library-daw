@@ -55,7 +55,6 @@ const MyList = () => {
   };
 
   const handleItemClick = (item) => {
-    // titleType: 0 = Movie, 1 = Series
     if (item.titleType === 0) {
       navigate(`/movie/${item.titleId}`);
     } else if (item.titleType === 1) {

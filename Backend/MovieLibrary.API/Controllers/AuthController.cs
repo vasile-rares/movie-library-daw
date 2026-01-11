@@ -23,7 +23,6 @@ public class AuthController : ControllerBase
 
     SetTokenCookie(response.Token);
 
-    // Return response without token
     var responseData = new
     {
       response.UserId,
@@ -44,7 +43,6 @@ public class AuthController : ControllerBase
 
     SetTokenCookie(response.Token);
 
-    // Return response without token
     var responseData = new
     {
       response.UserId,
@@ -70,8 +68,8 @@ public class AuthController : ControllerBase
     var cookieOptions = new CookieOptions
     {
       HttpOnly = true,
-      Secure = false, // Set to true in production with HTTPS
-      SameSite = SameSiteMode.Strict, // Works because we use proxy
+      Secure = false,
+      SameSite = SameSiteMode.Strict,
       Expires = DateTime.UtcNow.AddDays(7)
     };
     Response.Cookies.Append("jwt", token, cookieOptions);

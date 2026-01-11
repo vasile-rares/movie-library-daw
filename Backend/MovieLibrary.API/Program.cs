@@ -56,7 +56,7 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtIssuer,
         ValidAudience = jwtAudience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey)),
-        ClockSkew = TimeSpan.Zero // Remove default 5 minute tolerance
+        ClockSkew = TimeSpan.Zero
     };
 
     options.Events = new JwtBearerEvents
@@ -201,22 +201,15 @@ app.UseRateLimiter();
 
 app.UseStaticFiles();
 
-// XSS Protection Middleware (trebuie să fie înainte de CORS pentru a seta headers)
+// XSS Protection Middleware (trebuie sa fie inainte de CORS pentru a seta headers)
 app.UseMiddleware<XssProtectionMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Global Exception Handling (după authentication/authorization)
+// Global Exception Handling (dupa authentication/authorization)
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.MapControllers().RequireRateLimiting("fixed");
-
-// Endpoint pentru antiforgery token (opțional, pentru formulare)
-app.MapGet("/antiforgery/token", (Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery, HttpContext context) =>
-{
-    var tokens = antiforgery.GetAndStoreTokens(context);
-    return Results.Ok(new { token = tokens.RequestToken });
-}).RequireAuthorization();
 
 app.Run();

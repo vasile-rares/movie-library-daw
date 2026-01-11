@@ -18,7 +18,6 @@ public class AuthServiceTests
     _mockUserRepository = new Mock<IUserRepository>();
     _mockConfiguration = new Mock<IConfiguration>();
 
-    // Setup configuration mock
     _mockConfiguration.Setup(c => c["JwtSettings:Issuer"]).Returns("TestIssuer");
     _mockConfiguration.Setup(c => c["JwtSettings:Audience"]).Returns("TestAudience");
     _mockConfiguration.Setup(c => c["JwtSettings:SecretKey"]).Returns("ThisIsAVerySecretKeyForTestingPurposesOnly123456");
@@ -34,7 +33,6 @@ public class AuthServiceTests
   [Fact]
   public async Task RegisterAsync_WithValidData_ShouldCreateUserAndReturnToken()
   {
-    // Arrange
     var registerDto = new RegisterRequestDto
     {
       Username = "testuser",
@@ -49,10 +47,8 @@ public class AuthServiceTests
     _mockUserRepository.Setup(r => r.CreateAsync(It.IsAny<User>()))
       .ReturnsAsync((User user) => { user.Id = 1; return user; });
 
-    // Act
     var result = await _authService.RegisterAsync(registerDto);
 
-    // Assert
     Assert.NotNull(result);
     Assert.Equal("testuser", result.Username);
     Assert.Equal("test@example.com", result.Email);
@@ -64,7 +60,6 @@ public class AuthServiceTests
   [Fact]
   public async Task RegisterAsync_WithExistingEmail_ShouldThrowArgumentException()
   {
-    // Arrange
     var registerDto = new RegisterRequestDto
     {
       Username = "testuser",
@@ -83,7 +78,6 @@ public class AuthServiceTests
     _mockUserRepository.Setup(r => r.GetByEmailAsync(registerDto.Email))
       .ReturnsAsync(existingUser);
 
-    // Act & Assert
     await Assert.ThrowsAsync<ArgumentException>(
       async () => await _authService.RegisterAsync(registerDto)
     );
@@ -94,7 +88,6 @@ public class AuthServiceTests
   [Fact]
   public async Task LoginAsync_WithValidCredentials_ShouldReturnToken()
   {
-    // Arrange
     var loginDto = new LoginRequestDto
     {
       Email = "test@example.com",
@@ -114,10 +107,8 @@ public class AuthServiceTests
     _mockUserRepository.Setup(r => r.GetByEmailAsync(loginDto.Email))
       .ReturnsAsync(user);
 
-    // Act
     var result = await _authService.LoginAsync(loginDto);
 
-    // Assert
     Assert.NotNull(result);
     Assert.Equal(user.Username, result.Username);
     Assert.Equal(user.Email, result.Email);
@@ -128,7 +119,6 @@ public class AuthServiceTests
   [Fact]
   public async Task LoginAsync_WithInvalidPassword_ShouldThrowUnauthorizedException()
   {
-    // Arrange
     var loginDto = new LoginRequestDto
     {
       Email = "test@example.com",
@@ -148,7 +138,6 @@ public class AuthServiceTests
     _mockUserRepository.Setup(r => r.GetByEmailAsync(loginDto.Email))
       .ReturnsAsync(user);
 
-    // Act & Assert
     await Assert.ThrowsAsync<UnauthorizedAccessException>(
       async () => await _authService.LoginAsync(loginDto)
     );
@@ -157,7 +146,6 @@ public class AuthServiceTests
   [Fact]
   public async Task LoginAsync_WithNonExistentEmail_ShouldThrowUnauthorizedException()
   {
-    // Arrange
     var loginDto = new LoginRequestDto
     {
       Email = "nonexistent@example.com",
@@ -167,7 +155,6 @@ public class AuthServiceTests
     _mockUserRepository.Setup(r => r.GetByEmailAsync(loginDto.Email))
       .ReturnsAsync((User?)null);
 
-    // Act & Assert
     await Assert.ThrowsAsync<UnauthorizedAccessException>(
       async () => await _authService.LoginAsync(loginDto)
     );

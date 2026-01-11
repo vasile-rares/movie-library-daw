@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Hero.css';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Hero.css";
 
-const Hero = ({ items, type = 'movie' }) => {
+const Hero = ({ items, type = "movie" }) => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Auto-rotate slides every 5 seconds
   useEffect(() => {
     if (!items || items.length <= 1) return;
 
@@ -21,7 +20,11 @@ const Hero = ({ items, type = 'movie' }) => {
   if (!items || items.length === 0) return null;
 
   const currentItem = items[currentIndex];
-  const imageSrc = currentItem.imageUrl || `https://via.placeholder.com/1920x800/141414/e50914?text=${encodeURIComponent(currentItem.title)}`;
+  const imageSrc =
+    currentItem.imageUrl ||
+    `https://via.placeholder.com/1920x800/141414/e50914?text=${encodeURIComponent(
+      currentItem.title
+    )}`;
 
   const handlePlayClick = () => {
     navigate(`/${type}/${currentItem.id}`);
@@ -47,7 +50,7 @@ const Hero = ({ items, type = 'movie' }) => {
   return (
     <div className="hero-slideshow">
       <div
-        className={`hero ${isTransitioning ? 'hero-transitioning' : ''}`}
+        className={`hero ${isTransitioning ? "hero-transitioning" : ""}`}
         style={{ backgroundImage: `url(${imageSrc})` }}
       >
         <div className="hero-overlay">
@@ -55,13 +58,20 @@ const Hero = ({ items, type = 'movie' }) => {
             <h1 className="hero-title">{currentItem.title}</h1>
             <p className="hero-description">{currentItem.description}</p>
             <div className="hero-info">
-              <span className="hero-year">Release Year: {currentItem.releaseYear}</span>
+              <span className="hero-year">
+                Release Year: {currentItem.releaseYear}
+              </span>
               {currentItem.seasonsCount && (
-                <span className="hero-seasons">{currentItem.seasonsCount} Seasons</span>
+                <span className="hero-seasons">
+                  {currentItem.seasonsCount} Seasons
+                </span>
               )}
             </div>
             <div className="hero-buttons">
-              <button className="hero-btn hero-btn-play" onClick={handlePlayClick}>
+              <button
+                className="hero-btn hero-btn-play"
+                onClick={handlePlayClick}
+              >
                 <span>▶</span> View Details
               </button>
             </div>
@@ -75,7 +85,7 @@ const Hero = ({ items, type = 'movie' }) => {
           {items.map((_, index) => (
             <button
               key={index}
-              className={`hero-dot ${index === currentIndex ? 'active' : ''}`}
+              className={`hero-dot ${index === currentIndex ? "active" : ""}`}
               onClick={() => goToSlide(index)}
               aria-label={`Go to slide ${index + 1}`}
             />

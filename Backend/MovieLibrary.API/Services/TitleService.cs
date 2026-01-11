@@ -46,7 +46,6 @@ namespace MovieLibrary.API.Services
 
     public async Task<TitleResponseDto> CreateAsync(CreateTitleDto dto)
     {
-      // Validate that all genre IDs exist
       if (dto.GenreIds.Any())
       {
         foreach (var genreId in dto.GenreIds)
@@ -75,7 +74,6 @@ namespace MovieLibrary.API.Services
         await _titleRepository.AddGenresToTitleAsync(createdTitle.Id, dto.GenreIds);
       }
 
-      // Reload to get genres
       var titleWithGenres = await _titleRepository.GetByIdAsync(createdTitle.Id);
       return _mapper.Map<TitleResponseDto>(titleWithGenres!);
     }
@@ -86,7 +84,6 @@ namespace MovieLibrary.API.Services
       if (title == null)
         throw new KeyNotFoundException($"Title with ID {id} not found");
 
-      // Validate that all genre IDs exist
       if (dto.GenreIds.Any())
       {
         foreach (var genreId in dto.GenreIds)
@@ -107,14 +104,12 @@ namespace MovieLibrary.API.Services
 
       await _titleRepository.UpdateAsync(title);
 
-      // Update genres
       await _titleRepository.RemoveGenresFromTitleAsync(id);
       if (dto.GenreIds.Any())
       {
         await _titleRepository.AddGenresToTitleAsync(id, dto.GenreIds);
       }
 
-      // Reload to get updated genres
       var updatedTitle = await _titleRepository.GetByIdAsync(id);
       return _mapper.Map<TitleResponseDto>(updatedTitle!);
     }
