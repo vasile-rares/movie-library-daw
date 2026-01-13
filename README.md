@@ -77,7 +77,8 @@ movie-library-daw/
 │
 └── Frontend/
     └── src/
-        ├── components/        # Reusable components
+        ├── components/        # Reusable UI components
+        ├── guards/           # Route guards (ProtectedRoute, AdminRoute)
         ├── pages/            # Page components
         ├── services/         # API service layer
         ├── context/          # React context (Auth)
