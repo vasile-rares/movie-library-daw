@@ -50,9 +50,20 @@ namespace MovieLibrary.API.Controllers
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
+      // Get the user ID from the JWT token
+      var userIdClaim = User.FindFirst("userId")?.Value;
+      if (userIdClaim == null)
+        return Unauthorized(new { message = "User not authenticated." });
+
+      var currentUserId = int.Parse(userIdClaim);
+      var userRole = User.FindFirst("role")?.Value;
+
+      // Users can only delete their own account, unless they're an admin
+      if (currentUserId != id && userRole != "Admin")
+        return Forbid();
+
       var result = await _userService.DeleteUserAsync(id);
       if (!result)
         return NotFound(new { message = $"User with ID {id} not found." });
