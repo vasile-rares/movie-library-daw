@@ -35,14 +35,14 @@ public class AuthServiceTests
   {
     var registerDto = new RegisterRequestDto
     {
-      Username = "testuser",
+      Nickname = "testuser",
       Email = "test@example.com",
       Password = "Password123!"
     };
 
     _mockUserRepository.Setup(r => r.GetByEmailAsync(It.IsAny<string>()))
       .ReturnsAsync((User?)null);
-    _mockUserRepository.Setup(r => r.GetByUsernameAsync(It.IsAny<string>()))
+    _mockUserRepository.Setup(r => r.GetByNicknameAsync(It.IsAny<string>()))
       .ReturnsAsync((User?)null);
     _mockUserRepository.Setup(r => r.CreateAsync(It.IsAny<User>()))
       .ReturnsAsync((User user) => { user.Id = 1; return user; });
@@ -50,7 +50,7 @@ public class AuthServiceTests
     var result = await _authService.RegisterAsync(registerDto);
 
     Assert.NotNull(result);
-    Assert.Equal("testuser", result.Username);
+    Assert.Equal("testuser", result.Nickname);
     Assert.Equal("test@example.com", result.Email);
     Assert.NotNull(result.Token);
     Assert.NotEmpty(result.Token);
@@ -62,7 +62,7 @@ public class AuthServiceTests
   {
     var registerDto = new RegisterRequestDto
     {
-      Username = "testuser",
+      Nickname = "testuser",
       Email = "existing@example.com",
       Password = "Password123!"
     };
@@ -71,7 +71,7 @@ public class AuthServiceTests
     {
       Id = 1,
       Email = "existing@example.com",
-      Username = "existinguser",
+      Nickname = "existinguser",
       PasswordHash = "hashedpassword"
     };
 
@@ -99,7 +99,7 @@ public class AuthServiceTests
     {
       Id = 1,
       Email = "test@example.com",
-      Username = "testuser",
+      Nickname = "testuser",
       PasswordHash = hashedPassword,
       Role = "User"
     };
@@ -110,7 +110,7 @@ public class AuthServiceTests
     var result = await _authService.LoginAsync(loginDto);
 
     Assert.NotNull(result);
-    Assert.Equal(user.Username, result.Username);
+    Assert.Equal(user.Nickname, result.Nickname);
     Assert.Equal(user.Email, result.Email);
     Assert.NotNull(result.Token);
     Assert.NotEmpty(result.Token);
@@ -130,7 +130,7 @@ public class AuthServiceTests
     {
       Id = 1,
       Email = "test@example.com",
-      Username = "testuser",
+      Nickname = "testuser",
       PasswordHash = hashedPassword,
       Role = "User"
     };
