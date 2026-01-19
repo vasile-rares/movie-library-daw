@@ -1,4 +1,4 @@
-# 🎬 Movie Library - DAW Project
+# 🎬 Movie Library
 
 ![React](https://img.shields.io/badge/React-18.0-61DAFB?style=flat&logo=react&logoColor=white)
 ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat&logo=dotnet&logoColor=white)
@@ -62,7 +62,7 @@ A modern full-stack web application for managing and rating movies and TV shows.
 ## 📁 Project Structure
 
 ```
-movie-library-daw/
+Movie-Library/
 ├── Backend/
 │   └── MovieLibrary.API/
 │       ├── Controllers/        # API endpoints
@@ -222,6 +222,6 @@ The database is automatically seeded with sample data:
 
 ## 📝 License
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License
 
 This software is provided "as is", without warranty of any kind, express or implied. Feel free to use, modify, and distribute this project for personal or commercial purposes.
